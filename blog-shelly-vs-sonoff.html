@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shelly vs Sonoff: cuál elegir para tu vivienda — Sanzivi BCN</title>
+  <meta name="description" content="Comparamos Shelly y Sonoff, los dos sistemas de domótica más populares para pisos en España. Ventajas, precios y cuál recomendamos según cada caso." />
+  <meta name="keywords" content="shelly vs sonoff, comparativa domótica, relé inteligente españa, mejor dispositivo domótica piso" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #111110; --white: #FAFAF8; --gray-100: #F4F4F2;
+      --gray-200: #E8E8E4; --gray-400: #A8A8A0; --gray-600: #6B6B62;
+      --accent: #1A6B3C; --accent-light: #E8F3ED; --wa-green: #25D366;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 5vw; height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: var(--black); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-back { display: flex; align-items: center; gap: 0.4rem; text-decoration: none; color: var(--gray-600); font-size: 0.9rem; transition: color 0.2s; }
+    .nav-back:hover { color: var(--black); }
+    .nav-cta { background: var(--wa-green); color: white; padding: 0.45rem 1.1rem; border-radius: 50px; font-weight: 500; font-size: 0.85rem; text-decoration: none; }
+    .post-hero { padding: 120px 5vw 60px; max-width: 800px; margin: 0 auto; }
+    .post-tag { display: inline-block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.8rem; border-radius: 50px; margin-bottom: 1.5rem; }
+    .post-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 1.2rem; }
+    .post-hero h1 em { font-style: italic; color: var(--accent); }
+    .post-meta { display: flex; align-items: center; gap: 1.5rem; color: var(--gray-400); font-size: 0.85rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .post-intro { font-size: 1.1rem; color: var(--gray-600); font-weight: 300; line-height: 1.75; border-left: 3px solid var(--accent); padding-left: 1.2rem; }
+    .post-img-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--gray-200); border-radius: var(--radius-lg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; color: var(--gray-400); font-size: 0.85rem; margin: 2.5rem 0; border: 2px dashed var(--gray-200); }
+    .post-body { max-width: 800px; margin: 0 auto; padding: 0 5vw 80px; }
+    .post-body h2 { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 400; letter-spacing: -0.02em; margin: 2.5rem 0 0.8rem; line-height: 1.25; }
+    .post-body h3 { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 400; margin: 2rem 0 0.6rem; color: var(--accent); }
+    .post-body p { color: var(--gray-600); line-height: 1.8; margin-bottom: 1.2rem; font-size: 0.97rem; }
+    .post-body strong { color: var(--black); font-weight: 500; }
+    .post-body ul, .post-body ol { padding-left: 1.2rem; margin-bottom: 1.2rem; }
+    .post-body li { color: var(--gray-600); line-height: 1.8; margin-bottom: 0.4rem; font-size: 0.97rem; }
+    .callout { background: var(--accent-light); border-left: 4px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 1.2rem 1.5rem; margin: 2rem 0; }
+    .callout p { color: var(--black); margin: 0; font-size: 0.95rem; }
+    .callout strong { color: var(--accent); }
+
+    /* Tabla comparativa */
+    .compare-table { width: 100%; border-collapse: collapse; margin: 2rem 0; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--gray-200); }
+    .compare-table th { background: var(--black); color: white; padding: 1rem 1.2rem; text-align: left; font-size: 0.85rem; font-weight: 500; }
+    .compare-table th:first-child { background: var(--black); }
+    .compare-table th.shelly-col { background: var(--accent); }
+    .compare-table td { padding: 0.9rem 1.2rem; border-bottom: 1px solid var(--gray-200); font-size: 0.88rem; vertical-align: top; }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table tr:nth-child(even) td { background: var(--gray-100); }
+    .compare-table td:first-child { font-weight: 500; color: var(--black); }
+    .check { color: var(--accent); font-weight: 600; }
+    .cross { color: #E53E3E; }
+    .neutral { color: var(--gray-400); }
+
+    /* Veredicto cards */
+    .veredicto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+    .veredicto-card { border-radius: var(--radius-lg); padding: 1.5rem; border: 2px solid var(--gray-200); }
+    .veredicto-card.winner { border-color: var(--accent); background: var(--accent-light); }
+    .veredicto-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .veredicto-card p { font-size: 0.85rem; color: var(--gray-600); margin: 0; line-height: 1.6; }
+    .veredicto-card.winner p { color: var(--accent); }
+    .badge-winner { display: inline-block; background: var(--accent); color: white; font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 50px; margin-bottom: 0.5rem; font-weight: 500; }
+
+    .cta-post { background: var(--accent); color: white; border-radius: var(--radius-lg); padding: 2.5rem; text-align: center; margin: 3rem 0; }
+    .cta-post h3 { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 300; margin-bottom: 0.8rem; }
+    .cta-post p { color: rgba(255,255,255,0.75); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .btn-wa { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--accent); text-decoration: none; padding: 0.8rem 1.8rem; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s; }
+    .btn-wa:hover { transform: translateY(-2px); }
+    .related { background: var(--gray-100); padding: 60px 5vw; }
+    .related-inner { max-width: 800px; margin: 0 auto; }
+    .related h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 300; margin-bottom: 1.5rem; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .related-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1.2rem; text-decoration: none; color: var(--black); transition: transform 0.2s; display: block; }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 500; margin-bottom: 0.4rem; }
+    .related-card h4 { font-size: 0.9rem; line-height: 1.4; }
+    footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 30px 5vw; text-align: center; font-size: 0.82rem; }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .nav-logo-footer { font-family: 'Fraunces', serif; font-size: 1.1rem; color: white; display: block; margin-bottom: 0.5rem; }
+    .nav-logo-footer span { color: #6BD494; }
+    .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--wa-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,0.4); text-decoration: none; z-index: 200; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 28px; height: 28px; fill: white; }
+    @media (max-width: 600px) { .veredicto-grid { grid-template-columns: 1fr; } .compare-table { font-size: 0.8rem; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sanzivi<span>.</span></a>
+  <a href="index.html#blog" class="nav-back">← Volver al blog</a>
+  <a href="https://wa.me/34654089180" class="nav-cta" target="_blank" rel="noopener">WhatsApp</a>
+</nav>
+
+<article>
+  <div class="post-hero">
+    <span class="post-tag">Comparativa</span>
+    <h1>Shelly vs Sonoff:<br /><em>cuál elegir</em> para tu vivienda</h1>
+    <div class="post-meta">
+      <span>📅 Marzo 2026</span>
+      <span>⏱ 7 min lectura</span>
+      <span>✍️ Sanzivi BCN</span>
+    </div>
+    <p class="post-intro">Shelly y Sonoff son los dos sistemas de automatización más instalados en pisos en España. Ambos funcionan bien, pero tienen diferencias importantes. Te ayudamos a elegir el que mejor encaja con tu situación.</p>
+
+    <div class="post-img-placeholder">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Añade aquí una foto comparativa de dispositivos
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <h2>Primero lo básico: ¿qué son y cómo funcionan?</h2>
+    <p>Tanto Shelly como Sonoff son fabricantes de <strong>relés WiFi y dispositivos de domótica</strong> que se instalan en la instalación eléctrica existente sin necesidad de cambiar enchufes ni interruptores. Ambos permiten controlar luces, persianas, enchufes y otros elementos del hogar desde el móvil o con voz.</p>
+    <p>La diferencia está en la filosofía de cada marca, la calidad de construcción, la facilidad de configuración y el ecosistema que ofrecen.</p>
+
+    <h2>Tabla comparativa</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Característica</th>
+          <th class="shelly-col">Shelly</th>
+          <th>Sonoff</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Origen</td><td>Bulgaria (Europa)</td><td>China</td></tr>
+        <tr><td>Precio medio por relé</td><td>12–18€</td><td>8–14€</td></tr>
+        <tr><td>App propia</td><td class="check">✓ Shelly Cloud</td><td class="check">✓ eWeLink</td></tr>
+        <tr><td>Sin cloud (local)</td><td class="check">✓ Funciona sin internet</td><td class="neutral">⚠ Limitado</td></tr>
+        <tr><td>Home Assistant</td><td class="check">✓ Integración nativa</td><td class="check">✓ Con add-on</td></tr>
+        <tr><td>Google Home / Alexa</td><td class="check">✓ Nativo</td><td class="check">✓ Nativo</td></tr>
+        <tr><td>API abierta</td><td class="check">✓ Completamente abierta</td><td class="neutral">⚠ Parcial</td></tr>
+        <tr><td>Tamaño físico</td><td>Muy compacto</td><td>Compacto</td></tr>
+        <tr><td>Normativa europea</td><td class="check">✓ CE certificado</td><td class="check">✓ CE certificado</td></tr>
+        <tr><td>Comunidad técnica</td><td class="check">✓ Muy activa</td><td class="check">✓ Activa</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Shelly: el preferido para instalaciones profesionales</h2>
+    <p>Shelly es una marca europea (fabricada en Bulgaria) con una reputación excelente en el sector profesional. Sus dispositivos son conocidos por ser <strong>extremadamente compactos</strong> (caben en casi cualquier caja de interruptor), por tener una <strong>API completamente abierta</strong> y por funcionar en modo local sin depender de servidores en la nube.</p>
+    <p>Esto último es clave: si mañana Shelly cierra su servicio cloud (algo improbable pero posible), tus dispositivos seguirán funcionando igual porque la lógica puede correr en tu red local.</p>
+
+    <div class="callout">
+      <p><strong>Por qué usamos Shelly en Sanzivi:</strong> Somos instaladores verificados Shelly precisamente porque es el sistema que recomendamos para instalaciones permanentes. La calidad de construcción, la fiabilidad a largo plazo y la integración con Home Assistant no tienen competencia en esta gama de precio.</p>
+    </div>
+
+    <h2>Sonoff: la opción más económica con gran ecosistema</h2>
+    <p>Sonoff es la marca de ITEAD, una empresa china con años de experiencia en domótica de consumo. Sus precios son algo más bajos que Shelly y tienen una gama de productos enorme: desde relés simples hasta interruptores con pantalla táctil.</p>
+    <p>La app eWeLink funciona bien para un uso básico, pero la dependencia del cloud es mayor que en Shelly. Para usuarios que quieren integración avanzada con Home Assistant, el proceso es algo más complejo.</p>
+
+    <h2>¿Cuál te recomendamos?</h2>
+    <div class="veredicto-grid">
+      <div class="veredicto-card winner">
+        <span class="badge-winner">Nuestra recomendación</span>
+        <h4>Shelly — para la mayoría de casos</h4>
+        <p>Instalación profesional, uso residencial permanente, integración con Home Assistant o cuando se busca la mejor calidad a largo plazo.</p>
+      </div>
+      <div class="veredicto-card">
+        <h4>Sonoff — para proyectos de bajo coste</h4>
+        <p>Presupuesto muy ajustado, uso básico sin automatizaciones complejas, o cuando ya tienes dispositivos Sonoff y quieres ampliar.</p>
+      </div>
+    </div>
+
+    <h2>¿Y si ya tengo una mezcla de ambos?</h2>
+    <p>No hay problema. Tanto Shelly como Sonoff son compatibles con <strong>Home Assistant</strong>, la plataforma de domótica local más popular. Si montas un servidor Home Assistant (puede ser una Raspberry Pi o un mini PC), puedes controlar ambos sistemas desde una sola app.</p>
+    <p>En Sanzivi instalamos y configuramos Home Assistant si quieres unificar todo bajo una sola plataforma.</p>
+
+    <div class="cta-post">
+      <h3>¿No sabes cuál elegir para tu piso?</h3>
+      <p>Cuéntanos qué quieres automatizar y te decimos qué dispositivos son los más adecuados y el coste aproximado.</p>
+      <a href="https://wa.me/34654089180?text=Hola,%20quiero%20información%20sobre%20qué%20sistema%20de%20domótica%20elegir" class="btn-wa" target="_blank" rel="noopener">
+        Consultarnos por WhatsApp
+      </a>
+    </div>
+
+  </div>
+</article>
+
+<div class="related">
+  <div class="related-inner">
+    <h3>También te puede interesar</h3>
+    <div class="related-grid">
+      <a href="blog-automatizar-luces.html" class="related-card">
+        <div class="tag">Domótica</div>
+        <h4>Cómo automatizar las luces de tu piso sin hacer obra</h4>
+      </a>
+      <a href="blog-electricista-visita.html" class="related-card">
+        <div class="tag">Consejos</div>
+        <h4>5 cosas que un electricista puede hacer en una sola visita</h4>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="nav-logo-footer">Sanzivi<span>.</span></a>
+  <p>© 2026 Sanzivi BCN S.L. · <a href="mailto:info@sanzivi.es">info@sanzivi.es</a> · 654 089 180</p>
+</footer>
+
+<a href="https://wa.me/34654089180" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.558 4.147 1.532 5.891L.057 23.999l6.235-1.635A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.654-.491-5.187-1.352l-.372-.22-3.7.97.988-3.607-.241-.382A9.947 9.947 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</a>
+
+</body>
+</html>

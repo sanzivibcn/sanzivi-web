@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cómo automatizar las luces de tu piso sin hacer obra — Sanzivi BCN</title>
+  <meta name="description" content="Con un relé inteligente Shelly puedes controlar cualquier punto de luz desde el móvil en menos de una hora, sin cambiar la instalación eléctrica." />
+  <meta name="keywords" content="automatizar luces sin obra, shelly interruptor inteligente, domótica piso barcelona, relé inteligente" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #111110; --white: #FAFAF8; --gray-100: #F4F4F2;
+      --gray-200: #E8E8E4; --gray-400: #A8A8A0; --gray-600: #6B6B62;
+      --accent: #1A6B3C; --accent-light: #E8F3ED; --wa-green: #25D366;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 5vw; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: var(--black); text-decoration: none; letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-back { display: flex; align-items: center; gap: 0.4rem; text-decoration: none; color: var(--gray-600); font-size: 0.9rem; transition: color 0.2s; }
+    .nav-back:hover { color: var(--black); }
+    .nav-cta { background: var(--wa-green); color: white; padding: 0.45rem 1.1rem; border-radius: 50px; font-weight: 500; font-size: 0.85rem; text-decoration: none; display: flex; align-items: center; gap: 0.4rem; }
+
+    .post-hero {
+      padding: 120px 5vw 60px;
+      max-width: 800px; margin: 0 auto;
+    }
+    .post-tag { display: inline-block; font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.8rem; border-radius: 50px; margin-bottom: 1.5rem; }
+    .post-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 1.2rem; }
+    .post-hero h1 em { font-style: italic; color: var(--accent); }
+    .post-meta { display: flex; align-items: center; gap: 1.5rem; color: var(--gray-400); font-size: 0.85rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .post-meta span { display: flex; align-items: center; gap: 0.4rem; }
+    .post-intro { font-size: 1.1rem; color: var(--gray-600); font-weight: 300; line-height: 1.75; border-left: 3px solid var(--accent); padding-left: 1.2rem; }
+
+    .post-img-placeholder {
+      width: 100%; aspect-ratio: 16/9; background: var(--gray-200);
+      border-radius: var(--radius-lg); display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.5rem;
+      color: var(--gray-400); font-size: 0.85rem; margin: 2.5rem 0;
+      border: 2px dashed var(--gray-200);
+    }
+
+    .post-body { max-width: 800px; margin: 0 auto; padding: 0 5vw 80px; }
+    .post-body h2 { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 400; letter-spacing: -0.02em; margin: 2.5rem 0 0.8rem; line-height: 1.25; }
+    .post-body h3 { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 400; margin: 2rem 0 0.6rem; color: var(--accent); }
+    .post-body p { color: var(--gray-600); line-height: 1.8; margin-bottom: 1.2rem; font-size: 0.97rem; }
+    .post-body strong { color: var(--black); font-weight: 500; }
+    .post-body ul, .post-body ol { padding-left: 1.2rem; margin-bottom: 1.2rem; }
+    .post-body li { color: var(--gray-600); line-height: 1.8; margin-bottom: 0.4rem; font-size: 0.97rem; }
+
+    .callout {
+      background: var(--accent-light); border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 1.2rem 1.5rem; margin: 2rem 0;
+    }
+    .callout p { color: var(--black); margin: 0; font-size: 0.95rem; }
+    .callout strong { color: var(--accent); }
+
+    .product-card {
+      background: white; border: 1px solid var(--gray-200); border-radius: var(--radius-lg);
+      padding: 1.5rem; margin: 2rem 0; display: flex; gap: 1.2rem; align-items: flex-start;
+    }
+    .product-icon { font-size: 2rem; flex-shrink: 0; }
+    .product-card h4 { font-size: 1rem; font-weight: 500; margin-bottom: 0.3rem; }
+    .product-card p { font-size: 0.85rem; color: var(--gray-600); margin: 0; }
+
+    .cta-post {
+      background: var(--accent); color: white; border-radius: var(--radius-lg);
+      padding: 2.5rem; text-align: center; margin: 3rem 0;
+    }
+    .cta-post h3 { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 300; margin-bottom: 0.8rem; }
+    .cta-post p { color: rgba(255,255,255,0.75); margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .btn-wa { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--accent); text-decoration: none; padding: 0.8rem 1.8rem; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s; }
+    .btn-wa:hover { transform: translateY(-2px); }
+
+    .related { background: var(--gray-100); padding: 60px 5vw; }
+    .related-inner { max-width: 800px; margin: 0 auto; }
+    .related h3 { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 300; margin-bottom: 1.5rem; }
+    .related-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .related-card { background: white; border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1.2rem; text-decoration: none; color: var(--black); transition: transform 0.2s; display: block; }
+    .related-card:hover { transform: translateY(-2px); }
+    .related-card .tag { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); font-weight: 500; margin-bottom: 0.4rem; }
+    .related-card h4 { font-size: 0.9rem; line-height: 1.4; color: var(--black); }
+
+    footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 30px 5vw; text-align: center; font-size: 0.82rem; }
+    footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .nav-logo-footer { font-family: 'Fraunces', serif; font-size: 1.1rem; color: white; display: block; margin-bottom: 0.5rem; }
+    .nav-logo-footer span { color: #6BD494; }
+
+    .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--wa-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,0.4); text-decoration: none; z-index: 200; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 28px; height: 28px; fill: white; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Sanzivi<span>.</span></a>
+  <a href="index.html#blog" class="nav-back">← Volver al blog</a>
+  <a href="https://wa.me/34654089180?text=Hola,%20quiero%20información%20sobre%20domótica" class="nav-cta" target="_blank" rel="noopener">WhatsApp</a>
+</nav>
+
+<article>
+  <div class="post-hero">
+    <span class="post-tag">Domótica</span>
+    <h1>Cómo automatizar las luces de tu piso<br /><em>sin hacer obra</em></h1>
+    <div class="post-meta">
+      <span>📅 Marzo 2026</span>
+      <span>⏱ 5 min lectura</span>
+      <span>✍️ Sanzivi BCN</span>
+    </div>
+    <p class="post-intro">Con un relé inteligente Shelly puedes controlar cualquier punto de luz desde el móvil en menos de una hora. Sin cambiar interruptores, sin levantar paredes y sin necesidad de instalación nueva.</p>
+
+    <div class="post-img-placeholder">
+      <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Añade aquí una foto de la instalación
+    </div>
+  </div>
+
+  <div class="post-body">
+
+    <h2>El problema con los interruptores tradicionales</h2>
+    <p>La mayoría de pisos en Barcelona tienen instalaciones eléctricas de hace 20 o 30 años. Los interruptores funcionan, pero son tontos: solo encienden y apagan. No saben si hay alguien en casa, no se pueden controlar desde el móvil y no se pueden programar.</p>
+    <p>Hasta hace poco, añadir domótica significaba hacer una reforma importante: cambiar el cableado, instalar interruptores nuevos, tirar rozas... Un trabajo caro y molesto que la mayoría de propietarios no quería afrontar.</p>
+    <p><strong>Eso ha cambiado completamente con los relés inteligentes.</strong></p>
+
+    <h2>¿Qué es un relé inteligente?</h2>
+    <p>Un relé inteligente es un dispositivo pequeño (del tamaño de una moneda de 2€) que se instala <strong>dentro de la caja del interruptor existente</strong>, entre el cable de la luz y el interruptor. Se conecta al WiFi de casa y desde ese momento puedes controlar esa luz desde el móvil, con voz o por horarios.</p>
+
+    <div class="callout">
+      <p><strong>Clave:</strong> El interruptor físico sigue funcionando exactamente igual. Tu familia puede usarlo sin saber que hay tecnología detrás. Y tú además puedes controlarlo desde el móvil.</p>
+    </div>
+
+    <h2>El dispositivo que usamos: Shelly 1</h2>
+    <div class="product-card">
+      <div class="product-icon">⚡</div>
+      <div>
+        <h4>Shelly 1 — El relé más versátil</h4>
+        <p>Pequeño, fiable y compatible con Google Home, Alexa y Home Assistant. Se instala en cualquier caja de interruptor estándar. Precio aproximado: 12-15€ por unidad.</p>
+      </div>
+    </div>
+
+    <p>En Sanzivi somos <strong>instaladores verificados Shelly</strong>, lo que significa que tenemos experiencia directa con estos dispositivos y conocemos sus particularidades en instalaciones reales de pisos barceloneses.</p>
+
+    <h2>Paso a paso: cómo se instala</h2>
+    <p>Este es el proceso que seguimos en cada instalación:</p>
+    <ol>
+      <li><strong>Cortar la corriente</strong> en el cuadro eléctrico del circuito de luces.</li>
+      <li><strong>Abrir la caja del interruptor</strong> y verificar que hay cable neutro disponible (en la mayoría de pisos modernos lo hay).</li>
+      <li><strong>Conectar el Shelly</strong> entre la fase, el neutro y la carga de la lámpara.</li>
+      <li><strong>Cerrar la caja</strong> — el interruptor queda exactamente igual por fuera.</li>
+      <li><strong>Configurar la app</strong> Shelly Cloud y conectarlo al WiFi de casa.</li>
+      <li><strong>Integrarlo</strong> con Google Home, Alexa o Home Assistant si se desea.</li>
+    </ol>
+
+    <p>Una instalación de un punto de luz lleva entre <strong>20 y 45 minutos</strong> dependiendo del acceso y el tipo de caja.</p>
+
+    <h2>¿Qué puedes hacer una vez instalado?</h2>
+    <ul>
+      <li>Encender y apagar desde el móvil, desde cualquier lugar del mundo</li>
+      <li>Programar horarios — las luces encienden solas al atardecer</li>
+      <li>Control por voz con Google Home o Alexa</li>
+      <li>Crear automatizaciones — por ejemplo, que se apague todo al salir de casa</li>
+      <li>Monitorizar el consumo eléctrico en tiempo real (con modelos como el Shelly EM)</li>
+    </ul>
+
+    <div class="callout">
+      <p><strong>Dato real:</strong> En una visita de 3 horas podemos automatizar entre 4 y 6 puntos de luz de un piso estándar. El coste total (materiales + instalación) suele estar entre 150€ y 300€ según el número de puntos.</p>
+    </div>
+
+    <h2>¿Y si no tengo cable neutro?</h2>
+    <p>Algunos pisos más antiguos tienen instalaciones sin neutro en las cajas de interruptores. En ese caso existen dos opciones: usar el <strong>Shelly 1L</strong> (diseñado específicamente para instalaciones sin neutro) o añadir el neutro mediante una pequeña intervención en el cableado existente, que no requiere obra.</p>
+    <p>En la visita de presupuesto siempre revisamos este punto antes de confirmar el tipo de dispositivo a instalar.</p>
+
+    <h2>¿Vale la pena?</h2>
+    <p>Si valoras la comodidad, la eficiencia energética o simplemente quieres modernizar tu piso sin gastarte miles de euros en una reforma, la respuesta es <strong>sí</strong>. Es una de las mejores relaciones coste-beneficio que existe en domótica doméstica.</p>
+    <p>Además, a diferencia de otras soluciones, los relés Shelly son dispositivos físicos que puedes llevarte contigo si cambias de piso. No estás atado a la vivienda.</p>
+
+    <div class="cta-post">
+      <h3>¿Quieres domótica en tu piso?</h3>
+      <p>Te hacemos un presupuesto sin compromiso. Cuéntanos cuántos puntos de luz tienes y te decimos el coste exacto.</p>
+      <a href="https://wa.me/34654089180?text=Hola,%20quiero%20un%20presupuesto%20para%20automatizar%20las%20luces%20de%20mi%20piso" class="btn-wa" target="_blank" rel="noopener">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.558 4.147 1.532 5.891L.057 23.999l6.235-1.635A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.654-.491-5.187-1.352l-.372-.22-3.7.97.988-3.607-.241-.382A9.947 9.947 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Pedir presupuesto por WhatsApp
+      </a>
+    </div>
+
+  </div>
+</article>
+
+<div class="related">
+  <div class="related-inner">
+    <h3>También te puede interesar</h3>
+    <div class="related-grid">
+      <a href="blog-shelly-vs-sonoff.html" class="related-card">
+        <div class="tag">Comparativa</div>
+        <h4>Shelly vs Sonoff: cuál elegir para tu vivienda</h4>
+      </a>
+      <a href="blog-electricista-visita.html" class="related-card">
+        <div class="tag">Consejos</div>
+        <h4>5 cosas que un electricista puede hacer en una sola visita</h4>
+      </a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="index.html" class="nav-logo-footer">Sanzivi<span>.</span></a>
+  <p>© 2026 Sanzivi BCN S.L. · <a href="mailto:info@sanzivi.es">info@sanzivi.es</a> · 654 089 180</p>
+</footer>
+
+<a href="https://wa.me/34654089180" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.138.558 4.147 1.532 5.891L.057 23.999l6.235-1.635A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.654-.491-5.187-1.352l-.372-.22-3.7.97.988-3.607-.241-.382A9.947 9.947 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+</a>
+
+</body>
+</html>
