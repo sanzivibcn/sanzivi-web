@@ -708,11 +708,7 @@
     </div>
 
     <div class="hero-image-area">
-      <!-- REEMPLAZA EL src CON TU FOTO REAL -->
-      <div class="img-placeholder">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        Añade aquí tu foto principal
-      </div>
+      <img src="foto_hero.jpg" alt="Reforma de baño realizada por Sanzivi BCN" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:var(--radius-lg);" />
 
       <div class="hero-stat-card">
         <div class="stat-icon">⚡</div>
@@ -839,10 +835,8 @@
       </div>
 
       <div class="domotica-visual">
-        <!-- REEMPLAZA CON TU FOTO DE INSTALACIÓN DOMÓTICA -->
-        <div class="domotica-img-wrap" style="display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.3);font-size:0.85rem;flex-direction:column;gap:0.5rem;">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Foto instalación domótica
+        <div class="domotica-img-wrap">
+          <img src="foto_shelly.jpg" alt="Instalación de relé Shelly por Sanzivi BCN" style="width:100%;height:100%;object-fit:cover;" />
         </div>
         <div class="domotica-tag">
           <strong>✓ Instalador verificado Shelly</strong>
@@ -895,36 +889,20 @@
     </div>
 
     <div class="gallery-grid reveal">
-      <!-- REEMPLAZA ESTOS BLOQUES CON TUS FOTOS: <img src="foto.jpg" alt="descripción"> -->
       <div class="gallery-item">
-        <div class="gallery-placeholder" style="min-height:420px;flex-direction:column;gap:0.5rem;">
-          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Foto principal
-        </div>
+        <img src="foto_galeria1.jpg" alt="Reforma de baño con mosaico y espejo redondo LED" />
       </div>
       <div class="gallery-item">
-        <div class="gallery-placeholder gallery-placeholder-sm" style="flex-direction:column;gap:0.4rem;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Foto 2
-        </div>
+        <img src="foto_galeria2.jpg" alt="Baño renovado con mueble de madera y lavabo de piedra" />
       </div>
       <div class="gallery-item">
-        <div class="gallery-placeholder gallery-placeholder-sm" style="flex-direction:column;gap:0.4rem;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Foto 3
-        </div>
+        <img src="foto_galeria3.jpg" alt="Baño blanco con espejo LED retroiluminado" />
       </div>
       <div class="gallery-item">
-        <div class="gallery-placeholder gallery-placeholder-sm" style="flex-direction:column;gap:0.4rem;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Foto 4
-        </div>
+        <img src="foto_galeria4.jpg" alt="Reforma de baño con mármol blanco y ducha" />
       </div>
       <div class="gallery-item">
-        <div class="gallery-placeholder gallery-placeholder-sm" style="flex-direction:column;gap:0.4rem;">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-          Foto 5
-        </div>
+        <img src="foto_galeria5.jpg" alt="Resultado final de reforma de baño" />
       </div>
     </div>
   </div>
@@ -971,7 +949,9 @@
 
     <div class="blog-grid">
       <a href="blog-automatizar-luces.html" class="blog-card reveal">
-        <div class="blog-img">📸 Imagen del post</div>
+        <div class="blog-img" style="padding:0;overflow:hidden;">
+          <img src="domotica_facil_blog.png" alt="Domótica fácil sin obras" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
         <div class="blog-content">
           <div class="blog-tag">Domótica</div>
           <h3>Cómo automatizar las luces de tu piso sin hacer obra</h3>
@@ -980,7 +960,9 @@
         </div>
       </a>
       <a href="blog-shelly-vs-sonoff.html" class="blog-card reveal">
-        <div class="blog-img">📸 Imagen del post</div>
+        <div class="blog-img" style="padding:0;overflow:hidden;">
+          <img src="domotica_control_luces.png" alt="Shelly vs Sonoff comparativa" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
         <div class="blog-content">
           <div class="blog-tag">Comparativa</div>
           <h3>Shelly vs Sonoff: cuál elegir para tu vivienda</h3>
@@ -989,7 +971,9 @@
         </div>
       </a>
       <a href="blog-electricista-visita.html" class="blog-card reveal">
-        <div class="blog-img">📸 Imagen del post</div>
+        <div class="blog-img" style="padding:0;overflow:hidden;">
+          <img src="foto_blog3.jpg" alt="Trabajos electricista en una visita" style="width:100%;height:100%;object-fit:cover;" />
+        </div>
         <div class="blog-content">
           <div class="blog-tag">Consejos</div>
           <h3>5 cosas que un electricista puede hacer en una sola visita</h3>
