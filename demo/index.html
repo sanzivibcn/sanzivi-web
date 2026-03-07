@@ -165,7 +165,10 @@ svg.room{width:700px;height:540px;overflow:visible}
 <body>
 
 <header>
-  <div class="logo">Sanzivi<span>.</span> Demo</div>
+  <div style="display:flex;align-items:center;gap:1.2rem;">
+    <a href="https://sanzivi.es" style="display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:.3rem .75rem;transition:color .2s,border-color .2s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.3)'" onmouseout="this.style.color='';this.style.borderColor=''">← Sanzivi.es</a>
+    <div class="logo">Sanzivi<span>.</span> Demo</div>
+  </div>
   <div class="header-badge" id="header-badge">Local Comercial · Vista en vivo</div>
   <div class="shelly-logo"><div class="shelly-dot"></div>Shelly conectado</div>
 </header>
