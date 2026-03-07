@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanzivi · Demo Domótica Shelly</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0e0e12;--panel:#16161e;--card:#1e1e2a;--border:rgba(255,255,255,0.07);
+  --purple:#7B3FF2;--purple-d:#5f28cc;--warm:#ffb347;--warm-glow:rgba(255,179,71,0.3);
+  --cool:#4fc3f7;--green:#4caf50;--red:#ef5350;--text:#f0f0f8;--muted:#6b6b88;
+}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem;background:var(--panel);border-bottom:1px solid var(--border);gap:1rem;flex-wrap:wrap}
+.logo{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:-.02em}
+.logo span{color:var(--purple)}
+.header-badge{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--purple);border:1px solid rgba(123,63,242,.3);padding:.3rem .8rem}
+.shelly-logo{display:flex;align-items:center;gap:.4rem;font-size:.8rem;color:var(--muted)}
+.shelly-dot{width:8px;height:8px;background:var(--green);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.3)}}
+/* CLIENT BANNER */
+.client-banner{background:linear-gradient(90deg,rgba(123,63,242,.14) 0%,rgba(123,63,242,.04) 100%);border-bottom:1px solid rgba(123,63,242,.22);padding:.55rem 2rem;display:flex;align-items:center;justify-content:space-between;font-size:.72rem}
+.client-banner.hidden{display:none}
+.client-banner-left{display:flex;align-items:center;gap:.75rem}
+.client-banner-name{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem}
+.client-banner-type{color:var(--muted);font-size:.7rem}
+.client-banner-pill{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;background:var(--purple);color:#fff;padding:.2rem .55rem;flex-shrink:0}
+.client-banner-right{display:flex;gap:1.5rem}
+.client-stat{text-align:right}
+.client-stat-val{font-family:'Syne',sans-serif;font-weight:700;font-size:.88rem}
+.client-stat-label{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+/* LAYOUT */
+.app{display:grid;grid-template-columns:1fr 340px;height:calc(100vh - 55px)}
+.scene-wrap{position:relative;overflow:hidden;background:radial-gradient(ellipse at 40% 60%,rgba(123,63,242,.06) 0%,transparent 60%),var(--bg);display:flex;align-items:center;justify-content:center}
+svg.room{width:700px;height:540px;overflow:visible}
+.light-halo{transition:opacity .8s ease}
+.ext-temp-display{position:absolute;top:16px;left:16px;background:rgba(14,14,18,.88);border:1px solid var(--border);backdrop-filter:blur(8px);padding:.7rem 1rem;font-size:.75rem;color:var(--muted)}
+.ext-temp-display strong{font-size:1.4rem;font-family:'Syne',sans-serif;color:var(--cool);font-weight:700}
+.ext-temp-display span{display:block;font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;margin-top:.1rem}
+.sign-chip{position:absolute;bottom:16px;right:16px;background:rgba(14,14,18,.88);border:1px solid var(--border);backdrop-filter:blur(8px);padding:.6rem 1rem;font-size:.75rem;display:flex;align-items:center;gap:.6rem;cursor:pointer;transition:border-color .2s}
+.sign-chip:hover{border-color:rgba(123,63,242,.4)}
+.sign-dot{width:10px;height:10px;border-radius:2px;background:#ff4466;box-shadow:0 0 8px #ff4466;transition:background .4s,box-shadow .4s}
+.sign-dot.off{background:#333;box-shadow:none}
+.chip{position:absolute;background:rgba(14,14,18,.9);border:1px solid var(--border);backdrop-filter:blur(8px);padding:.35rem .65rem;font-size:.68rem;display:flex;align-items:center;gap:.4rem;pointer-events:none;transition:opacity .5s;white-space:nowrap}
+.chip-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+.chip-on .chip-dot{background:var(--warm);box-shadow:0 0 6px var(--warm)}
+.chip-off .chip-dot{background:var(--muted)}
+.chip-heat .chip-dot{background:#ff6b6b;box-shadow:0 0 6px #ff6b6b;animation:pulse 1.5s infinite}
+.chip-motion .chip-dot{background:#a78bfa;box-shadow:0 0 6px #a78bfa;animation:pulse 1s infinite}
+@keyframes ping{0%{opacity:.8;r:6}100%{opacity:0;r:22}}
+.sensor-ping{animation:ping 1.2s ease-out infinite}
+/* PANEL */
+.panel{background:var(--panel);border-left:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column}
+.panel::-webkit-scrollbar{width:4px}
+.panel::-webkit-scrollbar-thumb{background:rgba(123,63,242,.3);border-radius:2px}
+.tab-bar{display:flex;border-bottom:1px solid var(--border)}
+.tab{flex:1;padding:.75rem .5rem;font-size:.72rem;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+.tab.active{color:var(--purple);border-bottom-color:var(--purple)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+.panel-section{padding:1.1rem 1.4rem;border-bottom:1px solid var(--border)}
+.panel-label{font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.9rem;display:flex;align-items:center;gap:.5rem}
+.panel-label::before{content:'';width:14px;height:1px;background:var(--purple)}
+.temp-widget{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin-bottom:.9rem}
+.temp-box{background:var(--card);border:1px solid var(--border);padding:.75rem;text-align:center;transition:border-color .3s}
+.temp-box.active{border-color:rgba(255,107,107,.4)}
+.temp-box-label{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem}
+.temp-box-val{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;line-height:1}
+.temp-box-val.interior{color:#ff8a65}
+.temp-box-val.exterior{color:var(--cool)}
+.temp-unit{font-size:.8rem;font-weight:400}
+.thermostat-bar{background:var(--card);border:1px solid var(--border);padding:.75rem}
+.thermo-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.55rem}
+.thermo-title{font-size:.78rem;font-weight:500}
+.thermo-status{font-size:.63rem;padding:.18rem .45rem;border-radius:100px;font-weight:500;transition:all .3s}
+.thermo-status.on{background:rgba(255,107,107,.15);color:#ff8a65;border:1px solid rgba(255,107,107,.3)}
+.thermo-status.off{background:rgba(255,255,255,.05);color:var(--muted);border:1px solid var(--border)}
+.thermo-target{display:flex;align-items:center;gap:.7rem}
+.thermo-btn{width:26px;height:26px;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;flex-shrink:0}
+.thermo-btn:hover{background:var(--purple);border-color:var(--purple)}
+.thermo-temp-val{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--warm);min-width:46px;text-align:center}
+.thermo-label{font-size:.65rem;color:var(--muted)}
+.thermo-toggle{margin-left:auto}
+.lights-grid{display:flex;flex-direction:column;gap:.45rem}
+.light-row{display:flex;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--border);padding:.6rem .85rem;transition:border-color .3s}
+.light-row.lit{border-color:rgba(255,179,71,.3)}
+.light-info{display:flex;align-items:center;gap:.55rem}
+.light-icon{font-size:.95rem;transition:filter .4s}
+.light-icon.on{filter:drop-shadow(0 0 5px var(--warm))}
+.light-name{font-size:.8rem;font-weight:400}
+.light-sub{font-size:.62rem;color:var(--muted)}
+.brightness-row{display:flex;align-items:center;gap:.55rem;padding:0 .85rem .6rem}
+.brightness-row input[type=range]{flex:1;height:3px;-webkit-appearance:none;background:linear-gradient(to right,var(--warm) var(--val,80%),rgba(255,255,255,.1) var(--val,80%));border-radius:2px;outline:none;cursor:pointer}
+.brightness-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;background:var(--warm);border-radius:50%;box-shadow:0 0 7px var(--warm-glow)}
+.brightness-label{font-size:.63rem;color:var(--muted);width:28px;text-align:right}
+.toggle{position:relative;width:38px;height:21px;cursor:pointer;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-track{position:absolute;inset:0;background:rgba(255,255,255,.1);border-radius:11px;transition:background .3s;border:1px solid var(--border)}
+.toggle input:checked + .toggle-track{background:var(--purple);border-color:var(--purple)}
+.toggle-thumb{position:absolute;width:15px;height:15px;background:#fff;border-radius:50%;top:2px;left:3px;transition:transform .3s;pointer-events:none}
+.toggle input:checked ~ .toggle-thumb{transform:translateX(17px)}
+.motion-box{background:var(--card);border:1px solid var(--border);padding:.85rem;margin-bottom:.65rem}
+.motion-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+.motion-title{font-size:.8rem;font-weight:500}
+.motion-badge{font-size:.63rem;padding:.18rem .5rem;border-radius:100px;font-weight:500}
+.motion-badge.detected{background:rgba(167,139,250,.15);color:#a78bfa;border:1px solid rgba(167,139,250,.35);animation:pulse 1s infinite}
+.motion-badge.clear{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid var(--border)}
+.motion-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.6rem}
+.motion-stat{text-align:center}
+.motion-stat-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#a78bfa}
+.motion-stat-label{font-size:.6rem;color:var(--muted);margin-top:.1rem}
+.auto-light-row{display:flex;align-items:center;justify-content:space-between;background:rgba(167,139,250,.06);border:1px solid rgba(167,139,250,.15);padding:.6rem .85rem;margin-top:.5rem}
+.auto-light-info .auto-title{font-size:.8rem}
+.auto-light-info .auto-sub{font-size:.62rem;color:var(--muted);margin-top:.1rem}
+.schedule-list{display:flex;flex-direction:column;gap:.45rem}
+.schedule-item{background:var(--card);border:1px solid var(--border);padding:.6rem .85rem;display:flex;align-items:center;gap:.7rem;transition:border-color .2s}
+.schedule-item.active{border-color:rgba(123,63,242,.4);background:rgba(123,63,242,.06)}
+.sch-time{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;min-width:44px;color:var(--purple)}
+.sch-desc{font-size:.76rem;flex:1}
+.sch-sub{font-size:.62rem;color:var(--muted)}
+.sch-toggle{margin-left:auto}
+.add-schedule{display:flex;gap:.45rem;margin-top:.7rem}
+.sch-input,.sch-select{background:var(--card);border:1px solid var(--border);color:var(--text);padding:.5rem .65rem;font-family:'Instrument Sans',sans-serif;font-size:.77rem;outline:none}
+.sch-input:focus,.sch-select:focus{border-color:rgba(123,63,242,.4)}
+.sch-select{cursor:pointer}
+.sch-add-btn{background:var(--purple);color:#fff;border:none;padding:.5rem .85rem;font-family:'Instrument Sans',sans-serif;font-size:.77rem;cursor:pointer;transition:background .2s;white-space:nowrap}
+.sch-add-btn:hover{background:var(--purple-d)}
+.sign-control{background:var(--card);border:1px solid var(--border);padding:.85rem}
+.sign-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem}
+.sign-title{font-size:.8rem;font-weight:500}
+.sign-status{font-size:.63rem;padding:.18rem .5rem;border-radius:100px}
+.sign-status.on{background:rgba(255,68,102,.12);color:#ff4466;border:1px solid rgba(255,68,102,.3)}
+.sign-status.off{background:rgba(255,255,255,.04);color:var(--muted);border:1px solid var(--border)}
+.sign-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:.55rem}
+.sign-label{font-size:.78rem;color:var(--muted)}
+.sign-power{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:#ff4466}
+.sign-schedule-hint{font-size:.68rem;color:var(--muted);background:rgba(123,63,242,.07);border:1px solid rgba(123,63,242,.15);padding:.45rem .7rem;margin-top:.5rem;line-height:1.5}
+.sign-schedule-hint strong{color:#a78bfa}
+.energy-section-title{font-size:.72rem;font-weight:600;color:var(--text);margin-bottom:.5rem;letter-spacing:.02em}
+.energy-row{display:flex;align-items:center;gap:.7rem;margin-bottom:.45rem}
+.energy-label{font-size:.73rem;color:var(--muted);min-width:82px}
+.energy-track{flex:1;height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.energy-fill{height:100%;border-radius:3px;transition:width .9s ease}
+.energy-val{font-size:.73rem;font-weight:500;min-width:38px;text-align:right}
+.energy-divider{height:1px;background:var(--border);margin:.75rem 0}
+.energy-total-row{display:flex;justify-content:space-between;align-items:center}
+.energy-total-label{font-size:.75rem;color:var(--muted)}
+.energy-total-val{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:700;color:var(--purple)}
+.saving-pill{font-size:.65rem;background:rgba(76,175,80,.12);color:var(--green);border:1px solid rgba(76,175,80,.25);padding:.2rem .5rem;border-radius:100px}
+.saving-banner{background:linear-gradient(90deg,rgba(74,222,128,.1),rgba(74,222,128,.03));border:1px solid rgba(74,222,128,.22);padding:.85rem 1rem;margin-bottom:.75rem}
+.saving-banner.hidden{display:none}
+.saving-banner-val{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;color:#4ade80;line-height:1}
+.saving-banner-label{font-size:.7rem;color:var(--muted);margin-top:.2rem}
+.saving-banner-sub{font-size:.68rem;color:rgba(74,222,128,.75);margin-top:.15rem}
+.insight-box{background:rgba(123,63,242,.07);border:1px solid rgba(123,63,242,.2);padding:.75rem;margin-top:.75rem;font-size:.75rem;line-height:1.6;color:rgba(240,240,248,.7)}
+.insight-box strong{color:#a78bfa}
+.section-hidden{display:none!important}
+.toast{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%) translateY(70px);background:var(--card);border:1px solid rgba(123,63,242,.4);padding:.6rem 1.1rem;font-size:.8rem;display:flex;align-items:center;gap:.55rem;transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:999;white-space:nowrap;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast-icon{color:var(--purple)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Sanzivi<span>.</span> Demo</div>
+  <div class="header-badge" id="header-badge">Local Comercial · Vista en vivo</div>
+  <div class="shelly-logo"><div class="shelly-dot"></div>Shelly conectado</div>
+</header>
+
+<!-- CLIENT BANNER: shown when demo is personalised via URL params -->
+<div class="client-banner hidden" id="client-banner">
+  <div class="client-banner-left">
+    <div class="client-banner-pill">Demo personalizada</div>
+    <div>
+      <div class="client-banner-name" id="banner-client-name"></div>
+      <div class="client-banner-type" id="banner-client-type"></div>
+    </div>
+  </div>
+  <div class="client-banner-right">
+    <div class="client-stat"><div class="client-stat-val" id="banner-kwh" style="color:#ff8a65"></div><div class="client-stat-label">kWh/mes</div></div>
+    <div class="client-stat"><div class="client-stat-val" id="banner-euros" style="color:var(--muted)"></div><div class="client-stat-label">€/mes actual</div></div>
+    <div class="client-stat"><div class="client-stat-val" id="banner-saving" style="color:#4ade80"></div><div class="client-stat-label">Ahorro estimado</div></div>
+    <div class="client-stat"><div class="client-stat-val" id="banner-m2" style="color:var(--muted)"></div><div class="client-stat-label">Superficie</div></div>
+  </div>
+</div>
+
+<div class="app">
+  <div class="scene-wrap">
+    <div class="ext-temp-display"><strong id="ext-val">8°</strong><span>Temperatura exterior</span></div>
+    <div class="sign-chip" onclick="toggleSignFromScene()" id="sign-chip-el">
+      <div class="sign-dot" id="sign-scene-dot"></div>
+      <span id="sign-scene-label">Cartel exterior · ON</span>
+    </div>
+    <div class="chip chip-on"   id="chip-zona1" style="top:26%;left:18%"><div class="chip-dot"></div>Entrada · ON</div>
+    <div class="chip chip-on"   id="chip-zona2" style="top:20%;right:20%"><div class="chip-dot"></div>Fondo · ON</div>
+    <div class="chip chip-heat" id="chip-heat"  style="bottom:34%;left:24%"><div class="chip-dot"></div>Calefacción activa</div>
+    <div class="chip chip-motion" id="chip-motion" style="bottom:18%;right:22%"><div class="chip-dot"></div>🚶 Movimiento baño</div>
+
+    <svg class="room" viewBox="0 0 680 560" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="halo1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb347" stop-opacity="0.5"/><stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+        <radialGradient id="halo2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb347" stop-opacity="0.4"/><stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+        <radialGradient id="halo3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb347" stop-opacity="0.35"/><stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
+        <radialGradient id="haloBath" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#a78bfa" stop-opacity="0.5"/><stop offset="100%" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
+        <radialGradient id="haloBlue" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4fc3f7" stop-opacity="0.2"/><stop offset="100%" stop-color="#4fc3f7" stop-opacity="0"/></radialGradient>
+        <filter id="glow"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="softglow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="bathglow"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- FLOOR -->
+      <polygon points="60,330 340,165 620,330 340,495" fill="#1a1a24" stroke="#2a2a3a" stroke-width="1"/>
+      <line x1="200" y1="248" x2="480" y2="413" stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
+      <line x1="130" y1="289" x2="410" y2="454" stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
+      <line x1="270" y1="206" x2="550" y2="371" stroke="rgba(255,255,255,0.025)" stroke-width="0.8"/>
+      <!-- BATHROOM FLOOR -->
+      <polygon points="60,330 200,248 298,190 158,272" fill="#1e1e2c" stroke="#2e2e3e" stroke-width="1"/>
+      <line x1="100" y1="312" x2="180" y2="265" stroke="rgba(167,139,250,0.08)" stroke-width="0.8"/>
+      <line x1="140" y1="295" x2="220" y2="248" stroke="rgba(167,139,250,0.08)" stroke-width="0.8"/>
+      <ellipse id="halo-bath" cx="155" cy="278" rx="70" ry="42" fill="url(#haloBath)" opacity="1"/>
+      <!-- LIGHT HALOS -->
+      <ellipse class="light-halo" id="halo-l1" cx="240" cy="355" rx="85" ry="52" fill="url(#halo1)" opacity="1"/>
+      <ellipse class="light-halo" id="halo-l2" cx="360" cy="395" rx="78" ry="46" fill="url(#halo2)" opacity="1"/>
+      <ellipse class="light-halo" id="halo-l3" cx="480" cy="350" rx="80" ry="49" fill="url(#halo3)" opacity="1"/>
+      <ellipse id="halo-win" cx="530" cy="360" rx="95" ry="52" fill="url(#haloBlue)" opacity="0.8"/>
+      <!-- LEFT WALL -->
+      <polygon points="60,330 340,165 340,5 60,170" fill="#111118" stroke="#1e1e28" stroke-width="1"/>
+      <!-- BATHROOM BACK WALL -->
+      <polygon points="60,330 200,248 200,148 60,230" fill="#14141e" stroke="#252530" stroke-width="1.2"/>
+      <line x1="60" y1="280" x2="200" y2="198" stroke="rgba(167,139,250,0.07)" stroke-width="1"/>
+      <line x1="60" y1="255" x2="200" y2="173" stroke="rgba(167,139,250,0.07)" stroke-width="1"/>
+      <!-- BATHROOM CEILING -->
+      <ellipse id="bath-light-body" cx="165" cy="175" rx="18" ry="9" fill="#1e1e28" stroke="#2e2e3e" stroke-width="1"/>
+      <ellipse id="bath-light-glow" cx="165" cy="175" rx="15" ry="7" fill="#a78bfa" filter="url(#bathglow)" opacity="0.9"/>
+      <circle cx="130" cy="165" r="5" fill="#1e1e28" stroke="#a78bfa" stroke-width="1.2"/>
+      <circle id="sensor-inner" cx="130" cy="165" r="2.5" fill="#a78bfa"/>
+      <circle id="sensor-ping" class="sensor-ping" cx="130" cy="165" r="6" fill="none" stroke="#a78bfa" stroke-width="1" opacity="0.8"/>
+      <!-- BATHROOM DIVIDER WALL -->
+      <polygon points="200,248 298,190 298,90 200,148" fill="#1a1a22" stroke="#333345" stroke-width="2"/>
+      <polygon points="200,148 298,90 306,94 208,152" fill="#222230" stroke="#333345" stroke-width="1"/>
+      <polygon points="213,241 247,221 247,162 213,182" fill="#0a0a12" stroke="#7B3FF2" stroke-width="1.5"/>
+      <line x1="213" y1="182" x2="247" y2="162" stroke="#7B3FF2" stroke-width="1.5"/>
+      <text x="228" y="215" text-anchor="middle" fill="rgba(167,139,250,0.5)" font-size="6" font-family="monospace" font-weight="bold" transform="rotate(-30,228,215)">WC</text>
+      <!-- RIGHT WALL -->
+      <polygon points="340,165 620,330 620,170 340,5" fill="#141420" stroke="#1e1e28" stroke-width="1"/>
+      <!-- WINDOW 1 -->
+      <polygon points="362,157 438,196 438,88 362,48" fill="#0c0c16" stroke="#1a2030" stroke-width="2"/>
+      <polygon points="366,153 434,191 434,92 366,52" fill="rgba(14,40,80,0.72)" stroke="rgba(79,195,247,0.5)" stroke-width="1"/>
+      <polygon points="366,52 434,92 434,125 366,85" fill="rgba(79,195,247,0.09)"/>
+      <line x1="362" y1="116" x2="438" y2="154" stroke="rgba(200,220,255,0.22)" stroke-width="1.5"/>
+      <line x1="400" y1="173" x2="400" y2="63" stroke="rgba(200,220,255,0.22)" stroke-width="1.5"/>
+      <!-- AUTOMATIC DOOR (center) -->
+      <polygon points="454,210 520,244 520,128 454,94" fill="#0e0e18" stroke="#7B3FF2" stroke-width="2"/>
+      <polygon id="door-panel-L" points="458,207 489,224 489,130 458,113" fill="#141428" stroke="rgba(123,63,242,0.4)" stroke-width="1"/>
+      <polygon id="door-panel-R" points="489,224 516,239 516,133 489,118" fill="#141428" stroke="rgba(123,63,242,0.4)" stroke-width="1"/>
+      <polygon id="door-glass-L" points="461,204 486,219 486,134 461,119" fill="rgba(79,195,247,0.08)" stroke="rgba(79,195,247,0.2)" stroke-width="0.8"/>
+      <polygon id="door-glass-R" points="492,221 513,234 513,137 492,122" fill="rgba(79,195,247,0.08)" stroke="rgba(79,195,247,0.2)" stroke-width="0.8"/>
+      <polygon points="454,100 520,134 520,126 454,92" fill="#1a1a2e" stroke="#7B3FF2" stroke-width="1"/>
+      <circle cx="487" cy="112" r="4" fill="#7B3FF2" opacity="0.8" filter="url(#glow)"/>
+      <circle cx="487" cy="112" r="2" fill="#a78bfa"/>
+      <circle id="door-status-dot" cx="460" cy="98" r="3" fill="#4caf50"/>
+      <text x="474" y="178" text-anchor="middle" fill="rgba(123,63,242,0.45)" font-size="5.5" font-family="monospace" transform="rotate(29,474,178)">AUTO</text>
+      <!-- WINDOW 3 -->
+      <polygon points="536,250 595,283 595,172 536,139" fill="#0c0c16" stroke="#1a2030" stroke-width="2"/>
+      <polygon points="540,246 591,278 591,176 540,143" fill="rgba(14,40,80,0.72)" stroke="rgba(79,195,247,0.5)" stroke-width="1"/>
+      <polygon points="540,143 591,176 591,209 540,176" fill="rgba(79,195,247,0.09)"/>
+      <line x1="536" y1="201" x2="595" y2="234" stroke="rgba(200,220,255,0.22)" stroke-width="1.5"/>
+      <line x1="565" y1="267" x2="565" y2="157" stroke="rgba(200,220,255,0.22)" stroke-width="1.5"/>
+      <!-- EXTERIOR SIGN -->
+      <polygon id="sign-body" points="380,28 560,120 560,108 380,16" fill="#1a0010" stroke="#ff4466" stroke-width="1.5"/>
+      <polygon id="sign-glow-fill" points="385,27 555,118 555,110 385,18" fill="rgba(255,68,102,0.25)"/>
+      <text id="sign-text" x="440" y="75" fill="rgba(255,68,102,0.9)" font-size="8" font-family="monospace" font-weight="bold" transform="rotate(29,440,75) translate(-20,-8)">OPEN</text>
+      <!-- CEILING LIGHTS -->
+      <line x1="170" y1="222" x2="300" y2="145" stroke="#2a2a3a" stroke-width="2.5"/>
+      <circle id="spot1a" cx="190" cy="212" r="5" fill="#ffb347" filter="url(#glow)"/>
+      <circle id="spot1b" cx="232" cy="187" r="5" fill="#ffb347" filter="url(#glow)"/>
+      <circle id="spot1c" cx="272" cy="163" r="5" fill="#ffb347" filter="url(#glow)"/>
+      <line x1="395" y1="145" x2="525" y2="215" stroke="#2a2a3a" stroke-width="2.5"/>
+      <circle id="spot2a" cx="415" cy="155" r="5" fill="#ffb347" filter="url(#glow)"/>
+      <circle id="spot2b" cx="458" cy="178" r="5" fill="#ffb347" filter="url(#glow)"/>
+      <circle id="spot2c" cx="500" cy="201" r="5" fill="#ffb347" filter="url(#glow)"/>
+      <line x1="340" y1="5" x2="340" y2="82" stroke="#2a2a3a" stroke-width="1.5"/>
+      <ellipse id="pendant" cx="340" cy="87" rx="14" ry="7" fill="#2a2a3a" stroke="#3a3a4a" stroke-width="1"/>
+      <ellipse id="pendant-glow" cx="340" cy="87" rx="12" ry="6" fill="#ffb347" filter="url(#softglow)" opacity="0.9"/>
+      <!-- FURNITURE -->
+      <polygon points="135,367 240,305 240,337 135,399" fill="#1e1e2c" stroke="#2e2e3e" stroke-width="1.2"/>
+      <polygon points="135,367 240,305 258,315 153,377" fill="#252535" stroke="#2e2e3e" stroke-width="1"/>
+      <polygon points="240,305 258,315 258,347 240,337" fill="#1c1c2a" stroke="#2e2e3e" stroke-width="1"/>
+      <polygon points="168,342 200,324 200,337 168,355" fill="#2a2a3e" stroke="#3a3a4e" stroke-width="0.8"/>
+      <polygon points="171,340 198,324 198,335 171,351" fill="rgba(123,63,242,0.3)"/>
+      <polygon points="340,438 415,395 415,420 340,463" fill="#1a1a28" stroke="#2a2a38" stroke-width="1"/>
+      <polygon points="340,438 415,395 427,402 352,445" fill="#202030" stroke="#2a2a38" stroke-width="1"/>
+      <ellipse cx="310" cy="430" rx="32" ry="19" fill="#1e1e2c" stroke="#2a2a3a" stroke-width="1"/>
+      <ellipse cx="310" cy="426" rx="29" ry="16" fill="#252535" stroke="#2a2a3a" stroke-width="0.8"/>
+      <!-- EXPOSITORES against right wall -->
+      <polygon points="376,232 420,256 420,248 376,224" fill="#232330" stroke="#2e2e3e" stroke-width="1"/>
+      <polygon points="376,224 420,248 420,290 376,266" fill="#1c1c28" stroke="#2e2e3e" stroke-width="1"/>
+      <polygon points="420,248 434,255 434,297 420,290" fill="#161624" stroke="#2e2e3e" stroke-width="1"/>
+      <rect x="384" y="216" width="7" height="10" rx="1" fill="#2e2e42"/>
+      <rect x="395" y="212" width="7" height="14" rx="1" fill="#333350"/>
+      <rect x="406" y="217" width="7" height="9"  rx="1" fill="#2e2e42"/>
+      <polygon points="488,308 532,332 532,324 488,300" fill="#232330" stroke="#2e2e3e" stroke-width="1"/>
+      <polygon points="488,300 532,324 532,366 488,342" fill="#1c1c28" stroke="#2e2e3e" stroke-width="1"/>
+      <polygon points="532,324 546,331 546,373 532,366" fill="#161624" stroke="#2e2e3e" stroke-width="1"/>
+      <rect x="496" y="292" width="7" height="10" rx="1" fill="#2e2e42"/>
+      <rect x="507" y="288" width="7" height="14" rx="1" fill="#333350"/>
+      <rect x="518" y="293" width="7" height="9"  rx="1" fill="#2e2e42"/>
+      <!-- BATHROOM FURNITURE -->
+      <polygon points="75,310 118,285 118,305 75,330" fill="#1c1c28" stroke="#2a2a38" stroke-width="1"/>
+      <polygon points="75,310 118,285 126,289 83,314" fill="#222230" stroke="#2a2a38" stroke-width="1"/>
+      <polygon points="75,305 105,288 105,275 75,292" fill="#1e1e2c" stroke="#2a2a38" stroke-width="0.8"/>
+      <polygon points="140,266 174,246 174,259 140,279" fill="#1c1c28" stroke="#2a2a38" stroke-width="1"/>
+      <ellipse cx="157" cy="256" rx="12" ry="7" fill="#14141e" stroke="#2a2a38" stroke-width="0.8"/>
+      <text x="120" y="298" fill="rgba(167,139,250,0.3)" font-size="6" font-family="monospace" font-weight="bold" transform="rotate(-29,120,298)">BANO</text>
+      <!-- THERMOSTAT -->
+      <polygon id="thermo-box" points="245,218 278,200 278,143 245,161" fill="#1e1e2c" stroke="#7B3FF2" stroke-width="1.5"/>
+      <polygon points="249,213 274,200 274,181 249,194" fill="rgba(123,63,242,0.15)"/>
+      <text x="262" y="200" text-anchor="middle" fill="#ff8a65" font-size="7" font-family="monospace" font-weight="bold" id="thermo-display" transform="rotate(-29,262,200)">21</text>
+      <circle cx="262" cy="152" r="4" fill="none" stroke="#ff6b6b" stroke-width="1.2"/>
+      <circle cx="262" cy="152" r="2" fill="#ff6b6b" id="thermo-led"/>
+      <!-- EDGES -->
+      <line x1="60" y1="170" x2="340" y2="5" stroke="#22223a" stroke-width="1"/>
+      <line x1="340" y1="5" x2="620" y2="170" stroke="#22223a" stroke-width="1"/>
+      <line x1="60" y1="330" x2="340" y2="495" stroke="#2a2a3a" stroke-width="1"/>
+      <line x1="340" y1="495" x2="620" y2="330" stroke="#2a2a3a" stroke-width="1"/>
+      <line x1="60" y1="170" x2="60" y2="330" stroke="#22223a" stroke-width="1"/>
+      <line x1="620" y1="170" x2="620" y2="330" stroke="#22223a" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <!-- PANEL -->
+  <div class="panel">
+    <div class="tab-bar">
+      <div class="tab active" onclick="switchTab('local')">Local</div>
+      <div class="tab" id="tab-bano-btn" onclick="switchTab('bano')" data-section="bano">Bano</div>
+      <div class="tab" onclick="switchTab('energia')">Consumo</div>
+    </div>
+
+    <!-- LOCAL TAB -->
+    <div class="tab-content active" id="tab-local">
+      <div class="panel-section">
+        <div class="panel-label">Temperatura</div>
+        <div class="temp-widget">
+          <div class="temp-box active"><div class="temp-box-label">Interior</div><div class="temp-box-val interior"><span id="int-temp">18</span><span class="temp-unit">C</span></div></div>
+          <div class="temp-box"><div class="temp-box-label">Exterior</div><div class="temp-box-val exterior"><span id="ext-temp">8</span><span class="temp-unit">C</span></div></div>
+        </div>
+        <div class="thermostat-bar">
+          <div class="thermo-header"><span class="thermo-title">Termostato Shelly</span><span class="thermo-status on" id="thermo-badge">Activo</span></div>
+          <div class="thermo-target">
+            <button class="thermo-btn" onclick="adjustTarget(-1)">-</button>
+            <div><div class="thermo-temp-val" id="target-temp">21C</div><div class="thermo-label">Objetivo</div></div>
+            <button class="thermo-btn" onclick="adjustTarget(1)">+</button>
+            <label class="toggle thermo-toggle"><input type="checkbox" id="thermo-toggle" checked onchange="toggleThermostat(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+          </div>
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label">Iluminacion</div>
+        <div class="lights-grid">
+          <div class="light-row lit" id="row-l1"><div class="light-info"><span class="light-icon on" id="icon-l1">L</span><div><div class="light-name">Zona Entrada</div><div class="light-sub">Track LED 3 focos</div></div></div><label class="toggle"><input type="checkbox" checked onchange="toggleLight(1,this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="brightness-row" id="bright-l1"><span style="font-size:.68rem;color:var(--muted)">*</span><input type="range" min="10" max="100" value="80" style="--val:80%" oninput="updateBrightness(1,this)"><span class="brightness-label" id="bval-l1">80%</span></div>
+          <div class="light-row lit" id="row-l2"><div class="light-info"><span class="light-icon on" id="icon-l2">L</span><div><div class="light-name">Lampara Central</div><div class="light-sub">Colgante dimmer</div></div></div><label class="toggle"><input type="checkbox" checked onchange="toggleLight(2,this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="brightness-row" id="bright-l2"><span style="font-size:.68rem;color:var(--muted)">*</span><input type="range" min="10" max="100" value="90" style="--val:90%" oninput="updateBrightness(2,this)"><span class="brightness-label" id="bval-l2">90%</span></div>
+          <div class="light-row lit" id="row-l3"><div class="light-info"><span class="light-icon on" id="icon-l3">L</span><div><div class="light-name">Zona Fondo</div><div class="light-sub">Track LED 3 focos</div></div></div><label class="toggle"><input type="checkbox" checked onchange="toggleLight(3,this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="brightness-row" id="bright-l3"><span style="font-size:.68rem;color:var(--muted)">*</span><input type="range" min="10" max="100" value="70" style="--val:70%" oninput="updateBrightness(3,this)"><span class="brightness-label" id="bval-l3">70%</span></div>
+        </div>
+      </div>
+      <div class="panel-section" data-section="puerta">
+        <div class="panel-label">Puerta automatica</div>
+        <div class="sign-control">
+          <div class="sign-header"><span class="sign-title">Puerta Shelly</span><span class="sign-status off" id="door-badge" style="background:rgba(76,175,80,.12);color:#4caf50;border:1px solid rgba(76,175,80,.3)">Cerrada</span></div>
+          <div class="sign-row"><span class="sign-label">Consumo stand-by</span><span style="color:#a78bfa;font-family:'Syne',sans-serif;font-weight:700" id="door-power">0.02 kW</span></div>
+          <div class="sign-row"><span class="sign-label">Ciclos hoy</span><span style="color:var(--muted);font-size:.82rem" id="door-cycles">0 aperturas</span></div>
+          <div class="sign-row" style="margin-bottom:.5rem"><span class="sign-label">Energia hoy</span><span style="color:#a78bfa;font-size:.82rem" id="door-total-energy">0.02 kWh</span></div>
+          <button onclick="toggleDoor()" id="door-btn" style="width:100%;background:rgba(76,175,80,.12);border:1px solid rgba(76,175,80,.3);color:#4caf50;padding:.65rem;font-family:'Instrument Sans',sans-serif;font-size:.82rem;cursor:pointer;transition:all .2s">Simular apertura</button>
+          <div class="sign-schedule-hint">Con Shelly Plus 2PM mides consumo del motor, ciclos por dia y detectas si queda abierta fuera de horario. Shelly Door/Window 2 confirma el estado real independientemente del motor.</div>
+        </div>
+      </div>
+      <div class="panel-section" data-section="cartel">
+        <div class="panel-label">Cartel exterior</div>
+        <div class="sign-control">
+          <div class="sign-header"><span class="sign-title">Rotulo LED</span><span class="sign-status on" id="sign-badge">Encendido</span></div>
+          <div class="sign-row"><span class="sign-label">Consumo actual</span><span class="sign-power" id="sign-power">0.15 kW</span></div>
+          <div class="sign-row" style="margin-bottom:0"><span class="sign-label">Encendido</span><label class="toggle"><input type="checkbox" id="sign-toggle" checked onchange="toggleSign(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="sign-schedule-hint"><strong>Consejo Sanzivi:</strong> Programar apagado a las 22:00h ahorraria ~45 EUR/mes. Con Shelly lo automatizas en 2 minutos.</div>
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label">Programacion horaria</div>
+        <div class="schedule-list" id="schedule-list">
+          <div class="schedule-item active"><div class="sch-time">08:00</div><div><div class="sch-desc">Encender local + cartel</div><div class="sch-sub">Lun-Vie</div></div><label class="toggle sch-toggle"><input type="checkbox" checked onchange="scheduleChanged(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="schedule-item"><div class="sch-time">14:00</div><div><div class="sch-desc">Dimmer ventanas 40%</div><div class="sch-sub">Lun-Vie</div></div><label class="toggle sch-toggle"><input type="checkbox" checked onchange="scheduleChanged(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="schedule-item"><div class="sch-time">22:00</div><div><div class="sch-desc">Apagar cartel exterior</div><div class="sch-sub">Todos los dias</div></div><label class="toggle sch-toggle"><input type="checkbox" checked onchange="scheduleChanged(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="schedule-item"><div class="sch-time">23:00</div><div><div class="sch-desc">Apagar todo</div><div class="sch-sub">Todos los dias</div></div><label class="toggle sch-toggle"><input type="checkbox" checked onchange="scheduleChanged(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+        </div>
+        <div class="add-schedule">
+          <input class="sch-input" type="time" id="sch-time-input" value="09:00">
+          <select class="sch-select" id="sch-action"><option>Encender todo</option><option>Apagar todo</option><option>Apagar cartel</option><option>Dimmer 40%</option></select>
+          <button class="sch-add-btn" onclick="addSchedule()">+ Añadir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BANO TAB -->
+    <div class="tab-content" id="tab-bano" data-section="bano">
+      <div class="panel-section">
+        <div class="panel-label">Sensor movimiento Bano</div>
+        <div class="motion-box">
+          <div class="motion-header"><span class="motion-title">Shelly Motion Bano</span><span class="motion-badge detected" id="motion-badge">Movimiento</span></div>
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.7rem">El sensor detecta presencia y enciende/apaga la luz automaticamente.</div>
+          <div class="motion-stats">
+            <div class="motion-stat"><div class="motion-stat-val" id="motion-count">14</div><div class="motion-stat-label">Detecciones hoy</div></div>
+            <div class="motion-stat"><div class="motion-stat-val" id="motion-mins">38</div><div class="motion-stat-label">Min encendido</div></div>
+            <div class="motion-stat"><div class="motion-stat-val" id="motion-saved">0.08</div><div class="motion-stat-label">kWh ahorrados</div></div>
+          </div>
+        </div>
+        <div class="auto-light-row">
+          <div class="auto-light-info"><div class="auto-title">Luz automatica por presencia</div><div class="auto-sub">Apaga 2 min despues sin movimiento</div></div>
+          <label class="toggle" style="margin-left:1rem"><input type="checkbox" id="auto-light-toggle" checked onchange="toggleAutoLight(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+        </div>
+        <div style="margin-top:.9rem"><button onclick="simulateMotion()" style="width:100%;background:rgba(167,139,250,.12);border:1px solid rgba(167,139,250,.3);color:#a78bfa;padding:.65rem;font-family:'Instrument Sans',sans-serif;font-size:.8rem;cursor:pointer;transition:background .2s">Simular entrada al bano</button></div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label">Luz bano</div>
+        <div class="lights-grid">
+          <div class="light-row lit" id="row-bath"><div class="light-info"><span class="light-icon on" id="icon-bath">L</span><div><div class="light-name">Luz bano</div><div class="light-sub">LED panel auto-sensor</div></div></div><label class="toggle"><input type="checkbox" id="bath-light-cb" checked onchange="toggleBathLight(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label></div>
+          <div class="brightness-row" id="bright-bath"><span style="font-size:.68rem;color:var(--muted)">*</span><input type="range" min="10" max="100" value="100" style="--val:100%" oninput="updateBathBrightness(this)"><span class="brightness-label" id="bval-bath">100%</span></div>
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="insight-box"><strong>Por que sensor aqui:</strong><br>Un bano sin sensor puede tener luz encendida horas sin nadie. Con Shelly Motion se apaga sola a los 2 minutos. En un local con 20 visitas diarias: hasta 80 kWh/mes menos en factura.</div>
+      </div>
+    </div>
+
+    <!-- ENERGIA TAB -->
+    <div class="tab-content" id="tab-energia">
+      <div class="panel-section">
+        <div class="saving-banner hidden" id="saving-banner">
+          <div class="saving-banner-val" id="saving-banner-val">--</div>
+          <div class="saving-banner-label">Ahorro estimado mensual con domotica Shelly</div>
+          <div class="saving-banner-sub" id="saving-banner-sub"></div>
+        </div>
+        <div class="panel-label">Consumo por sala</div>
+        <div class="energy-section-title">Local principal</div>
+        <div class="energy-row"><span class="energy-label">Iluminacion</span><div class="energy-track"><div class="energy-fill" id="e-light" style="width:60%;background:var(--warm)"></div></div><span class="energy-val" id="ev-light" style="color:var(--warm)">0.4kW</span></div>
+        <div class="energy-row"><span class="energy-label">Calefaccion</span><div class="energy-track"><div class="energy-fill" id="e-heat" style="width:75%;background:#ff8a65"></div></div><span class="energy-val" id="ev-heat" style="color:#ff8a65">1.8kW</span></div>
+        <div class="energy-divider"></div>
+        <div class="energy-section-title">Bano</div>
+        <div class="energy-row" data-section="bano"><span class="energy-label">Luz bano</span><div class="energy-track"><div class="energy-fill" id="e-bath" style="width:30%;background:#a78bfa"></div></div><span class="energy-val" id="ev-bath" style="color:#a78bfa">0.06kW</span></div>
+        <div class="energy-divider"></div>
+        <div class="energy-section-title">Accesos</div>
+        <div class="energy-row" data-section="puerta"><span class="energy-label">Puerta auto</span><div class="energy-track"><div class="energy-fill" id="e-door" style="width:5%;background:#a78bfa"></div></div><span class="energy-val" id="ev-door" style="color:#a78bfa">0.02kW</span></div>
+        <div class="energy-divider"></div>
+        <div class="energy-section-title">Exterior</div>
+        <div class="energy-row" data-section="cartel"><span class="energy-label">Cartel LED</span><div class="energy-track"><div class="energy-fill" id="e-sign" style="width:28%;background:#ff4466"></div></div><span class="energy-val" id="ev-sign" style="color:#ff4466">0.15kW</span></div>
+        <div class="energy-row"><span class="energy-label">Otros</span><div class="energy-track"><div class="energy-fill" style="width:18%;background:var(--muted)"></div></div><span class="energy-val" style="color:var(--muted)">0.1kW</span></div>
+        <div class="energy-divider"></div>
+        <div class="energy-total-row"><span class="energy-total-label">Total ahora</span><div style="display:flex;align-items:center;gap:.6rem"><span class="energy-total-val"><span id="total-energy">2.5</span> kW</span><span class="saving-pill" id="saving-badge">32%</span></div></div>
+        <div class="insight-box" style="margin-top:.9rem">
+          <strong>3 acciones para bajar tu factura:</strong><br>
+          1. <strong>Dimmerizar</strong> zonas junto a ventanas al 40-60% de dia.<br>
+          2. <strong>Programar</strong> el cartel para apagarse a las 22h.<br>
+          3. <strong>Sensor de movimiento</strong> en el bano.
+        </div>
+      </div>
+      <div class="panel-section">
+        <div class="panel-label">Estimacion mensual</div>
+        <div class="energy-row"><span class="energy-label">Sin domotica</span><div class="energy-track"><div class="energy-fill" style="width:90%;background:var(--red)"></div></div><span class="energy-val" style="color:var(--red)" id="cost-before">~185EUR</span></div>
+        <div class="energy-row"><span class="energy-label">Con Shelly</span><div class="energy-track"><div class="energy-fill" id="e-after" style="width:60%;background:var(--green)"></div></div><span class="energy-val" style="color:var(--green)" id="cost-after">~126EUR</span></div>
+        <div style="text-align:right;margin-top:.5rem;font-size:.72rem;color:var(--green);font-weight:600" id="saving-total">Ahorro estimado: 59 EUR/mes</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="toast-icon">!</span><span id="toast-msg">Accion ejecutada</span></div>
+
+<script>
+// ══ URL PARAMETER READER ══
+(function initFromURL() {
+  const p = new URLSearchParams(window.location.search);
+  if (!p.has('cliente')) return;
+  const cliente = p.get('cliente') || '';
+  const tipo    = p.get('tipo')    || 'local';
+  const kwh     = parseFloat(p.get('kwh'))   || 0;
+  const euros   = parseFloat(p.get('euros')) || 0;
+  const m2      = parseFloat(p.get('m2'))    || 0;
+  const luces   = parseInt(p.get('luces'))   || 12;
+  const bano    = p.get('bano')   !== 'no';
+  const cartel  = p.get('cartel') !== 'no';
+  const puerta  = p.get('puerta') !== 'no';
+  const termo   = p.get('termo')  !== 'no';
+  const dimmer  = p.get('dimmer') !== 'no';
+  const typeLabels = {tienda:'Tienda',restaurante:'Restaurante',oficina:'Oficina',gym:'Gimnasio',hotel:'Hotel',clinica:'Clinica',bar:'Bar',otro:'Local'};
+  let savingPct = 0.24;
+  if (dimmer) savingPct += 0.07;
+  if (bano)   savingPct += 0.04;
+  if (cartel) savingPct += 0.05;
+  if (termo)  savingPct += 0.06;
+  savingPct = Math.min(savingPct, 0.46);
+  const savingEuros = Math.round(euros * savingPct);
+  const savingKwh   = Math.round(kwh   * savingPct);
+  document.title = 'Sanzivi Demo - ' + cliente;
+  const hbadge = document.getElementById('header-badge');
+  if (hbadge) hbadge.textContent = (typeLabels[tipo]||tipo) + (m2?' - '+m2+' m2':'');
+  document.getElementById('client-banner').classList.remove('hidden');
+  document.getElementById('banner-client-name').textContent = cliente;
+  document.getElementById('banner-client-type').textContent = typeLabels[tipo]||tipo;
+  document.getElementById('banner-kwh').textContent    = kwh   ? kwh+' kWh' : '-';
+  document.getElementById('banner-euros').textContent  = euros ? euros+' EUR' : '-';
+  document.getElementById('banner-saving').textContent = savingEuros ? '-'+savingEuros+' EUR/mes' : '-';
+  document.getElementById('banner-m2').textContent     = m2    ? m2+' m2' : '-';
+  if (savingEuros) {
+    document.getElementById('saving-banner').classList.remove('hidden');
+    document.getElementById('saving-banner-val').textContent = '-'+savingEuros+' EUR/mes';
+    document.getElementById('saving-banner-sub').textContent = Math.round(savingPct*100)+'% menos - '+savingKwh+' kWh/mes - '+(savingEuros*12)+' EUR/anio';
+  }
+  if (!bano)   document.querySelectorAll('[data-section="bano"]').forEach(el=>el.classList.add('section-hidden'));
+  if (!cartel) document.querySelectorAll('[data-section="cartel"]').forEach(el=>el.classList.add('section-hidden'));
+  if (!puerta) document.querySelectorAll('[data-section="puerta"]').forEach(el=>el.classList.add('section-hidden'));
+  window._clientData = {kwh,euros,savingPct,savingEuros,savingKwh};
+  const zones = Math.max(1,Math.round(luces/4));
+  const devLines=[];
+  if(dimmer) devLines.push('💡 '+zones+'x Shelly Dimmer 2PM');
+  if(termo)  devLines.push('🌡 1x Shelly TRV');
+  if(bano)   devLines.push('🔮 1x Shelly Motion');
+  if(cartel) devLines.push('🔴 1x Shelly Plus 1PM');
+  if(puerta) devLines.push('🚪 1x Shelly Plus 2PM + Door/Window 2');
+  const ibox = document.querySelector('.insight-box');
+  if(ibox && devLines.length) ibox.innerHTML='<strong>Dispositivos para '+cliente+':</strong><br>'+devLines.join('<br>')+'<br><br><strong>Sanzivi BCN</strong> - sanzivi.es - 654 089 180';
+  window._realMonthlyOverride = function() {
+    const cd=window._clientData;
+    if(!cd||!cd.euros) return;
+    const after=Math.round(cd.euros*(1-cd.savingPct));
+    document.getElementById('cost-before').textContent='~'+cd.euros+'EUR';
+    document.getElementById('cost-after').textContent='~'+after+'EUR';
+    document.getElementById('saving-total').textContent='Ahorro: '+cd.savingEuros+'EUR/mes - '+(cd.savingEuros*12)+'EUR/anio';
+    document.getElementById('saving-badge').textContent=Math.round(cd.savingPct*100)+'%';
+    document.getElementById('e-after').style.width=Math.round((1-cd.savingPct)*100)+'%';
+  };
+})();
+
+// ══ STATE ══
+let targetTemp=21,thermoOn=true,lights={1:true,2:true,3:true};
+let bathLightOn=true,autoLightOn=true,signOn=true;
+let doorOpen=false,doorTimer=null,doorCycles=0,doorEnergy=0.02;
+let motionActive=true,motionTimer=null;
+
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach((t,i)=>{t.classList.toggle('active',['local','bano','energia'][i]===name)});
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+function adjustTarget(d){
+  targetTemp=Math.max(15,Math.min(30,targetTemp+d));
+  document.getElementById('target-temp').textContent=targetTemp+'C';
+  document.getElementById('thermo-display').textContent=targetTemp;
+  showToast('Temperatura objetivo: '+targetTemp+'C');
+  updateEnergy();
+}
+function toggleThermostat(cb){
+  thermoOn=cb.checked;
+  const badge=document.getElementById('thermo-badge');
+  const led=document.getElementById('thermo-led');
+  const chip=document.getElementById('chip-heat');
+  if(thermoOn){badge.textContent='Activo';badge.className='thermo-status on';led.style.fill='#ff6b6b';chip.style.opacity='1';showToast('Calefaccion activada');}
+  else{badge.textContent='Apagado';badge.className='thermo-status off';led.style.fill='#444';chip.style.opacity='0';showToast('Calefaccion apagada');}
+  updateEnergy();
+}
+function toggleLight(id,cb){
+  lights[id]=cb.checked;
+  const row=document.getElementById('row-l'+id);
+  const icon=document.getElementById('icon-l'+id);
+  const bright=document.getElementById('bright-l'+id);
+  const halo=document.getElementById('halo-l'+id);
+  const spotMap={1:['spot1a','spot1b','spot1c'],2:['pendant-glow','pendant'],3:['spot2a','spot2b','spot2c']};
+  const chipMap={1:'chip-zona1',2:null,3:'chip-zona2'};
+  const names=['','Zona Entrada','Lampara Central','Zona Fondo'];
+  if(cb.checked){
+    row.classList.add('lit');icon.classList.add('on');bright.style.opacity='1';
+    if(halo)halo.style.opacity='1';
+    spotMap[id].forEach(s=>{const e=document.getElementById(s);if(e){e.style.opacity='1';e.setAttribute('fill','#ffb347');}});
+    if(chipMap[id])document.getElementById(chipMap[id]).className='chip chip-on';
+    showToast('Luz '+names[id]+' encendida');
+  }else{
+    row.classList.remove('lit');icon.classList.remove('on');bright.style.opacity='0.3';
+    if(halo)halo.style.opacity='0';
+    spotMap[id].forEach(s=>{const e=document.getElementById(s);if(e){e.style.opacity='0.1';e.setAttribute('fill','#333');}});
+    if(chipMap[id])document.getElementById(chipMap[id]).className='chip chip-off';
+    showToast('Luz '+names[id]+' apagada');
+  }
+  updateEnergy();
+}
+function updateBrightness(id,el){
+  const val=el.value;el.style.setProperty('--val',val+'%');
+  document.getElementById('bval-l'+id).textContent=val+'%';
+  const halo=document.getElementById('halo-l'+id);
+  if(halo&&lights[id])halo.style.opacity=val/100;
+  updateEnergy();
+}
+function toggleBathLight(cb){
+  bathLightOn=cb.checked;
+  const row=document.getElementById('row-bath');
+  const icon=document.getElementById('icon-bath');
+  const glowEl=document.getElementById('bath-light-glow');
+  const haloEl=document.getElementById('halo-bath');
+  if(cb.checked){row.classList.add('lit');icon.classList.add('on');glowEl.style.opacity='0.9';haloEl.style.opacity='1';showToast('Luz bano encendida');}
+  else{row.classList.remove('lit');icon.classList.remove('on');glowEl.style.opacity='0';haloEl.style.opacity='0';showToast('Luz bano apagada');}
+  updateEnergy();
+}
+function updateBathBrightness(el){
+  const val=el.value;el.style.setProperty('--val',val+'%');
+  document.getElementById('bval-bath').textContent=val+'%';
+  if(bathLightOn){document.getElementById('bath-light-glow').style.opacity=val/100;document.getElementById('halo-bath').style.opacity=val/100;}
+  updateEnergy();
+}
+function toggleAutoLight(cb){autoLightOn=cb.checked;showToast(cb.checked?'Luz automatica activada':'Luz automatica desactivada');}
+function simulateMotion(){
+  motionActive=true;setMotionState(true);
+  clearTimeout(motionTimer);
+  motionTimer=setTimeout(()=>{motionActive=false;setMotionState(false);if(autoLightOn){const cb=document.getElementById('bath-light-cb');if(cb.checked){cb.checked=false;toggleBathLight(cb);showToast('Sensor: sin movimiento - luz apagada');}}},5000);
+  if(autoLightOn){const cb=document.getElementById('bath-light-cb');if(!cb.checked){cb.checked=true;toggleBathLight(cb);}}
+  document.getElementById('motion-count').textContent=parseInt(document.getElementById('motion-count').textContent)+1;
+  document.getElementById('motion-mins').textContent=parseInt(document.getElementById('motion-mins').textContent)+2;
+  showToast('Movimiento detectado - luz encendida');
+}
+function setMotionState(active){
+  const badge=document.getElementById('motion-badge');
+  const chip=document.getElementById('chip-motion');
+  const ping=document.getElementById('sensor-ping');
+  const inner=document.getElementById('sensor-inner');
+  if(active){badge.textContent='Movimiento';badge.className='motion-badge detected';chip.style.opacity='1';chip.className='chip chip-motion';ping.style.animationPlayState='running';inner.style.fill='#a78bfa';}
+  else{badge.textContent='Sin movimiento';badge.className='motion-badge clear';chip.className='chip chip-off';chip.style.opacity='.6';ping.style.animationPlayState='paused';inner.style.fill='#444';}
+}
+function toggleSign(cb){signOn=cb.checked;updateSignVisuals();updateEnergy();showToast(cb.checked?'Cartel encendido':'Cartel apagado');}
+function toggleSignFromScene(){const cb=document.getElementById('sign-toggle');cb.checked=!cb.checked;toggleSign(cb);}
+function updateSignVisuals(){
+  const dot=document.getElementById('sign-scene-dot');
+  const label=document.getElementById('sign-scene-label');
+  const badge=document.getElementById('sign-badge');
+  const body=document.getElementById('sign-body');
+  const glow=document.getElementById('sign-glow-fill');
+  const txt=document.getElementById('sign-text');
+  if(signOn){dot.className='sign-dot';label.textContent='Cartel exterior ON';badge.textContent='Encendido';badge.className='sign-status on';body.style.stroke='#ff4466';glow.style.opacity='1';txt.style.opacity='1';document.getElementById('sign-power').textContent='0.15 kW';}
+  else{dot.className='sign-dot off';label.textContent='Cartel exterior OFF';badge.textContent='Apagado';badge.className='sign-status off';body.style.stroke='#333';glow.style.opacity='0';txt.style.opacity='0.1';document.getElementById('sign-power').textContent='0.00 kW';}
+}
+function toggleDoor(){
+  if(doorOpen)return;
+  doorOpen=true;doorCycles++;doorEnergy=parseFloat((doorEnergy+0.08).toFixed(3));
+  const pL=document.getElementById('door-panel-L'),pR=document.getElementById('door-panel-R');
+  const gL=document.getElementById('door-glass-L'),gR=document.getElementById('door-glass-R');
+  [pL,gL].forEach(el=>{el.style.transition='transform 0.7s ease';el.style.transform='translate(-22px,-11px)';});
+  [pR,gR].forEach(el=>{el.style.transition='transform 0.7s ease';el.style.transform='translate(22px,11px)';});
+  document.getElementById('door-status-dot').style.fill='#ef5350';
+  document.getElementById('door-badge').textContent='Abierta';
+  document.getElementById('door-badge').style.color='#ef5350';
+  document.getElementById('door-btn').textContent='Cerrando...';
+  document.getElementById('door-power').textContent='0.35 kW';
+  document.getElementById('door-cycles').textContent=doorCycles+' apertura'+(doorCycles>1?'s':'');
+  document.getElementById('door-total-energy').textContent=doorEnergy.toFixed(3)+' kWh';
+  showToast('Puerta abierta - 0.35 kW en uso');
+  updateEnergy();
+  clearTimeout(doorTimer);
+  doorTimer=setTimeout(()=>{
+    doorOpen=false;
+    [pL,gL].forEach(el=>el.style.transform='translate(0,0)');
+    [pR,gR].forEach(el=>el.style.transform='translate(0,0)');
+    document.getElementById('door-status-dot').style.fill='#4caf50';
+    document.getElementById('door-badge').textContent='Cerrada';
+    document.getElementById('door-badge').style.color='#4caf50';
+    document.getElementById('door-btn').textContent='Simular apertura';
+    document.getElementById('door-power').textContent='0.02 kW';
+    showToast('Puerta cerrada');
+    updateEnergy();
+  },3000);
+}
+function addSchedule(){
+  const time=document.getElementById('sch-time-input').value;
+  const action=document.getElementById('sch-action').value;
+  if(!time)return;
+  const list=document.getElementById('schedule-list');
+  const item=document.createElement('div');
+  item.className='schedule-item';
+  item.innerHTML='<div class="sch-time">'+time+'</div><div><div class="sch-desc">'+action+'</div><div class="sch-sub">Programado</div></div><label class="toggle sch-toggle"><input type="checkbox" checked onchange="scheduleChanged(this)"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>';
+  const items=list.querySelectorAll('.schedule-item');
+  let inserted=false;
+  for(let i=0;i<items.length;i++){if(items[i].querySelector('.sch-time').textContent>time){list.insertBefore(item,items[i]);inserted=true;break;}}
+  if(!inserted)list.appendChild(item);
+  item.style.opacity='0';item.style.transform='translateX(16px)';
+  requestAnimationFrame(()=>{item.style.transition='opacity .4s,transform .4s';item.style.opacity='1';item.style.transform='translateX(0)';});
+  showToast(time+' - '+action);
+}
+function scheduleChanged(cb){const desc=cb.closest('.schedule-item').querySelector('.sch-desc').textContent;showToast(cb.checked?'Activado: '+desc:'Desactivado: '+desc);}
+function updateEnergy(){
+  const brightVals=[1,2,3].map(i=>{const sl=document.querySelector('#bright-l'+i+' input[type=range]');return lights[i]&&sl?parseInt(sl.value):0;});
+  const avgBright=brightVals.reduce((a,b)=>a+b,0)/300;
+  const lightKw=(avgBright*0.85).toFixed(2);
+  const heatKw=thermoOn?(1.2+(targetTemp-18)*0.1).toFixed(2):'0.00';
+  const bathSlider=document.querySelector('#bright-bath input[type=range]');
+  const bathBright=bathLightOn&&bathSlider?parseInt(bathSlider.value)/100:0;
+  const bathKw=(bathBright*0.08).toFixed(3);
+  const signKw=signOn?0.15:0;
+  const doorKw=doorOpen?0.35:0.02;
+  const total=(parseFloat(lightKw)+parseFloat(heatKw)+parseFloat(bathKw)+signKw+doorKw+0.1).toFixed(2);
+  document.getElementById('ev-light').textContent=lightKw+'kW';
+  document.getElementById('ev-heat').textContent=heatKw+'kW';
+  document.getElementById('ev-bath').textContent=bathKw+'kW';
+  document.getElementById('ev-sign').textContent=signKw.toFixed(2)+'kW';
+  if(document.getElementById('ev-door'))document.getElementById('ev-door').textContent=doorKw.toFixed(2)+'kW';
+  if(document.getElementById('e-door'))document.getElementById('e-door').style.width=(doorOpen?45:5)+'%';
+  document.getElementById('total-energy').textContent=total;
+  document.getElementById('e-light').style.width=Math.min(95,avgBright*120)+'%';
+  document.getElementById('e-heat').style.width=(thermoOn?Math.min(95,50+(targetTemp-18)*8):0)+'%';
+  document.getElementById('e-bath').style.width=Math.min(95,bathBright*95)+'%';
+  document.getElementById('e-sign').style.width=(signOn?28:0)+'%';
+  const monthlyKw=parseFloat(total)*12*30;
+  const costAfter=Math.round(monthlyKw*0.22);
+  const costBefore=Math.round(costAfter*1.45);
+  document.getElementById('cost-before').textContent='~'+costBefore+'EUR';
+  document.getElementById('cost-after').textContent='~'+costAfter+'EUR';
+  document.getElementById('saving-total').textContent='Ahorro estimado: '+(costBefore-costAfter)+'EUR/mes';
+  const spct=Math.round((1-costAfter/costBefore)*100);
+  document.getElementById('saving-badge').textContent=spct+'%';
+  document.getElementById('e-after').style.width=Math.round(100-spct)+'%';
+  if(window._realMonthlyOverride)window._realMonthlyOverride();
+}
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  document.getElementById('toast-msg').textContent=msg;
+  t.classList.add('show');clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'),2600);
+}
+let extBase=8;
+setInterval(()=>{
+  extBase+=(Math.random()-.5)*.4;extBase=Math.max(5,Math.min(11,extBase));
+  const r=Math.round(extBase*10)/10;
+  document.getElementById('ext-temp').textContent=r.toFixed(1);
+  document.getElementById('ext-val').textContent=r.toFixed(1)+'°';
+},3000);
+let intTemp=18;
+setInterval(()=>{
+  if(!thermoOn)return;
+  const diff=targetTemp-intTemp;
+  if(Math.abs(diff)>.1){intTemp+=diff*.05;document.getElementById('int-temp').textContent=intTemp.toFixed(1);document.getElementById('thermo-display').textContent=Math.round(intTemp);}
+},1000);
+setInterval(()=>{if(Math.random()<0.15&&!motionActive)simulateMotion();},8000);
+</script>
+</body>
+</html>
