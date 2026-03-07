@@ -197,7 +197,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 
     <button class="login-btn" onclick="doLogin()">Entrar al configurador →</button>
 
-    <div class="login-hint">¿Aún no tienes cuenta? Escríbenos a <span style="color:var(--purple)">partners@sanzivi.es</span></div>
+    <div class="login-hint">¿Aún no tienes cuenta? Escríbenos a <span style="color:var(--purple)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="ff8f9e8d8b919a8d8cbf8c9e9185968996d19a8c">[email&#160;protected]</a></span></div>
     <div class="login-powered">powered by sanzivi.es · instalador verificado Shelly</div>
   </div>
 </div>
@@ -212,6 +212,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
     <div class="sidebar-logo">
       <div class="sidebar-logo-text">Sanzivi<span>.</span></div>
       <div class="sidebar-logo-sub">Partner Portal</div>
+      <a href="https://sanzivi.es" style="display:inline-flex;align-items:center;gap:.35rem;margin-top:.6rem;font-size:.68rem;color:var(--muted);text-decoration:none;letter-spacing:.04em;transition:color .2s;" onmouseover="this.style.color='#fff'" onmouseout="this.style.color=''">← Volver a la web</a>
     </div>
     <nav class="sidebar-nav">
       <div class="nav-item active" onclick="showSection('nuevo')">
@@ -495,7 +496,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // ── STATE ──
 let currentType = 'tienda';
 let generatedUrl = '';
@@ -726,11 +727,4 @@ function openDemoCard(i) {
 // ── RESET ──
 function resetForm() {
   ['f-nombre','f-kwh','f-euros','f-m2','f-luces','f-tarifa'].forEach(id => document.getElementById(id).value='');
-  ['f-bano','f-cartel','f-puerta','f-termo','f-dimmer'].forEach(id => document.getElementById(id).checked=true);
-  document.querySelectorAll('.type-btn').forEach((b,i)=>b.classList.toggle('sel',i===0));
-  currentType='tienda';
-  updatePreview();
-}
-</script>
-</body>
-</html>
+  ['f-bano','f-cartel','f-puerta','f-termo',
