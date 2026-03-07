@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanzivi Partner · Configurador</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090f;--surface:#111118;--card:#16161e;--card2:#1c1c26;
+  --border:rgba(255,255,255,0.07);--border-hover:rgba(123,63,242,0.35);
+  --purple:#7B3FF2;--purple-d:#5f28cc;--purple-light:rgba(123,63,242,0.12);
+  --warm:#ffb347;--cool:#4fc3f7;--green:#4ade80;--red:#f87171;
+  --text:#f0f0f8;--muted:#6b6b88;--muted2:#4a4a62;
+}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ══ VIEWS ══ */
+.view{display:none;min-height:100vh}
+.view.active{display:flex;flex-direction:column}
+
+/* ══ LOGIN VIEW ══ */
+#view-login{align-items:center;justify-content:center;background:radial-gradient(ellipse at 30% 40%,rgba(123,63,242,.08) 0%,transparent 60%),var(--bg)}
+.login-box{width:100%;max-width:400px;padding:2.5rem}
+.login-logo{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.3rem}
+.login-logo span{color:var(--purple)}
+.login-tagline{font-size:.8rem;color:var(--muted);margin-bottom:2.5rem;letter-spacing:.02em}
+.login-label{font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;display:block}
+.login-input{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);padding:.8rem 1rem;font-family:'Instrument Sans',sans-serif;font-size:.88rem;outline:none;margin-bottom:1rem;transition:border-color .2s}
+.login-input:focus{border-color:var(--border-hover)}
+.login-btn{width:100%;background:var(--purple);color:#fff;border:none;padding:.9rem;font-family:'Instrument Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;letter-spacing:.03em;transition:background .2s;margin-top:.25rem}
+.login-btn:hover{background:var(--purple-d)}
+.login-hint{font-size:.7rem;color:var(--muted2);text-align:center;margin-top:1.2rem}
+.login-powered{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);text-align:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+
+/* ══ MAIN LAYOUT ══ */
+#view-main{flex-direction:row}
+.sidebar{width:240px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;min-height:100vh}
+.sidebar-logo{padding:1.3rem 1.5rem;border-bottom:1px solid var(--border)}
+.sidebar-logo-text{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;letter-spacing:-.01em}
+.sidebar-logo-text span{color:var(--purple)}
+.sidebar-logo-sub{font-size:.62rem;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-top:.15rem}
+.sidebar-nav{padding:1rem 0;flex:1}
+.nav-item{display:flex;align-items:center;gap:.7rem;padding:.65rem 1.5rem;font-size:.8rem;color:var(--muted);cursor:pointer;transition:color .2s,background .2s;border-left:2px solid transparent}
+.nav-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.nav-item.active{color:var(--purple);border-left-color:var(--purple);background:var(--purple-light)}
+.nav-icon{font-size:.95rem;width:18px;text-align:center;flex-shrink:0}
+.sidebar-partner{padding:1.2rem 1.5rem;border-top:1px solid var(--border)}
+.partner-name{font-size:.78rem;font-weight:600;margin-bottom:.15rem}
+.partner-meta{font-size:.65rem;color:var(--muted)}
+.partner-dot{display:inline-block;width:6px;height:6px;background:var(--green);border-radius:50%;margin-right:.35rem}
+
+.main-content{flex:1;overflow-y:auto;display:flex;flex-direction:column}
+
+/* ══ TOP BAR ══ */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0}
+.topbar-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700}
+.topbar-actions{display:flex;gap:.6rem}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted);padding:.5rem 1rem;font-family:'Instrument Sans',sans-serif;font-size:.78rem;cursor:pointer;transition:all .2s}
+.btn-ghost:hover{border-color:var(--border-hover);color:var(--text)}
+.btn-primary{background:var(--purple);color:#fff;border:none;padding:.5rem 1.2rem;font-family:'Instrument Sans',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:background .2s}
+.btn-primary:hover{background:var(--purple-d)}
+
+/* ══ SECTION TABS (inside main) ══ */
+.section-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 2rem;background:var(--surface);flex-shrink:0}
+.stab{padding:.7rem 1.1rem;font-size:.75rem;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;letter-spacing:.04em;transition:color .2s,border-color .2s;white-space:nowrap}
+.stab.active{color:var(--purple);border-bottom-color:var(--purple)}
+
+/* ══ FORM AREA ══ */
+.form-area{padding:2rem;flex:1}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:900px}
+
+.form-section{background:var(--card);border:1px solid var(--border);padding:1.5rem}
+.form-section-title{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.form-section-title::before{content:'';width:14px;height:2px;background:var(--purple)}
+
+.field-group{margin-bottom:1.1rem}
+.field-label{font-size:.63rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.4rem;display:block}
+.field-input{width:100%;background:var(--card2);border:1px solid var(--border);color:var(--text);padding:.65rem .85rem;font-family:'Instrument Sans',sans-serif;font-size:.85rem;outline:none;transition:border-color .2s}
+.field-input:focus{border-color:var(--border-hover)}
+.field-input::placeholder{color:var(--muted2)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.field-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.65rem}
+
+/* Type selector */
+.type-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:1.1rem}
+.type-btn{background:var(--card2);border:1px solid var(--border);padding:.7rem .4rem;cursor:pointer;text-align:center;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.type-btn:hover{border-color:var(--border-hover)}
+.type-btn.sel{background:var(--purple-light);border-color:var(--border-hover)}
+.type-btn-icon{font-size:1.2rem}
+.type-btn-label{font-size:.62rem;color:var(--muted);font-weight:500}
+.type-btn.sel .type-btn-label{color:var(--purple)}
+
+/* Toggle row */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:.6rem 0;border-bottom:1px solid var(--border)}
+.toggle-row:last-child{border-bottom:none}
+.toggle-info{}
+.toggle-name{font-size:.8rem}
+.toggle-sub{font-size:.63rem;color:var(--muted);margin-top:.1rem}
+.toggle{position:relative;width:38px;height:21px;cursor:pointer;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.toggle-track{position:absolute;inset:0;background:rgba(255,255,255,.08);border-radius:11px;transition:background .3s;border:1px solid var(--border)}
+.toggle input:checked + .toggle-track{background:var(--purple);border-color:var(--purple)}
+.toggle-thumb{position:absolute;width:15px;height:15px;background:#fff;border-radius:50%;top:2px;left:3px;transition:transform .3s;pointer-events:none}
+.toggle input:checked ~ .toggle-thumb{transform:translateX(17px)}
+
+/* Preview card */
+.preview-card{background:var(--card);border:1px solid var(--border);padding:1.5rem;height:fit-content;position:sticky;top:2rem}
+.preview-title{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.preview-title::before{content:'';width:14px;height:2px;background:var(--warm)}
+.preview-client{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.2rem;min-height:1.4rem;color:var(--text)}
+.preview-type{font-size:.72rem;color:var(--muted);margin-bottom:1.2rem;min-height:1rem}
+.preview-metric{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-bottom:1px solid var(--border)}
+.preview-metric:last-of-type{border-bottom:none}
+.preview-metric-label{font-size:.73rem;color:var(--muted)}
+.preview-metric-val{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
+.saving-highlight{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);padding:.75rem;margin:1rem 0}
+.saving-main{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;color:var(--green)}
+.saving-sub{font-size:.7rem;color:var(--muted);margin-top:.15rem}
+.devices-list{margin-top:1rem}
+.devices-title{font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem}
+.device-row{display:flex;align-items:center;gap:.6rem;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.75rem}
+.device-row:last-child{border-bottom:none}
+.device-qty{background:var(--purple-light);color:var(--purple);font-family:'Syne',sans-serif;font-weight:700;font-size:.75rem;width:22px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.device-name{flex:1}
+.device-price{color:var(--muted);font-size:.7rem}
+
+.generate-btn{width:100%;background:var(--purple);color:#fff;border:none;padding:1rem;font-family:'Instrument Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:background .2s;margin-top:1.2rem;letter-spacing:.03em;display:flex;align-items:center;justify-content:center;gap:.6rem}
+.generate-btn:hover{background:var(--purple-d)}
+.generate-btn:disabled{background:var(--muted2);cursor:not-allowed}
+
+/* ══ DEMOS LIST VIEW ══ */
+.demos-area{padding:2rem;flex:1}
+.demos-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.demos-count{font-size:.75rem;color:var(--muted)}
+.demos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem}
+.demo-card{background:var(--card);border:1px solid var(--border);padding:1.2rem;cursor:pointer;transition:border-color .2s,transform .15s}
+.demo-card:hover{border-color:var(--border-hover);transform:translateY(-1px)}
+.demo-card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.7rem}
+.demo-card-name{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700}
+.demo-card-status{font-size:.6rem;padding:.15rem .45rem;letter-spacing:.06em;text-transform:uppercase}
+.status-new{background:rgba(123,63,242,.12);color:var(--purple);border:1px solid rgba(123,63,242,.25)}
+.status-viewed{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.25)}
+.status-sent{background:rgba(255,179,71,.1);color:var(--warm);border:1px solid rgba(255,179,71,.25)}
+.demo-card-type{font-size:.7rem;color:var(--muted);margin-bottom:.9rem}
+.demo-card-metrics{display:flex;gap:1rem}
+.demo-card-metric{text-align:center}
+.demo-card-metric-val{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700}
+.demo-card-metric-label{font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.1rem}
+.demo-card-footer{display:flex;justify-content:space-between;align-items:center;margin-top:.9rem;padding-top:.75rem;border-top:1px solid var(--border);font-size:.68rem;color:var(--muted)}
+.demo-card-link{color:var(--purple);font-size:.68rem;cursor:pointer}
+
+/* Empty state */
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted)}
+.empty-icon{font-size:2.5rem;margin-bottom:1rem;opacity:.4}
+.empty-text{font-size:.85rem;margin-bottom:.4rem;color:var(--text)}
+.empty-sub{font-size:.75rem}
+
+/* ══ GENERATED OVERLAY ══ */
+#overlay-generated{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:100;display:none;align-items:center;justify-content:center}
+#overlay-generated.show{display:flex}
+.overlay-box{background:var(--card);border:1px solid var(--border-hover);padding:2rem;max-width:480px;width:90%;position:relative}
+.overlay-close{position:absolute;top:1rem;right:1rem;background:transparent;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer}
+.overlay-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.3rem}
+.overlay-sub{font-size:.78rem;color:var(--muted);margin-bottom:1.5rem}
+.overlay-link-box{background:rgba(123,63,242,.07);border:1px solid rgba(123,63,242,.25);padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem}
+.overlay-link-url{font-family:monospace;font-size:.78rem;color:rgba(123,63,242,.9);flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.overlay-copy-btn{background:var(--purple);color:#fff;border:none;padding:.4rem .8rem;font-family:'Instrument Sans',sans-serif;font-size:.75rem;cursor:pointer;white-space:nowrap}
+.overlay-actions{display:flex;gap:.75rem}
+.overlay-btn{flex:1;padding:.75rem;font-family:'Instrument Sans',sans-serif;font-size:.8rem;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s}
+.overlay-btn.primary{background:var(--purple);color:#fff;border:none}
+.overlay-btn.primary:hover{background:var(--purple-d)}
+.overlay-btn.secondary{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.overlay-btn.secondary:hover{border-color:var(--border-hover);color:var(--text)}
+
+/* ══ UTILS ══ */
+.badge-partner{display:inline-flex;align-items:center;gap:.3rem;font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);border:1px solid rgba(123,63,242,.25);padding:.2rem .55rem}
+.divider{height:1px;background:var(--border);margin:1rem 0}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     VIEW 1: LOGIN
+══════════════════════════════════════════ -->
+<div class="view active" id="view-login">
+  <div class="login-box">
+    <div class="login-logo">Sanzivi<span>.</span> Partner</div>
+    <div class="login-tagline">Herramienta exclusiva para diseñadores e interioristas</div>
+
+    <label class="login-label">Tu email profesional</label>
+    <input class="login-input" type="email" id="login-email" placeholder="carlos@estudio-bcn.com" value="carlos@estudio-bcn.com">
+
+    <label class="login-label">Contraseña</label>
+    <input class="login-input" type="password" id="login-pass" placeholder="••••••••" value="••••••••">
+
+    <button class="login-btn" onclick="doLogin()">Entrar al configurador →</button>
+
+    <div class="login-hint">¿Aún no tienes cuenta? Escríbenos a <span style="color:var(--purple)">partners@sanzivi.es</span></div>
+    <div class="login-powered">powered by sanzivi.es · instalador verificado Shelly</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     VIEW 2: MAIN APP
+══════════════════════════════════════════ -->
+<div class="view" id="view-main">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-text">Sanzivi<span>.</span></div>
+      <div class="sidebar-logo-sub">Partner Portal</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item active" onclick="showSection('nuevo')">
+        <span class="nav-icon">✦</span> Nueva demo
+      </div>
+      <div class="nav-item" onclick="showSection('demos')">
+        <span class="nav-icon">◫</span> Mis demos
+        <span style="margin-left:auto;background:var(--purple-light);color:var(--purple);font-size:.6rem;padding:.1rem .4rem;border-radius:2px" id="demos-count-badge">3</span>
+      </div>
+      <div class="nav-item" onclick="showSection('leads')">
+        <span class="nav-icon">◎</span> Leads activos
+        <span style="margin-left:auto;background:rgba(74,222,128,.1);color:var(--green);font-size:.6rem;padding:.1rem .4rem;border-radius:2px">1</span>
+      </div>
+    </nav>
+    <div class="sidebar-partner">
+      <div class="partner-name"><span class="partner-dot"></span>Carlos Morales</div>
+      <div class="partner-meta">Estudi BCN · Barcelona</div>
+      <div style="margin-top:.6rem"><span class="badge-partner">partner activo</span></div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main-content">
+
+    <!-- ── SECTION: NUEVA DEMO ── -->
+    <div id="section-nuevo">
+      <div class="topbar">
+        <div class="topbar-title">Nueva demo para cliente</div>
+        <div class="topbar-actions">
+          <button class="btn-ghost" onclick="resetForm()">↺ Limpiar</button>
+          <button class="btn-primary" onclick="generateDemo()">Generar demo →</button>
+        </div>
+      </div>
+
+      <div class="form-area">
+        <div class="form-grid">
+
+          <!-- LEFT: FORM -->
+          <div>
+            <!-- CLIENTE -->
+            <div class="form-section" style="margin-bottom:1rem">
+              <div class="form-section-title">Datos del cliente</div>
+              <div class="field-group">
+                <label class="field-label">Nombre del cliente o local</label>
+                <input class="field-input" id="f-nombre" placeholder="ej. Floristería Roser · Gràcia" oninput="updatePreview()">
+              </div>
+              <div class="field-group">
+                <label class="field-label">Tipo de local</label>
+                <div class="type-grid">
+                  <div class="type-btn sel" onclick="selectType(this,'tienda')">
+                    <div class="type-btn-icon">🛍</div>
+                    <div class="type-btn-label">Tienda</div>
+                  </div>
+                  <div class="type-btn" onclick="selectType(this,'restaurante')">
+                    <div class="type-btn-icon">🍽</div>
+                    <div class="type-btn-label">Restaurante</div>
+                  </div>
+                  <div class="type-btn" onclick="selectType(this,'oficina')">
+                    <div class="type-btn-icon">💼</div>
+                    <div class="type-btn-label">Oficina</div>
+                  </div>
+                  <div class="type-btn" onclick="selectType(this,'gym')">
+                    <div class="type-btn-icon">🏋</div>
+                    <div class="type-btn-label">Gimnasio</div>
+                  </div>
+                  <div class="type-btn" onclick="selectType(this,'hotel')">
+                    <div class="type-btn-icon">🏨</div>
+                    <div class="type-btn-label">Hotel</div>
+                  </div>
+                  <div class="type-btn" onclick="selectType(this,'clinica')">
+                    <div class="type-btn-icon">🏥</div>
+                    <div class="type-btn-label">Clínica</div>
+                  </div>
+                  <div class="type-btn" onclick="selectType(this,'bar')">
+                    <div class="type-btn-icon">☕</div>
+                    <div class="type-btn-label">Bar / Café</div>
+                  </div>
+                  <div class="type-btn" onclick="selectType(this,'otro')">
+                    <div class="type-btn-icon">🏢</div>
+                    <div class="type-btn-label">Otro</div>
+                  </div>
+                </div>
+              </div>
+              <div class="field-row">
+                <div class="field-group" style="margin-bottom:0">
+                  <label class="field-label">Superficie (m²)</label>
+                  <input class="field-input" id="f-m2" type="number" placeholder="65" oninput="updatePreview()">
+                </div>
+                <div class="field-group" style="margin-bottom:0">
+                  <label class="field-label">Nº puntos de luz</label>
+                  <input class="field-input" id="f-luces" type="number" placeholder="18" oninput="updatePreview()">
+                </div>
+              </div>
+            </div>
+
+            <!-- FACTURA -->
+            <div class="form-section" style="margin-bottom:1rem">
+              <div class="form-section-title">Factura eléctrica</div>
+              <div class="field-row-3">
+                <div class="field-group" style="margin-bottom:0">
+                  <label class="field-label">kWh / mes</label>
+                  <input class="field-input" id="f-kwh" type="number" placeholder="420" oninput="updatePreview()">
+                </div>
+                <div class="field-group" style="margin-bottom:0">
+                  <label class="field-label">€ / mes</label>
+                  <input class="field-input" id="f-euros" type="number" placeholder="189" oninput="updatePreview()">
+                </div>
+                <div class="field-group" style="margin-bottom:0">
+                  <label class="field-label">Tarifa (€/kWh)</label>
+                  <input class="field-input" id="f-tarifa" type="number" placeholder="0.22" step="0.01" oninput="updatePreview()">
+                </div>
+              </div>
+            </div>
+
+            <!-- ELEMENTOS -->
+            <div class="form-section">
+              <div class="form-section-title">Elementos del local</div>
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <div class="toggle-name">🚿 Baño con sensor de movimiento</div>
+                  <div class="toggle-sub">Shelly Motion → luz automática</div>
+                </div>
+                <label class="toggle"><input type="checkbox" id="f-bano" checked onchange="updatePreview()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+              </div>
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <div class="toggle-name">🔴 Cartel / rótulo exterior</div>
+                  <div class="toggle-sub">Shelly Plus 1PM → programación horaria</div>
+                </div>
+                <label class="toggle"><input type="checkbox" id="f-cartel" checked onchange="updatePreview()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+              </div>
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <div class="toggle-name">🚪 Puerta automática</div>
+                  <div class="toggle-sub">Shelly Plus 2PM → monitorización motor</div>
+                </div>
+                <label class="toggle"><input type="checkbox" id="f-puerta" checked onchange="updatePreview()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+              </div>
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <div class="toggle-name">🌡 Control de temperatura</div>
+                  <div class="toggle-sub">Shelly TRV → termostato inteligente</div>
+                </div>
+                <label class="toggle"><input type="checkbox" id="f-termo" checked onchange="updatePreview()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+              </div>
+              <div class="toggle-row">
+                <div class="toggle-info">
+                  <div class="toggle-name">💡 Dimmer en zonas con luz natural</div>
+                  <div class="toggle-sub">Shelly Dimmer 2PM → ahorro automático</div>
+                </div>
+                <label class="toggle"><input type="checkbox" id="f-dimmer" checked onchange="updatePreview()"><div class="toggle-track"></div><div class="toggle-thumb"></div></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: PREVIEW -->
+          <div>
+            <div class="preview-card">
+              <div class="preview-title">Resumen del proyecto</div>
+              <div class="preview-client" id="prev-nombre">—</div>
+              <div class="preview-type" id="prev-tipo">Completa el formulario para ver el resumen</div>
+
+              <div class="preview-metric">
+                <span class="preview-metric-label">Consumo actual</span>
+                <span class="preview-metric-val" style="color:#ff8a65" id="prev-kwh">— kWh/mes</span>
+              </div>
+              <div class="preview-metric">
+                <span class="preview-metric-label">Coste actual</span>
+                <span class="preview-metric-val" style="color:var(--muted)" id="prev-euros">— €/mes</span>
+              </div>
+              <div class="preview-metric">
+                <span class="preview-metric-label">Superficie</span>
+                <span class="preview-metric-val" style="color:var(--muted)" id="prev-m2">— m²</span>
+              </div>
+
+              <div class="saving-highlight">
+                <div class="saving-main" id="prev-saving">— €/mes</div>
+                <div class="saving-sub" id="prev-saving-pct">Ahorro estimado con domótica Shelly</div>
+              </div>
+
+              <div class="devices-list">
+                <div class="devices-title">Dispositivos recomendados</div>
+                <div id="devices-list-inner">
+                  <div style="font-size:.73rem;color:var(--muted2);padding:.4rem 0">Rellena el formulario para ver los dispositivos</div>
+                </div>
+              </div>
+
+              <div class="divider"></div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:.73rem">
+                <span style="color:var(--muted)">Presupuesto orientativo</span>
+                <span style="font-family:'Syne',sans-serif;font-weight:700;color:var(--purple)" id="prev-budget">—</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;font-size:.73rem;margin-top:.4rem">
+                <span style="color:var(--muted)">Tu comisión estimada</span>
+                <span style="font-family:'Syne',sans-serif;font-weight:700;color:var(--green)" id="prev-commission">—</span>
+              </div>
+
+              <button class="generate-btn" onclick="generateDemo()" id="gen-btn">
+                <span>✦</span> Generar demo interactiva
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: MIS DEMOS ── -->
+    <div id="section-demos" style="display:none;flex:1;flex-direction:column">
+      <div class="topbar">
+        <div class="topbar-title">Mis demos creadas</div>
+        <div class="topbar-actions">
+          <button class="btn-primary" onclick="showSection('nuevo')">+ Nueva demo</button>
+        </div>
+      </div>
+      <div class="demos-area">
+        <div class="demos-header">
+          <div class="demos-count" id="demos-total-label">3 demos creadas</div>
+        </div>
+        <div class="demos-grid" id="demos-grid">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SECTION: LEADS ── -->
+    <div id="section-leads" style="display:none;flex:1;flex-direction:column">
+      <div class="topbar">
+        <div class="topbar-title">Leads activos</div>
+      </div>
+      <div class="demos-area">
+        <div class="demo-card" style="max-width:420px;cursor:default">
+          <div class="demo-card-header">
+            <div>
+              <div class="demo-card-name">Floristería Roser</div>
+              <div class="demo-card-type">Tienda · Gràcia, Barcelona</div>
+            </div>
+            <div class="demo-card-status status-viewed">Vista 8 min</div>
+          </div>
+          <div style="font-size:.75rem;color:var(--muted);margin-bottom:.7rem">El cliente exploró la demo hace 2 horas. Interactuó con el termostato y el cartel.</div>
+          <div style="background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);padding:.65rem;font-size:.75rem">
+            <div style="color:var(--green);font-weight:600;margin-bottom:.2rem">✓ Lead cualificado — listo para contactar</div>
+            <div style="color:var(--muted)">Presupuesto aprox. 680€ · Comisión: 68€</div>
+          </div>
+          <div class="demo-card-footer">
+            <span>Creada hace 1 día</span>
+            <span style="color:var(--purple);cursor:pointer" onclick="alert('Abriendo demo...')">Ver demo →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end main-content -->
+</div><!-- end view-main -->
+
+<!-- ══ OVERLAY: DEMO GENERADA ══ -->
+<div id="overlay-generated">
+  <div class="overlay-box">
+    <button class="overlay-close" onclick="closeOverlay()">✕</button>
+    <div style="font-size:1.5rem;margin-bottom:.75rem">✦</div>
+    <div class="overlay-title">¡Demo generada!</div>
+    <div class="overlay-sub" id="overlay-client-name">Lista para compartir con tu cliente</div>
+
+    <div class="overlay-link-box">
+      <div class="overlay-link-url" id="overlay-url">sanzivi.es/demo/—</div>
+      <button class="overlay-copy-btn" onclick="copyLink()">Copiar link</button>
+    </div>
+
+    <div class="overlay-actions">
+      <button class="overlay-btn primary" onclick="openDemo()" id="open-demo-btn">
+        📺 Abrir demo ahora
+      </button>
+      <button class="overlay-btn secondary" onclick="closeOverlay()">
+        Guardar y cerrar
+      </button>
+    </div>
+
+    <div style="margin-top:1.2rem;font-size:.68rem;color:var(--muted2);text-align:center">
+      El link es único para este cliente · caduca en 30 días · powered by sanzivi.es
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ──
+let currentType = 'tienda';
+let generatedUrl = '';
+
+const typeLabels = {
+  tienda:'Tienda / Comercio', restaurante:'Restaurante', oficina:'Oficina',
+  gym:'Gimnasio', hotel:'Hotel', clinica:'Clínica', bar:'Bar / Café', otro:'Local comercial'
+};
+
+// ── SAMPLE DEMOS DATA ──
+const sampleDemos = [
+  {nombre:'Floristería Roser', tipo:'tienda', m2:65, kwh:420, euros:189, saving:64, budget:680, status:'viewed', date:'hace 1 día'},
+  {nombre:'Restaurante El Born', tipo:'restaurante', m2:120, kwh:890, euros:398, saving:138, budget:1250, status:'sent', date:'hace 3 días'},
+  {nombre:'Estudio Pilates Gràcia', tipo:'gym', m2:85, kwh:560, euros:251, saving:87, budget:920, status:'new', date:'hace 5 días'},
+];
+
+// ── LOGIN ──
+function doLogin() {
+  const email = document.getElementById('login-email').value;
+  if (!email) return;
+  document.getElementById('view-login').classList.remove('active');
+  document.getElementById('view-main').classList.add('active');
+  renderDemos();
+}
+
+// ── NAVIGATION ──
+function showSection(name) {
+  ['nuevo','demos','leads'].forEach(s => {
+    document.getElementById('section-'+s).style.display = 'none';
+  });
+  document.querySelectorAll('.nav-item').forEach((n,i) => {
+    n.classList.toggle('active', ['nuevo','demos','leads'][i] === name);
+  });
+  const el = document.getElementById('section-'+name);
+  el.style.display = name === 'nuevo' ? 'block' : 'flex';
+}
+
+// ── TYPE SELECT ──
+function selectType(btn, type) {
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+  currentType = type;
+  updatePreview();
+}
+
+// ── PREVIEW CALC ──
+function updatePreview() {
+  const nombre = document.getElementById('f-nombre').value;
+  const kwh    = parseFloat(document.getElementById('f-kwh').value) || 0;
+  const euros  = parseFloat(document.getElementById('f-euros').value) || 0;
+  const m2     = parseFloat(document.getElementById('f-m2').value) || 0;
+  const luces  = parseFloat(document.getElementById('f-luces').value) || 0;
+  const bano   = document.getElementById('f-bano').checked;
+  const cartel = document.getElementById('f-cartel').checked;
+  const puerta = document.getElementById('f-puerta').checked;
+  const termo  = document.getElementById('f-termo').checked;
+  const dimmer = document.getElementById('f-dimmer').checked;
+  const tarifa = parseFloat(document.getElementById('f-tarifa').value) || 0.22;
+
+  // Nombre
+  document.getElementById('prev-nombre').textContent = nombre || '—';
+  document.getElementById('prev-tipo').textContent = nombre ? typeLabels[currentType] + (m2 ? ' · ' + m2 + ' m²' : '') : 'Completa el formulario para ver el resumen';
+
+  if (!kwh) {
+    ['prev-kwh','prev-euros','prev-m2','prev-saving','prev-budget','prev-commission'].forEach(id => {
+      const map = {'prev-kwh':'— kWh/mes','prev-euros':'— €/mes','prev-m2':'— m²','prev-saving':'— €/mes','prev-budget':'—','prev-commission':'—'};
+      document.getElementById(id).textContent = map[id];
+    });
+    document.getElementById('prev-saving-pct').textContent = 'Ahorro estimado con domótica Shelly';
+    document.getElementById('devices-list-inner').innerHTML = '<div style="font-size:.73rem;color:var(--muted2);padding:.4rem 0">Rellena el formulario para ver los dispositivos</div>';
+    return;
+  }
+
+  // Saving estimate — base 28-38% depending on elements
+  let savingPct = 0.24;
+  if (dimmer) savingPct += 0.07;
+  if (bano)   savingPct += 0.04;
+  if (cartel) savingPct += 0.05;
+  if (termo)  savingPct += 0.06;
+  savingPct = Math.min(savingPct, 0.46);
+
+  const savingEuros = Math.round(euros * savingPct);
+  const savingKwh   = Math.round(kwh   * savingPct);
+
+  document.getElementById('prev-kwh').textContent    = kwh + ' kWh/mes';
+  document.getElementById('prev-euros').textContent  = euros + ' €/mes';
+  document.getElementById('prev-m2').textContent     = m2 ? m2 + ' m²' : '— m²';
+  document.getElementById('prev-saving').textContent = savingEuros + ' €/mes';
+  document.getElementById('prev-saving-pct').textContent = '▼ ' + Math.round(savingPct*100) + '% menos en tu factura · ' + savingKwh + ' kWh ahorrados';
+
+  // Devices
+  const devices = calcDevices(luces, bano, cartel, puerta, termo, dimmer);
+  renderDevices(devices);
+
+  // Budget
+  const mat = devices.reduce((a,d) => a + d.price*d.qty, 0);
+  const install = Math.round(mat * 0.85);
+  const total = mat + install;
+  const commission = Math.round(total * 0.10);
+  document.getElementById('prev-budget').textContent    = '~' + total + ' €';
+  document.getElementById('prev-commission').textContent = '~' + commission + ' €';
+}
+
+function calcDevices(luces, bano, cartel, puerta, termo, dimmer) {
+  const devs = [];
+  const zones = Math.max(1, Math.round((luces || 12) / 4));
+  if (dimmer) devs.push({icon:'💡', name:'Shelly Dimmer 2PM', qty:zones, price:38});
+  else        devs.push({icon:'💡', name:'Shelly Plus 1PM', qty:Math.max(1,Math.ceil(zones/2)), price:28});
+  if (termo)  devs.push({icon:'🌡', name:'Shelly TRV', qty:1, price:65});
+  if (bano)   devs.push({icon:'🔮', name:'Shelly Motion', qty:1, price:32});
+  if (cartel) devs.push({icon:'🔴', name:'Shelly Plus 1PM (cartel)', qty:1, price:28});
+  if (puerta) devs.push({icon:'🚪', name:'Shelly Plus 2PM (puerta)', qty:1, price:42});
+  if (puerta) devs.push({icon:'🔒', name:'Shelly Door/Window 2', qty:1, price:28});
+  return devs;
+}
+
+function renderDevices(devices) {
+  const el = document.getElementById('devices-list-inner');
+  if (!devices.length) { el.innerHTML = '<div style="font-size:.73rem;color:var(--muted2)">Sin dispositivos seleccionados</div>'; return; }
+  el.innerHTML = devices.map(d => `
+    <div class="device-row">
+      <div class="device-qty">${d.qty}</div>
+      <div class="device-name">${d.icon} ${d.name}</div>
+      <div class="device-price">~${d.price}€/u</div>
+    </div>`).join('');
+}
+
+// ── GENERATE DEMO ──
+function generateDemo() {
+  const nombre = document.getElementById('f-nombre').value || 'Cliente';
+  const kwh    = document.getElementById('f-kwh').value || '0';
+  const euros  = document.getElementById('f-euros').value || '0';
+  const m2     = document.getElementById('f-m2').value || '0';
+  const luces  = document.getElementById('f-luces').value || '12';
+  const bano   = document.getElementById('f-bano').checked ? 'si' : 'no';
+  const cartel = document.getElementById('f-cartel').checked ? 'si' : 'no';
+  const puerta = document.getElementById('f-puerta').checked ? 'si' : 'no';
+  const termo  = document.getElementById('f-termo').checked ? 'si' : 'no';
+  const dimmer = document.getElementById('f-dimmer').checked ? 'si' : 'no';
+
+  const slug = nombre.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'').slice(0,20);
+  const code = Math.random().toString(36).slice(2,6);
+
+  const params = new URLSearchParams({
+    cliente: nombre, tipo: currentType, kwh, euros, m2, luces, bano, cartel, puerta, termo, dimmer
+  });
+
+  generatedUrl = `sanzivi-demo-shelly.html?${params.toString()}`;
+
+  document.getElementById('overlay-url').textContent = `sanzivi.es/demo/${slug}-${code}`;
+  document.getElementById('overlay-client-name').textContent = `Demo lista para "${nombre}"`;
+  document.getElementById('open-demo-btn').onclick = () => { window.open(generatedUrl,'_blank'); };
+  document.getElementById('overlay-generated').classList.add('show');
+
+  // Add to demos list
+  const kwhn = parseFloat(kwh)||0, eurosn = parseFloat(euros)||0;
+  const savingPct = 0.28 + (dimmer==='si'?.07:0) + (bano==='si'?.04:0) + (cartel==='si'?.05:0) + (termo==='si'?.06:0);
+  sampleDemos.unshift({
+    nombre, tipo:currentType, m2:parseFloat(m2)||0, kwh:kwhn, euros:eurosn,
+    saving:Math.round(eurosn*savingPct), budget: 0, status:'new', date:'ahora mismo',
+    url: generatedUrl
+  });
+  document.getElementById('demos-count-badge').textContent = sampleDemos.length;
+  document.getElementById('demos-total-label').textContent = sampleDemos.length + ' demos creadas';
+  renderDemos();
+}
+
+function openDemo() { window.open(generatedUrl,'_blank'); }
+
+function closeOverlay() {
+  document.getElementById('overlay-generated').classList.remove('show');
+}
+
+function copyLink() {
+  const url = document.getElementById('overlay-url').textContent;
+  navigator.clipboard.writeText(url).catch(()=>{});
+  const btn = document.querySelector('.overlay-copy-btn');
+  btn.textContent = '✓ Copiado';
+  setTimeout(()=>btn.textContent='Copiar link', 2000);
+}
+
+// ── DEMOS LIST ──
+function renderDemos() {
+  const grid = document.getElementById('demos-grid');
+  if (!sampleDemos.length) {
+    grid.innerHTML = `<div class="empty-state"><div class="empty-icon">◫</div><div class="empty-text">Aún no has creado ninguna demo</div><div class="empty-sub">Crea tu primera demo para un cliente</div></div>`;
+    return;
+  }
+  const statusMap = {new:'status-new',viewed:'status-viewed',sent:'status-sent'};
+  const statusLabel = {new:'Nueva',viewed:'Vista',sent:'Enviada'};
+  grid.innerHTML = sampleDemos.map((d,i) => `
+    <div class="demo-card" onclick="openDemoCard(${i})">
+      <div class="demo-card-header">
+        <div>
+          <div class="demo-card-name">${d.nombre}</div>
+          <div class="demo-card-type">${typeLabels[d.tipo]||d.tipo}${d.m2?' · '+d.m2+' m²':''}</div>
+        </div>
+        <div class="demo-card-status ${statusMap[d.status]}">${statusLabel[d.status]}</div>
+      </div>
+      <div class="demo-card-metrics">
+        <div class="demo-card-metric">
+          <div class="demo-card-metric-val" style="color:#ff8a65">${d.kwh||'—'}</div>
+          <div class="demo-card-metric-label">kWh/mes</div>
+        </div>
+        <div class="demo-card-metric">
+          <div class="demo-card-metric-val" style="color:var(--green)">${d.saving?'-'+d.saving+'€':'—'}</div>
+          <div class="demo-card-metric-label">Ahorro/mes</div>
+        </div>
+        <div class="demo-card-metric">
+          <div class="demo-card-metric-val" style="color:var(--purple)">${d.euros||'—'}</div>
+          <div class="demo-card-metric-label">€ factura</div>
+        </div>
+      </div>
+      <div class="demo-card-footer">
+        <span>Creada ${d.date}</span>
+        <span class="demo-card-link">Abrir demo →</span>
+      </div>
+    </div>`).join('');
+}
+
+function openDemoCard(i) {
+  const d = sampleDemos[i];
+  if (d.url) { window.open(d.url,'_blank'); return; }
+  const params = new URLSearchParams({cliente:d.nombre,tipo:d.tipo,kwh:d.kwh,euros:d.euros,m2:d.m2});
+  window.open('sanzivi-demo-shelly.html?'+params.toString(),'_blank');
+}
+
+// ── RESET ──
+function resetForm() {
+  ['f-nombre','f-kwh','f-euros','f-m2','f-luces','f-tarifa'].forEach(id => document.getElementById(id).value='');
+  ['f-bano','f-cartel','f-puerta','f-termo','f-dimmer'].forEach(id => document.getElementById(id).checked=true);
+  document.querySelectorAll('.type-btn').forEach((b,i)=>b.classList.toggle('sel',i===0));
+  currentType='tienda';
+  updatePreview();
+}
+</script>
+</body>
+</html>
