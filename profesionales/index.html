@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanzivi · Configurador — Flujo</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Instrument+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#09090f;--surface:#111118;--card:#17171f;--border:rgba(255,255,255,0.07);
+  --purple:#7B3FF2;--purple-d:#5f28cc;--purple-glow:rgba(123,63,242,0.2);
+  --warm:#ffb347;--cool:#4fc3f7;--green:#4ade80;--text:#f0f0f8;--muted:#6b6b88;
+}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+header{display:flex;align-items:center;justify-content:space-between;padding:1.1rem 2.5rem;border-bottom:1px solid var(--border);background:var(--surface)}
+.logo{font-family:'Syne',sans-serif;font-size:1.15rem;font-weight:800;letter-spacing:-.02em}
+.logo span{color:var(--purple)}
+.powered{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:.25rem .7rem}
+
+/* ── FLOW WRAPPER ── */
+.flow-page{max-width:1100px;margin:0 auto;padding:3rem 2rem}
+.flow-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:.4rem}
+.flow-subtitle{font-size:.9rem;color:var(--muted);margin-bottom:3rem;max-width:520px;line-height:1.6}
+
+/* ── STEPS ROW ── */
+.steps-row{display:flex;align-items:flex-start;gap:0;margin-bottom:4rem;position:relative}
+.step-connector{flex:1;height:2px;background:linear-gradient(to right,var(--purple),rgba(123,63,242,.15));margin-top:28px;min-width:20px}
+.step-connector.faded{background:linear-gradient(to right,rgba(123,63,242,.15),rgba(123,63,242,.05))}
+
+.step{display:flex;flex-direction:column;align-items:center;gap:.7rem;flex-shrink:0;width:140px}
+.step-num{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;position:relative;z-index:1}
+.step-num.active{background:var(--purple);box-shadow:0 0 0 8px rgba(123,63,242,.12),0 0 32px rgba(123,63,242,.3)}
+.step-num.done{background:rgba(74,222,128,.15);color:var(--green);border:2px solid rgba(74,222,128,.3)}
+.step-num.pending{background:var(--card);color:var(--muted);border:1px solid var(--border)}
+.step-label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;text-align:center;line-height:1.4}
+.step-label.active{color:var(--purple)}
+.step-label.done{color:var(--green)}
+.step-label.pending{color:var(--muted)}
+.step-desc{font-size:.68rem;color:var(--muted);text-align:center;line-height:1.4;max-width:110px}
+
+/* ── SCREEN MOCKUPS ── */
+.screens-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:3rem}
+
+.screen-card{background:var(--card);border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s;position:relative}
+.screen-card:hover{border-color:rgba(123,63,242,.4);transform:translateY(-2px)}
+.screen-card.highlight{border-color:rgba(123,63,242,.5);box-shadow:0 0 24px rgba(123,63,242,.12)}
+.screen-tag{position:absolute;top:.7rem;left:.7rem;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;background:var(--purple);color:#fff;padding:.2rem .5rem;z-index:2}
+.screen-tag.green{background:rgba(74,222,128,.2);color:var(--green);border:1px solid rgba(74,222,128,.3)}
+.screen-tag.orange{background:rgba(255,179,71,.15);color:var(--warm);border:1px solid rgba(255,179,71,.3)}
+
+.screen-preview{height:220px;display:flex;flex-direction:column;padding:2rem 1.5rem 1.5rem;position:relative;overflow:hidden}
+.screen-preview::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 60%,var(--card));pointer-events:none}
+
+.screen-info{padding:1.1rem 1.4rem;border-top:1px solid var(--border)}
+.screen-name{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.25rem}
+.screen-desc{font-size:.73rem;color:var(--muted);line-height:1.5}
+
+/* ── SCREEN 1: LOGIN/ACCESO ── */
+.s1-logo{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;margin-bottom:1.5rem;opacity:.9}
+.s1-logo span{color:var(--purple)}
+.s1-field{height:28px;background:rgba(255,255,255,.05);border:1px solid var(--border);margin-bottom:.5rem;border-radius:2px;padding:0 .6rem;display:flex;align-items:center;font-size:.68rem;color:var(--muted)}
+.s1-btn{height:28px;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:600;color:#fff;margin-top:.4rem;border-radius:2px}
+.s1-powered{font-size:.55rem;color:var(--muted);text-align:center;margin-top:.8rem;letter-spacing:.08em;text-transform:uppercase}
+
+/* ── SCREEN 2: FORMULARIO ── */
+.s2-title{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;margin-bottom:1rem;opacity:.9}
+.s2-row{display:flex;gap:.4rem;margin-bottom:.4rem}
+.s2-field{flex:1;height:22px;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:2px;display:flex;align-items:center;padding:0 .5rem;font-size:.58rem;color:var(--muted)}
+.s2-field.filled{border-color:rgba(123,63,242,.3);color:var(--text);background:rgba(123,63,242,.05)}
+.s2-label{font-size:.55rem;color:var(--muted);margin-bottom:.15rem;letter-spacing:.06em;text-transform:uppercase}
+.s2-types{display:flex;gap:.3rem;margin-bottom:.6rem}
+.s2-type{flex:1;height:28px;background:rgba(255,255,255,.03);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--muted);border-radius:2px;flex-direction:column;gap:.1rem}
+.s2-type.sel{background:rgba(123,63,242,.1);border-color:rgba(123,63,242,.4);color:var(--purple)}
+.s2-type span{font-size:.8rem}
+.s2-progress{height:2px;background:var(--border);margin-top:.8rem;border-radius:1px}
+.s2-progress-fill{height:100%;width:60%;background:var(--purple);border-radius:1px}
+
+/* ── SCREEN 3: DEMO GENERADA ── */
+.s3-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.7rem}
+.s3-client{font-family:'Syne',sans-serif;font-size:.72rem;font-weight:700}
+.s3-badge{font-size:.52rem;background:rgba(74,222,128,.15);color:var(--green);border:1px solid rgba(74,222,128,.3);padding:.15rem .4rem;letter-spacing:.06em;text-transform:uppercase}
+.s3-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:.3rem;margin-bottom:.7rem}
+.s3-metric{background:rgba(255,255,255,.03);border:1px solid var(--border);padding:.35rem .4rem;text-align:center}
+.s3-metric-val{font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700}
+.s3-metric-label{font-size:.5rem;color:var(--muted);margin-top:.1rem;letter-spacing:.05em;text-transform:uppercase}
+.s3-bar-row{display:flex;align-items:center;gap:.4rem;margin-bottom:.25rem}
+.s3-bar-label{font-size:.55rem;color:var(--muted);width:52px;flex-shrink:0}
+.s3-bar-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
+.s3-bar-fill{height:100%;border-radius:2px}
+.s3-bar-val{font-size:.55rem;width:28px;text-align:right;flex-shrink:0}
+.s3-devices{display:flex;gap:.3rem;margin-top:.6rem}
+.s3-device{flex:1;background:rgba(255,255,255,.03);border:1px solid var(--border);padding:.3rem .35rem;font-size:.52rem;color:var(--muted);text-align:center;line-height:1.4}
+.s3-device span{display:block;font-size:.85rem;margin-bottom:.1rem}
+
+/* ── SCREEN 4: COMPARTIR ── */
+.s4-title{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.8rem}
+.s4-option{display:flex;align-items:center;gap:.6rem;background:rgba(255,255,255,.03);border:1px solid var(--border);padding:.5rem .65rem;margin-bottom:.35rem;border-radius:2px;cursor:pointer}
+.s4-option:hover{border-color:rgba(123,63,242,.3)}
+.s4-option-icon{font-size:1rem;flex-shrink:0}
+.s4-option-text{font-size:.65rem;color:var(--muted)}
+.s4-option-text strong{display:block;color:var(--text);font-size:.7rem;margin-bottom:.05rem}
+.s4-link-box{background:rgba(123,63,242,.06);border:1px solid rgba(123,63,242,.2);padding:.45rem .65rem;margin-top:.5rem;display:flex;align-items:center;gap:.5rem}
+.s4-link-url{font-size:.6rem;color:rgba(123,63,242,.8);font-family:monospace;flex:1;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.s4-copy{font-size:.58rem;color:var(--purple);border:1px solid rgba(123,63,242,.3);padding:.15rem .4rem;white-space:nowrap;cursor:pointer}
+.s4-powered{font-size:.55rem;color:var(--muted);text-align:center;margin-top:.7rem;letter-spacing:.06em}
+
+/* ── SCREEN 5: INSTALACIÓN ── */
+.s5-title{font-family:'Syne',sans-serif;font-size:.8rem;font-weight:700;margin-bottom:.7rem}
+.s5-lead{background:rgba(74,222,128,.07);border:1px solid rgba(74,222,128,.2);padding:.6rem;margin-bottom:.5rem}
+.s5-lead-name{font-size:.72rem;font-weight:600;color:var(--green);margin-bottom:.15rem}
+.s5-lead-meta{font-size:.6rem;color:var(--muted)}
+.s5-devices{font-size:.62rem;color:var(--muted);margin-bottom:.4rem;padding:.4rem .5rem;background:rgba(255,255,255,.03);border:1px solid var(--border)}
+.s5-devices strong{color:var(--text);display:block;margin-bottom:.15rem;font-size:.65rem}
+.s5-commission{display:flex;justify-content:space-between;align-items:center;background:rgba(123,63,242,.07);border:1px solid rgba(123,63,242,.2);padding:.4rem .5rem;font-size:.62rem;margin-top:.4rem}
+.s5-commission strong{color:var(--purple);font-family:'Syne',sans-serif;font-size:.85rem}
+
+/* ── VALUE PROPS ── */
+.value-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:1rem}
+.value-card{background:var(--card);border:1px solid var(--border);padding:1.2rem 1.1rem}
+.value-icon{font-size:1.4rem;margin-bottom:.6rem}
+.value-title{font-family:'Syne',sans-serif;font-size:.82rem;font-weight:700;margin-bottom:.3rem}
+.value-text{font-size:.72rem;color:var(--muted);line-height:1.55}
+
+/* ── SECTION LABEL ── */
+.section-label{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.section-label::before{content:'';width:16px;height:1px;background:var(--purple)}
+
+/* ── CTA ── */
+.cta-row{display:flex;align-items:center;gap:1rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.cta-btn{background:var(--purple);color:#fff;border:none;padding:.9rem 2rem;font-family:'Instrument Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;letter-spacing:.02em;transition:background .2s}
+.cta-btn:hover{background:var(--purple-d)}
+.cta-secondary{font-size:.8rem;color:var(--muted)}
+.cta-secondary strong{color:var(--text)}
+</style>
+</head>
+<body>
+
+<header>
+  <div style="display:flex;align-items:center;gap:1.2rem;">
+    <a href="https://sanzivi.es" style="display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:.3rem .75rem;transition:color .2s,border-color .2s;" onmouseover="this.style.color='#fff';this.style.borderColor='rgba(255,255,255,0.3)'" onmouseout="this.style.color='';this.style.borderColor=''">← Sanzivi.es</a>
+    <div class="logo">Sanzivi<span>.</span> Partner</div>
+  </div>
+  <div class="powered">Herramienta para diseñadores · powered by Sanzivi</div>
+</header>
+
+<div class="flow-page">
+
+  <div class="flow-title">Así funciona la herramienta</div>
+  <div class="flow-subtitle">El diseñador introduce los datos del local de su cliente en 2 minutos. La herramienta genera una demo personalizada con sus números reales. Tú instalas, todos ganan.</div>
+
+  <!-- STEPS -->
+  <div class="steps-row">
+    <div class="step">
+      <div class="step-num done">✓</div>
+      <div class="step-label done">Acceso</div>
+      <div class="step-desc">El diseñador entra con su cuenta partner</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <div class="step-num active" style="color:#fff">2</div>
+      <div class="step-label active">Configurar</div>
+      <div class="step-desc">Introduce datos del local del cliente</div>
+    </div>
+    <div class="step-connector"></div>
+    <div class="step">
+      <div class="step-num pending">3</div>
+      <div class="step-label pending">Demo generada</div>
+      <div class="step-desc">Demo interactiva con números reales</div>
+    </div>
+    <div class="step-connector faded"></div>
+    <div class="step">
+      <div class="step-num pending">4</div>
+      <div class="step-label pending">Compartir</div>
+      <div class="step-desc">Link o reunión presencial</div>
+    </div>
+    <div class="step-connector faded"></div>
+    <div class="step">
+      <div class="step-num pending">5</div>
+      <div class="step-label pending">Instalación</div>
+      <div class="step-desc">Lead llega a Sanzivi, tú instalas</div>
+    </div>
+  </div>
+
+  <!-- SCREEN MOCKUPS -->
+  <div class="section-label">Pantallas de la herramienta</div>
+  <div class="screens-grid">
+
+    <!-- Screen 1: Acceso -->
+    <div class="screen-card">
+      <div class="screen-tag green">Paso 1</div>
+      <div class="screen-preview" style="background:linear-gradient(135deg,#0e0e14,#12121a);justify-content:center;align-items:center">
+        <div style="width:100%;max-width:180px">
+          <div class="s1-logo">Sanzivi<span>.</span> Partner</div>
+          <div class="s2-label">Tu email</div>
+          <div class="s1-field"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="debdbfacb2b1ad9ebbadaaabbab7b1f3bcbdb0f0bdb1b3">[email&#160;protected]</a></div>
+          <div class="s2-label">Contraseña</div>
+          <div class="s1-field">••••••••</div>
+          <div class="s1-btn">Entrar</div>
+          <div class="s1-powered">powered by sanzivi.es</div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Acceso partner</div>
+        <div class="screen-desc">Cada diseñador tiene su cuenta. Ve su historial de demos creadas y leads generados.</div>
+      </div>
+    </div>
+
+    <!-- Screen 2: Formulario -->
+    <div class="screen-card highlight">
+      <div class="screen-tag">Paso 2 · Clave</div>
+      <div class="screen-preview" style="background:linear-gradient(135deg,#0e0e16,#14141e)">
+        <div class="s2-title">Nuevo proyecto</div>
+        <div class="s2-label">Nombre del cliente</div>
+        <div class="s2-field filled" style="margin-bottom:.5rem">Floristería Roser · Gràcia</div>
+        <div class="s2-label">Tipo de local</div>
+        <div class="s2-types">
+          <div class="s2-type"><span>🌸</span>Tienda</div>
+          <div class="s2-type sel"><span>🍽</span>Restaur.</div>
+          <div class="s2-type"><span>💼</span>Oficina</div>
+          <div class="s2-type"><span>🏋</span>Gym</div>
+        </div>
+        <div class="s2-row">
+          <div>
+            <div class="s2-label">m²</div>
+            <div class="s2-field filled">65 m²</div>
+          </div>
+          <div>
+            <div class="s2-label">kWh/mes</div>
+            <div class="s2-field filled">420 kWh</div>
+          </div>
+          <div>
+            <div class="s2-label">€/mes</div>
+            <div class="s2-field filled">189 €</div>
+          </div>
+        </div>
+        <div class="s2-row">
+          <div>
+            <div class="s2-label">Puntos de luz</div>
+            <div class="s2-field filled">18</div>
+          </div>
+          <div>
+            <div class="s2-label">¿Baño?</div>
+            <div class="s2-field filled">Sí</div>
+          </div>
+          <div>
+            <div class="s2-label">¿Cartel?</div>
+            <div class="s2-field filled">Sí</div>
+          </div>
+        </div>
+        <div class="s2-progress"><div class="s2-progress-fill"></div></div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Configurador de local</div>
+        <div class="screen-desc">Datos de la factura + tipo de local. Se rellena en 2 minutos, sin tecnicismos.</div>
+      </div>
+    </div>
+
+    <!-- Screen 3: Demo generada -->
+    <div class="screen-card">
+      <div class="screen-tag orange">Paso 3</div>
+      <div class="screen-preview" style="background:#0e0e12;padding:1rem">
+        <div class="s3-header">
+          <div class="s3-client">Floristería Roser</div>
+          <div class="s3-badge">✓ Personalizada</div>
+        </div>
+        <div class="s3-metrics">
+          <div class="s3-metric">
+            <div class="s3-metric-val" style="color:#ff8a65">420<span style="font-size:.5rem">kWh</span></div>
+            <div class="s3-metric-label">Consumo actual</div>
+          </div>
+          <div class="s3-metric">
+            <div class="s3-metric-val" style="color:var(--green)">-34%</div>
+            <div class="s3-metric-label">Ahorro estimado</div>
+          </div>
+          <div class="s3-metric">
+            <div class="s3-metric-val" style="color:var(--purple)">64€</div>
+            <div class="s3-metric-label">Ahorro/mes</div>
+          </div>
+        </div>
+        <div class="s3-bar-row">
+          <span class="s3-bar-label">Iluminación</span>
+          <div class="s3-bar-track"><div class="s3-bar-fill" style="width:65%;background:var(--warm)"></div></div>
+          <span class="s3-bar-val" style="color:var(--warm)">0.6kW</span>
+        </div>
+        <div class="s3-bar-row">
+          <span class="s3-bar-label">Calefacción</span>
+          <div class="s3-bar-track"><div class="s3-bar-fill" style="width:75%;background:#ff8a65"></div></div>
+          <span class="s3-bar-val" style="color:#ff8a65">1.8kW</span>
+        </div>
+        <div class="s3-bar-row">
+          <span class="s3-bar-label">Cartel</span>
+          <div class="s3-bar-track"><div class="s3-bar-fill" style="width:20%;background:#ff4466"></div></div>
+          <span class="s3-bar-val" style="color:#ff4466">0.15kW</span>
+        </div>
+        <div class="s3-devices">
+          <div class="s3-device"><span>🌡</span>Shelly TRV<br>×1</div>
+          <div class="s3-device"><span>💡</span>Shelly Dimmer<br>×6</div>
+          <div class="s3-device"><span>🔮</span>Motion<br>×1</div>
+          <div class="s3-device"><span>⚡</span>2PM<br>×2</div>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Demo personalizada</div>
+        <div class="screen-desc">La demo interactiva se genera con los números reales del cliente. Consumo, ahorro y dispositivos exactos.</div>
+      </div>
+    </div>
+
+    <!-- Screen 4: Compartir -->
+    <div class="screen-card">
+      <div class="screen-tag green">Paso 4</div>
+      <div class="screen-preview" style="background:#0e0e12;padding:1.2rem">
+        <div class="s4-title">Compartir con cliente</div>
+        <div class="s4-option">
+          <div class="s4-option-icon">🔗</div>
+          <div class="s4-option-text"><strong>Link directo</strong>Enviar por WhatsApp o email</div>
+        </div>
+        <div class="s4-option" style="border-color:rgba(123,63,242,.3);background:rgba(123,63,242,.06)">
+          <div class="s4-option-icon">📺</div>
+          <div class="s4-option-text"><strong>Modo presentación</strong>Abrir en pantalla grande en reunión</div>
+        </div>
+        <div class="s4-option">
+          <div class="s4-option-icon">📋</div>
+          <div class="s4-option-text"><strong>Incrustar en tu web</strong>iframe con tu marca</div>
+        </div>
+        <div class="s4-link-box">
+          <span class="s4-link-url">sanzivi.es/demo/floristeriaroser-a8f2</span>
+          <span class="s4-copy">Copiar</span>
+        </div>
+        <div class="s4-powered">powered by sanzivi.es · caduca en 30 días</div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Compartir la demo</div>
+        <div class="screen-desc">Link único por cliente. El diseñador la comparte, la presenta o la incrusta. Sanzivi siempre visible.</div>
+      </div>
+    </div>
+
+    <!-- Screen 5: Lead a Sanzivi -->
+    <div class="screen-card">
+      <div class="screen-tag">Paso 5</div>
+      <div class="screen-preview" style="background:#0e0e12;padding:1.2rem">
+        <div class="s5-title">Nuevo lead recibido 🎉</div>
+        <div class="s5-lead">
+          <div class="s5-lead-name">✓ Floristería Roser · Gràcia</div>
+          <div class="s5-lead-meta">Diseñador: Carlos Estudi BCN · hace 2h<br>El cliente exploró la demo 8 minutos</div>
+        </div>
+        <div class="s5-devices">
+          <strong>Dispositivos calculados</strong>
+          1× Shelly TRV · 6× Shelly Dimmer 2PM · 1× Shelly Motion · 1× Shelly Plus 1PM
+        </div>
+        <div style="font-size:.62rem;color:var(--muted);padding:.35rem .5rem;background:rgba(255,255,255,.03);border:1px solid var(--border);margin-bottom:.35rem">
+          <strong style="color:var(--text);display:block;margin-bottom:.1rem">Presupuesto orientativo</strong>
+          Material: ~380€ · Instalación: ~320€ · Total: ~700€
+        </div>
+        <div class="s5-commission">
+          <span>Comisión diseñador</span>
+          <strong>70€ <span style="font-size:.6rem;font-weight:400;color:var(--muted)">al cerrar</span></strong>
+        </div>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Lead cualificado</div>
+        <div class="screen-desc">Recibes el lead con todo calculado. El cliente ya vio su ahorro. La venta está casi cerrada.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- VALUE PROPS -->
+  <div class="section-label">Por qué funciona este modelo</div>
+  <div class="value-grid">
+    <div class="value-card">
+      <div class="value-icon">🎯</div>
+      <div class="value-title">Lead cualificado</div>
+      <div class="value-text">El cliente ya vio su ahorro real antes de hablar contigo. Llegas a la instalación, no a convencer.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🤝</div>
+      <div class="value-title">Diseñador motivado</div>
+      <div class="value-text">Cobra comisión por cerrar. No le cuesta nada usar la herramienta y añade valor a su proyecto.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">📈</div>
+      <div class="value-title">Escalable</div>
+      <div class="value-text">10 diseñadores activos pueden generarte 3–5 proyectos al mes sin captación directa de tu parte.</div>
+    </div>
+    <div class="value-card">
+      <div class="value-icon">🔒</div>
+      <div class="value-title">Sanzivi siempre visible</div>
+      <div class="value-text">"Powered by Sanzivi" en cada demo. El cliente final conoce tu marca antes de que llegues a instalar.</div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-row">
+    <button class="cta-btn" onclick="alert('¡Construimos el configurador completo!')">→ Construir el configurador completo</button>
+    <div class="cta-secondary">O pri
