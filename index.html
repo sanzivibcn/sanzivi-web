@@ -829,4 +829,9 @@
     if(zone) msg+='\nZona: '+zone;
     if(chips) msg+='\nServicios: '+chips;
     if(desc) msg+='\nTrabajos pendientes:\n'+desc;
- 
+    const url='https://wa.me/34654089180?text='+encodeURIComponent(msg);
+    window.open(url,'_blank');
+  }
+</script>
+</body>
+</html>
