@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarifas · Sanzivi</title>
+<title>Tarifas Oficiales 2026 · Sanzivi BCN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="description" content="Precios públicos de electricidad, domótica, fontanería y reformas. Sin letra pequeña.">
 <style>
   /* ---- RESET & TOKENS (matching sanzivi.es) ---- */
@@ -11,17 +13,17 @@
   html { scroll-behavior: smooth; }
 
   :root {
-    --bg: #0a0a0a;
-    --surface: #111111;
-    --surface2: #181818;
-    --border: #222222;
-    --text: #f5f5f5;
-    --text-soft: #888;
-    --text-muted: #444;
-    --yellow: #f5c518;
-    --yellow-dim: rgba(245,197,24,0.10);
-    --font: -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
-    --radius: 8px;
+    --bg: #f5f0e8;
+    --surface: #ede7db;
+    --surface2: #e4dcd0;
+    --border: rgba(60,45,30,0.12);
+    --text: #1a1208;
+    --text-soft: #8a7a68;
+    --text-muted: #b0a090;
+    --yellow: #2d6a4f;
+    --yellow-dim: rgba(45,106,79,0.10);
+    --font: 'Cabinet Grotesk', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --radius: 0px;
   }
 
   body {
@@ -37,7 +39,7 @@
   /* ---- NAV (matches sanzivi.es) ---- */
   nav {
     position: sticky; top: 0; z-index: 200;
-    background: rgba(10,10,10,0.92);
+    background: rgba(245,240,232,0.96);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     padding: 0 1.5rem;
@@ -61,7 +63,7 @@
   }
   .nav-links a:hover { color: var(--text); }
   .nav-cta {
-    background: var(--yellow); color: #000 !important;
+    background: var(--yellow); color: #fff !important;
     font-size: 0.8rem !important; font-weight: 600;
     padding: 0.45em 1em; border-radius: 5px;
     transition: opacity 0.15s !important;
@@ -132,7 +134,7 @@
     cursor: pointer;
   }
   .tab:hover { color: var(--text); }
-  .tab.active { color: var(--yellow); border-bottom-color: var(--yellow); }
+  .tab.active { color: var(--yellow); border-bottom-color: var(--yellow); font-weight: 700; }
 
   /* ---- MAIN ---- */
   main { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
@@ -263,7 +265,7 @@
   .footer-logo {
     font-size: 1rem; font-weight: 700; letter-spacing: -0.02em;
   }
-  .footer-logo span { color: var(--yellow); }
+  .footer-logo span { color: #6bd494; }
   .footer-links {
     display: flex; gap: 1.5rem; flex-wrap: wrap;
   }
@@ -271,7 +273,7 @@
     font-size: 0.8rem; color: var(--text-muted);
     transition: color 0.15s;
   }
-  .footer-links a:hover { color: var(--text); }
+  .footer-links a:hover { color: rgba(255,255,255,0.9); }
   .footer-copy {
     font-size: 0.75rem; color: var(--text-muted);
     width: 100%;
@@ -328,7 +330,7 @@
 <!-- TABS -->
 <div class="tabs-wrap">
   <div class="tabs">
-    <a href="#electricidad" class="tab active">⚡ Electricidad</a>
+    <a href="/" style="font-size:.8rem;color:var(--text-soft);margin-right:.5rem">← Volver</a><a href="#electricidad" class="tab active">⚡ Electricidad</a>
     <a href="#domotica" class="tab">🏠 Domótica</a>
     <a href="#fontaneria" class="tab">🔧 Fontanería</a>
     <a href="#bano" class="tab">🚿 Baño</a>
@@ -422,7 +424,7 @@
       <div class="card"><div class="card-name">Solado de suelo</div><div class="card-desc">Colocación de gres o porcelánico, nivelado y rejuntado. Material aportado por el cliente.</div><div class="card-footer"><span class="card-ud">por m²</span><div class="card-price">42 €<small>+ IVA</small></div></div></div>
       <div class="card"><div class="card-name">Cambio de azulejo roto o suelto</div><div class="card-desc">Retirada, preparación del soporte, colocación y rejuntado. Azulejo aportado por el cliente.</div><div class="card-footer"><span class="card-ud">por unidad</span><div class="card-price">60 €<small>+ IVA</small></div></div></div>
       <div class="card"><div class="card-name">Sellado con silicona</div><div class="card-desc">Junta de silicona neutra o fungicida en encuentros pared-suelo, sanitarios o encimeras.</div><div class="card-footer"><span class="card-ud">por metro lineal</span><div class="card-price">8 €<small>+ IVA</small></div></div></div>
-      <div class="card"><div class="card-name">Hora de mano de obra</div><div class="card-desc">Para trabajos no incluidos en tarifa o acordados por horas previamente.</div><div class="card-footer"><span class="card-ud">por hora</span><div class="card-price">45 €<small>+ IVA</small></div></div></div>
+      <div class="card"><div class="card-name">Hora de mano de obra</div><div class="card-desc">Para trabajos no incluidos en tarifa o acordados por horas previamente. Primera hora incluye desplazamiento.</div><div class="card-footer"><span class="card-ud">por hora</span><div class="card-price">50 €<small>+ IVA</small></div></div></div>
     </div>
   </div>
 
@@ -459,7 +461,9 @@
 </footer>
 
 <!-- WhatsApp float -->
-<a class="wa-float" href="https://wa.me/34654089180?text=Hola,%20quiero%20un%20presupuesto" title="Pedir presupuesto por WhatsApp">💬</a>
+<a class="wa-float" href="https://wa.me/34654089180?text=Hola,%20quiero%20un%20presupuesto" title="Pedir presupuesto por WhatsApp" style="background:#25d366;display:flex;align-items:center;justify-content:center">
+  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
 
 <script>
   const sections = document.querySelectorAll('.section');
