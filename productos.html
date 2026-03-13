@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Productos Recomendados | Sanzivi BCN</title>
+<meta name="description" content="Productos de domótica e instalación que usamos y recomendamos. Relés Shelly, Sonoff, sensores y herramientas para automatizar tu hogar.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --crema:      #FAFAF8;
+    --crema-dark: #F4F4F2;
+    --verde:      #1A6B3C;
+    --verde-dark: #145230;
+    --verde-light:#6BD494;
+    --tierra:     #f59e0b;
+    --text:       #111110;
+    --text-soft:  #6B6B62;
+    --white:      #FFFFFF;
+    --border:     #E8E8E4;
+    --shadow:     0 2px 16px rgba(17,17,16,0.07);
+    --shadow-hover: 0 8px 32px rgba(17,17,16,0.12);
+    --radius:     12px;
+    --radius-lg:  20px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--crema);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(250,250,248,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5vw; height: 64px;
+    display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  }
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--text);
+    letter-spacing: -0.02em; text-decoration: none;
+  }
+  .nav-logo span { color: var(--verde); }
+  .nav-back {
+    font-size: 0.85rem; color: var(--text-soft);
+    text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color .2s;
+  }
+  .nav-back:hover { color: var(--text); }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--verde-dark);
+    padding: 56px 24px 64px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(82,183,136,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(82,183,136,0.2);
+    color: var(--verde-light);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(82,183,136,0.3);
+    margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    color: var(--crema);
+    line-height: 1.2;
+    max-width: 640px;
+    margin: 0 auto 16px;
+  }
+  .hero p {
+    color: rgba(247,243,236,0.7);
+    font-size: 1rem;
+    max-width: 480px;
+    margin: 0 auto 28px;
+    font-weight: 300;
+  }
+  .hero-disclaimer {
+    display: inline-block;
+    font-size: 0.78rem;
+    color: rgba(247,243,236,0.45);
+    border-top: 1px solid rgba(247,243,236,0.1);
+    padding-top: 16px;
+    max-width: 500px;
+  }
+
+  /* ── FILTROS ── */
+  .filters-wrap {
+    background: var(--white);
+    border-bottom: 1px solid var(--crema-dark);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(44,36,22,0.06);
+  }
+  .filters {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding: 14px 0;
+    scrollbar-width: none;
+  }
+  .filters::-webkit-scrollbar { display: none; }
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 20px;
+    border: 1.5px solid var(--crema-dark);
+    background: transparent;
+    color: var(--text-soft);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--verde); color: var(--verde); }
+  .filter-btn.active {
+    background: var(--verde);
+    border-color: var(--verde);
+    color: var(--white);
+  }
+
+  /* ── DESTACADOS ── */
+  .section {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 1.6rem;
+    color: var(--verde-dark);
+    margin-bottom: 8px;
+  }
+  .section-subtitle {
+    color: var(--text-soft);
+    font-size: 0.9rem;
+    margin-bottom: 32px;
+    font-weight: 300;
+  }
+
+  /* Grid destacados */
+  .grid-featured {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 24px;
+    margin-bottom: 60px;
+  }
+
+  /* Grid todos */
+  .grid-all {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  /* ── TARJETA ── */
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform .25s ease, box-shadow .25s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+  }
+  .card[data-cat] { display: flex; }
+  .card.hidden { display: none; }
+
+  .card-badge-dest {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: var(--tierra);
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 4px;
+    z-index: 2;
+  }
+
+  .card-img {
+    height: 180px;
+    background: var(--crema-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 16px;
+    transition: transform .3s ease;
+  }
+  .card:hover .card-img img { transform: scale(1.04); }
+
+  .card-img .img-placeholder {
+    font-size: 3rem;
+    opacity: 0.3;
+  }
+
+  .card-body {
+    padding: 18px 18px 14px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .card-cat {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--verde);
+    margin-bottom: 6px;
+  }
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .card-desc {
+    font-size: 0.83rem;
+    color: var(--text-soft);
+    font-weight: 300;
+    flex: 1;
+    margin-bottom: 12px;
+    line-height: 1.5;
+  }
+  .card-benefits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+  .benefit-tag {
+    background: var(--crema);
+    color: var(--text-soft);
+    font-size: 0.72rem;
+    padding: 3px 9px;
+    border-radius: 12px;
+    border: 1px solid var(--crema-dark);
+  }
+
+  .card-footer {
+    padding: 14px 18px 18px;
+    border-top: 1px solid var(--crema-dark);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-price {
+    font-family: 'Fraunces', serif;
+    font-size: 1.3rem;
+    color: var(--verde-dark);
+    font-weight: 600;
+  }
+  .card-price span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-soft);
+    font-weight: 300;
+    display: block;
+    line-height: 1;
+    margin-top: 1px;
+  }
+
+  .btn-amazon {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: var(--verde);
+    color: white;
+    text-decoration: none;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: background .2s, transform .15s;
+    white-space: nowrap;
+  }
+  .btn-amazon:hover {
+    background: var(--verde-dark);
+    transform: scale(1.02);
+  }
+  .btn-amazon svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+    flex-shrink: 0;
+  }
+
+  /* ── SEPARADOR ── */
+  .divider {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    border: none;
+    border-top: 1.5px solid var(--crema-dark);
+  }
+
+  /* ── BANNER INSTALACIÓN ── */
+  .banner {
+    background: var(--verde-dark);
+    margin: 48px 24px;
+    border-radius: 16px;
+    padding: 40px 36px;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .banner-text h2 {
+    font-family: 'Fraunces', serif;
+    color: var(--crema);
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+  }
+  .banner-text p {
+    color: rgba(247,243,236,0.65);
+    font-size: 0.9rem;
+    font-weight: 300;
+    max-width: 400px;
+  }
+  .btn-presupuesto {
+    display: inline-block;
+    background: var(--crema);
+    color: var(--verde-dark);
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: background .2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .btn-presupuesto:hover { background: var(--verde-light); color: white; }
+
+  /* ── FOOTER DISCLAIMER ── */
+  .footer-disclaimer {
+    text-align: center;
+    padding: 32px 24px 48px;
+    font-size: 0.78rem;
+    color: var(--text-soft);
+    font-weight: 300;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    .hero { padding: 40px 20px 48px; }
+    .section { padding: 36px 16px; }
+    .banner { padding: 28px 20px; flex-direction: column; }
+    .grid-featured, .grid-all { grid-template-columns: 1fr; }
+  }
+
+  /* Animación entrada */
+  .card {
+    animation: fadeUp .4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Sanzivi<span>.</span></a>
+  <a href="/" class="nav-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Volver a inicio
+  </a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ Instalador verificado Shelly</div>
+  <h1>Productos que usamos y recomendamos</h1>
+  <p>Selección honesta de dispositivos domóticos y herramientas que instalamos a diario en viviendas de Barcelona.</p>
+  <div class="hero-disclaimer">
+    Esta página contiene enlaces de afiliado de Amazon. Si compras a través de ellos recibimos una pequeña comisión sin coste adicional para ti. Solo recomendamos productos que conocemos.
+  </div>
+</section>
+
+<!-- FILTROS -->
+<div class="filters-wrap">
+  <div class="filters" id="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="Relés inteligentes">Relés inteligentes</button>
+    <button class="filter-btn" data-filter="Interruptores inteligentes">Interruptores</button>
+    <button class="filter-btn" data-filter="Enchufes inteligentes">Enchufes</button>
+    <button class="filter-btn" data-filter="Sensores">Sensores</button>
+    <button class="filter-btn" data-filter="Iluminación inteligente">Iluminación</button>
+    <button class="filter-btn" data-filter="Herramientas instalación">Herramientas</button>
+  </div>
+</div>
+
+<!-- DESTACADOS -->
+<section class="section" id="destacados-section">
+  <div>
+    <p class="section-title">⭐ Más recomendados</p>
+    <p class="section-subtitle">Los productos que más instalamos y mejor relación calidad/precio tienen.</p>
+  </div>
+  <div class="grid-featured" id="grid-featured">
+    <!-- JS injected -->
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- TODOS -->
+<section class="section">
+  <p class="section-title">Catálogo completo</p>
+  <p class="section-subtitle">Todos los productos organizados por categoría.</p>
+  <div class="grid-all" id="grid-all">
+    <!-- JS injected -->
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner">
+  <div class="banner-text">
+    <h2>¿Prefieres que lo instalemos nosotros?</h2>
+    <p>Instalamos cualquiera de estos dispositivos en tu vivienda. Primera hora 80€ (desplazamiento incluido).</p>
+  </div>
+  <a href="/#contacto" class="btn-presupuesto">Pedir presupuesto →</a>
+</div>
+
+<!-- FOOTER DISCLAIMER -->
+<p class="footer-disclaimer">
+  <strong>Aviso legal de afiliados:</strong> Sanzivi BCN S.L. es participante en el Programa de Afiliados de Amazon EU, un programa de publicidad para afiliados diseñado para proporcionar a sitios web un medio para obtener comisiones por publicidad. Los precios mostrados son orientativos y pueden variar.
+</p>
+
+<script>
+const productos = [
+  {
+    cat: "Relés inteligentes",
+    nombre: "Shelly 1 Mini Gen3",
+    marca: "Shelly",
+    precio: "19,05",
+    enlace: "https://amzn.to/4b8w3sr",
+    img: "https://m.media-amazon.com/images/I/51YMsv9CNXL._AC_SL1000_.jpg",
+    desc: "Relé WiFi compacto para automatizar cualquier luz o enchufe",
+    b1: "Compatible Home Assistant", b2: "Control por app", b3: "Fácil instalación",
+    destacado: true,
+    emoji: "⚡"
+  },
+  {
+    cat: "Relés inteligentes",
+    nombre: "Shelly 2PM Gen3",
+    marca: "Shelly",
+    precio: "32,55",
+    enlace: "https://amzn.to/4uIr21A",
+    img: "https://m.media-amazon.com/images/I/41j5oJfN-ZL._AC_SL1000_.jpg",
+    desc: "Relé doble canal con medición de consumo integrada",
+    b1: "2 canales independientes", b2: "Mide consumo en W", b3: "WiFi + cloud",
+    destacado: true,
+    emoji: "🔌"
+  },
+  {
+    cat: "Relés inteligentes",
+    nombre: "Sonoff MINI R4",
+    marca: "Sonoff",
+    precio: "12,00",
+    enlace: "https://amzn.to/46WqaMt",
+    img: "https://m.media-amazon.com/images/I/51L4SDPUELL._AC_SL1500_.jpg",
+    desc: "Mini relé inteligente económico para luces existentes",
+    b1: "Muy pequeño", b2: "Compatible Alexa/Google", b3: "Precio bajo",
+    destacado: false,
+    emoji: "💡"
+  },
+  {
+    cat: "Interruptores inteligentes",
+    nombre: "Shelly Wall Display",
+    marca: "Shelly",
+    precio: "140,00",
+    enlace: "https://amzn.to/4sdkiXQ",
+    img: "https://m.media-amazon.com/images/I/61ZJlSxNEJL._AC_SL1500_.jpg",
+    desc: "Interruptor táctil con pantalla para controlar toda la casa",
+    b1: 'Pantalla táctil 4"', b2: "Termostato integrado", b3: "Diseño moderno",
+    destacado: true,
+    emoji: "📱"
+  },
+  {
+    cat: "Enchufes inteligentes",
+    nombre: "Shelly Plug S Gen3",
+    marca: "Shelly",
+    precio: "24,00",
+    enlace: "https://amzn.to/4cN6yhG",
+    img: "https://m.media-amazon.com/images/I/41q3Y7AHTRL._AC_SL1000_.jpg",
+    desc: "Enchufe inteligente con medición de consumo en tiempo real",
+    b1: "Mide consumo", b2: "Programable", b3: "Compacto",
+    destacado: false,
+    emoji: "🔋"
+  },
+  {
+    cat: "Sensores",
+    nombre: "Shelly Motion 2",
+    marca: "Shelly",
+    precio: "17,00",
+    enlace: "https://amzn.to/4uyDkcS",
+    img: "https://m.media-amazon.com/images/I/51TGklqy5mL._AC_SL1000_.jpg",
+    desc: "Sensor de movimiento WiFi para automatizar luces y alarmas",
+    b1: "Detección precisa", b2: "Batería larga duración", b3: "Sin cables",
+    destacado: false,
+    emoji: "👁️"
+  },
+  {
+    cat: "Iluminación inteligente",
+    nombre: "Bombilla LED WiFi E27",
+    marca: "Amazon Basics",
+    precio: "9,00",
+    enlace: "https://amzn.to/4bt9qxL",
+    img: "https://m.media-amazon.com/images/I/51h7YhW1ZSL._AC_SL1000_.jpg",
+    desc: "Bombilla inteligente RGB+W compatible con Alexa y Google",
+    b1: "16M colores", b2: "Sin hub", b3: "Pack de 4 disponible",
+    destacado: false,
+    emoji: "💡"
+  },
+  {
+    cat: "Herramientas instalación",
+    nombre: "Tester Klein Tools NCVT-3P",
+    marca: "Klein Tools",
+    precio: "28,00",
+    enlace: "https://amzn.to/4dli8AH",
+    img: "https://m.media-amazon.com/images/I/61b5U6EKHVL._AC_SL1500_.jpg",
+    desc: "Comprobador de circuitos eléctricos imprescindible para instaladores",
+    b1: "Detecta fase/neutro", b2: "Compacto", b3: "Uso profesional",
+    destacado: false,
+    emoji: "🔧"
+  }
+];
+
+function amazonBtn(enlace) {
+  return `<a href="${enlace}" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon">
+    <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+    Ver en Amazon
+  </a>`;
+}
+
+function buildCard(p, featured = false) {
+  const imgContent = `<img src="${p.img}" alt="${p.nombre}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=\\'img-placeholder\\'>${p.emoji}</span>'">`; 
+  return `
+  <div class="card" data-cat="${p.cat}">
+    ${p.destacado && featured ? '<div class="card-badge-dest">Recomendado</div>' : ''}
+    <div class="card-img">${imgContent}</div>
+    <div class="card-body">
+      <div class="card-cat">${p.cat}</div>
+      <div class="card-name">${p.nombre}</div>
+      <div class="card-desc">${p.desc}</div>
+      <div class="card-benefits">
+        ${[p.b1, p.b2, p.b3].filter(Boolean).map(b => `<span class="benefit-tag">✓ ${b}</span>`).join('')}
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-price">${p.precio} €<span>precio orientativo</span></div>
+      ${amazonBtn(p.enlace)}
+    </div>
+  </div>`;
+}
+
+// Render destacados
+const featured = productos.filter(p => p.destacado);
+document.getElementById('grid-featured').innerHTML = featured.map(p => buildCard(p, true)).join('');
+
+// Render todos
+document.getElementById('grid-all').innerHTML = productos.map(p => buildCard(p, false)).join('');
+
+// Filtros
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const f = btn.dataset.filter;
+    
+    // Ocultar/mostrar sección destacados
+    const destSection = document.getElementById('destacados-section');
+    destSection.style.display = f === 'all' ? '' : 'none';
+
+    // Filtrar grid-all
+    document.querySelectorAll('#grid-all .card').forEach(card => {
+      if (f === 'all' || card.dataset.cat === f) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
