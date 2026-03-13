@@ -1,1476 +1,719 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sanzivi · Domótica Inteligente Barcelona</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Cabinet+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#f5f0e8;--s1:#ede7db;--s2:#e4dcd0;--s3:#d8cfc2;
-  --border:rgba(60,45,30,0.1);--border2:rgba(60,45,30,0.18);
-  --a:#2d6a4f;--a2:#1b4332;--a-glow:rgba(45,106,79,0.15);
-  --warm:#b5651d;--warm-glow:rgba(181,101,29,0.2);
-  --purple:#6b5344;--cool:#4a7c8e;
-  --text:#1a1208;--muted:#8a7a68;--dim:rgba(26,18,8,0.55);
-  --mono:'DM Mono',monospace;--sans:'Cabinet Grotesk',sans-serif;
-}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;cursor:default}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sanzivi BCN — Electricidad, Domótica y Manitas en Barcelona</title>
+  <meta name="description" content="Electricidad, domótica y pequeñas reparaciones en Barcelona. Instalador verificado Shelly. Primera hora 80€ incluye desplazamiento." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #111110; --white: #FAFAF8; --gray-100: #F4F4F2;
+      --gray-200: #E8E8E4; --gray-400: #A8A8A0; --gray-600: #6B6B62;
+      --accent: #1A6B3C; --accent-light: #E8F3ED; --wa-green: #25D366;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
 
-/* ── NOISE OVERLAY ── */
-body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:1000;opacity:.15}
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 5vw; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: var(--black); letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { font-size: 0.88rem; color: var(--gray-600); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-cta { background: var(--wa-green) !important; color: white !important; padding: 0.45rem 1.1rem; border-radius: 50px; font-weight: 500; font-size: 0.85rem; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
+    @media (max-width: 680px) { .nav-links { display: none; } }
 
-/* ── NAV ── */
-nav{position:fixed;top:0;left:0;right:0;z-index:900;padding:1.1rem 2.5rem;display:flex;align-items:center;justify-content:space-between;background:rgba(245,240,232,0.94);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:var(--sans);font-weight:900;font-size:1.15rem;letter-spacing:-.03em;display:flex;align-items:center;gap:.5rem}
-.nav-logo .dot{width:7px;height:7px;background:var(--a);border-radius:50%;box-shadow:none}
-.nav-links{display:flex;align-items:center;gap:2rem}
-.nav-links a{font-size:.82rem;font-weight:500;color:var(--muted);text-decoration:none;letter-spacing:.02em;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.nav-cta{background:var(--a);color:#fff;font-weight:700;font-size:.8rem;padding:.55rem 1.3rem;letter-spacing:.04em;text-transform:uppercase;border:none;cursor:pointer;transition:all .2s;text-decoration:none}
-.nav-cta:hover{background:var(--a2);transform:translateY(-1px)}
+    /* ── HERO ── */
+    .hero { padding: 120px 5vw 80px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    @media (max-width: 800px) { .hero { grid-template-columns: 1fr; padding: 100px 5vw 60px; gap: 3rem; } }
+    .hero-tag { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1.5rem; }
+    .hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2.4rem, 4.5vw, 3.6rem); font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 1.2rem; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub { font-size: 1.05rem; color: var(--gray-600); font-weight: 300; line-height: 1.75; margin-bottom: 2rem; max-width: 440px; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 2.5rem; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: white; padding: 0.75rem 1.6rem; border-radius: 50px; font-weight: 500; font-size: 0.92rem; transition: all 0.2s; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
+    .btn-primary:hover { background: #145230; transform: translateY(-1px); }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--black); padding: 0.75rem 1.6rem; border-radius: 50px; font-weight: 500; font-size: 0.92rem; transition: all 0.2s; border: 1.5px solid var(--gray-200); }
+    .btn-secondary:hover { border-color: var(--black); }
+    .hero-trust { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; color: var(--gray-600); }
+    .hero-trust .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+    .hero-img { position: relative; }
+    .hero-img img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: var(--radius-lg); }
+    .hero-badge { position: absolute; bottom: 1.5rem; left: 1.5rem; right: 1.5rem; background: rgba(250,250,248,0.95); backdrop-filter: blur(8px); border-radius: var(--radius); padding: 1rem 1.2rem; border: 1px solid var(--gray-200); display: flex; align-items: center; gap: 1rem; }
+    .hero-badge-icon { width: 36px; height: 36px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+    .hero-badge-text { font-size: 0.82rem; font-weight: 500; line-height: 1.3; }
+    .hero-badge-text span { display: block; font-size: 0.72rem; color: var(--gray-600); font-weight: 400; margin-top: 0.1rem; }
 
-/* ── HERO ── */
-.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:7rem 2.5rem 4rem;gap:4rem;max-width:1400px;margin:0 auto}
-.hero-left{position:relative}
-.hero-tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--a);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
-.hero-tag::before{content:'';width:20px;height:1px;background:var(--a)}
-.hero-h1{font-size:clamp(2.8rem,5vw,4.2rem);font-weight:900;line-height:1.02;letter-spacing:-.04em;margin-bottom:1.5rem}
-.hero-h1 .accent{color:var(--a);position:relative;display:inline-block}
-.hero-h1 .accent::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:2px;background:var(--a);opacity:.4}
-.hero-sub{font-size:1rem;color:var(--dim);line-height:1.7;margin-bottom:2.5rem;max-width:440px;font-weight:400}
-.hero-actions{display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-.btn-primary{background:var(--a);color:#fff;font-weight:800;font-size:.85rem;padding:.8rem 1.8rem;letter-spacing:.04em;text-transform:uppercase;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:.5rem}
-.btn-primary:hover{background:var(--a2);transform:translateY(-2px);box-shadow:0 12px 40px var(--a-glow)}
-.btn-ghost{border:1px solid var(--border2);color:var(--dim);font-size:.83rem;padding:.78rem 1.5rem;background:none;cursor:pointer;transition:all .2s;font-weight:500;display:flex;align-items:center;gap:.5rem}
-.btn-ghost:hover{border-color:var(--a);color:#a8d5b5}
-.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
-.hero-stat .val{font-family:var(--sans);font-size:1.8rem;font-weight:900;color:var(--a);line-height:1}
-.hero-stat .label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:.3rem}
+    /* ── TIP BANNER ── */
+    .tip-banner { background: var(--accent-light); border-top: 1px solid #c8e6d4; border-bottom: 1px solid #c8e6d4; padding: 1rem 5vw; }
+    .tip-banner-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .tip-banner p { font-size: 0.88rem; color: var(--black); flex: 1; min-width: 200px; }
+    .tip-banner strong { color: var(--accent); }
+    .tip-banner .btn-primary { font-size: 0.8rem; padding: 0.45rem 1.1rem; white-space: nowrap; }
 
-/* ── HERO APP (right side) ── */
-.hero-app{background:var(--s1);border:1px solid var(--border2);position:relative;overflow:hidden;box-shadow:0 2px 20px rgba(60,45,30,0.08)}
-.hero-app::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(45,106,79,0.05) 0%,transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(255,179,71,0.03) 0%,transparent 50%)}
-.app-topbar{display:flex;align-items:center;justify-content:space-between;padding:.75rem 1.1rem;border-bottom:1px solid var(--border);background:rgba(237,231,219,0.95)}
-.app-title-row{display:flex;align-items:center;gap:.5rem}
-.app-dot{width:6px;height:6px;background:var(--a);border-radius:50%;animation:breathe 3s ease-in-out infinite}
-@keyframes breathe{0%,100%{opacity:1;box-shadow:0 0 0 0 var(--a)}50%{opacity:.7;box-shadow:0 0 0 4px rgba(45,106,79,0)}}
-.app-name{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--dim)}
-.app-time{font-family:var(--mono);font-size:.7rem;color:var(--muted);letter-spacing:.05em}
+    /* ── SECTION COMMON ── */
+    .section { padding: 80px 5vw; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-tag { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1rem; }
+    .section h2 { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.8rem; }
+    .section h2 em { font-style: italic; color: var(--accent); }
+    .section-sub { font-size: 1rem; color: var(--gray-600); font-weight: 300; line-height: 1.75; max-width: 540px; margin-bottom: 3rem; }
 
-/* ROOM SELECTOR */
-.room-tabs{display:flex;gap:0;border-bottom:1px solid var(--border)}
-.room-tab{flex:1;padding:.6rem;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:all .2s;font-family:var(--mono)}
-.room-tab.active{color:var(--a);border-bottom-color:var(--a);background:rgba(45,106,79,0.05)}
-.room-tab:hover:not(.active){color:var(--dim)}
+    /* ── SERVICIOS ── */
+    .servicios-bg { background: var(--gray-100); }
+    .servicios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+    .svc-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.8rem; transition: all 0.2s; display: flex; flex-direction: column; }
+    .svc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
+    .svc-icon { width: 48px; height: 48px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 1.2rem; }
+    .svc-card h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .svc-card p { font-size: 0.88rem; color: var(--gray-600); line-height: 1.65; flex: 1; margin-bottom: 1.2rem; }
+    .svc-items { display: flex; flex-direction: column; gap: 0.3rem; margin-bottom: 1.2rem; }
+    .svc-item { font-size: 0.8rem; color: var(--gray-600); display: flex; align-items: center; gap: 0.5rem; }
+    .svc-item::before { content: '·'; color: var(--accent); font-weight: 700; }
+    .svc-price { font-size: 0.82rem; font-weight: 600; color: var(--accent); padding-top: 1rem; border-top: 1px solid var(--gray-200); margin-top: auto; }
+    .pricing-note { margin-top: 2rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+    .pricing-note .price-pill { display: flex; align-items: baseline; gap: 0.4rem; }
+    .pricing-note .price-num { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 300; color: var(--black); }
+    .pricing-note .price-label { font-size: 0.8rem; color: var(--gray-600); }
+    .pricing-note .divider { width: 1px; height: 32px; background: var(--gray-200); flex-shrink: 0; }
+    .pricing-note .note { font-size: 0.82rem; color: var(--gray-600); flex: 1; }
+    .pricing-note a { font-size: 0.8rem; color: var(--accent); font-weight: 500; border-bottom: 1px solid currentColor; padding-bottom: 1px; white-space: nowrap; }
 
-/* ROOM SCENE */
-.room-scene{position:relative;height:220px;overflow:hidden;background:var(--bg)}
-.scene-bg{position:absolute;inset:0;transition:opacity .6s}
-/* Salon scene */
-.scene-salon{background:linear-gradient(135deg,#0e0b08 0%,#16120c 60%,#0e0b08 100%)}
-.scene-kitchen{background:linear-gradient(135deg,#0c100a 0%,#101508 60%,#0c100a 100%)}
-.scene-terrace{background:linear-gradient(135deg,#080a0a 0%,#0a0e0e 60%,#080a0a 100%)}
+    /* ── DOMÓTICA ── */
+    .domotica-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    @media (max-width: 800px) { .domotica-grid { grid-template-columns: 1fr; gap: 3rem; } }
+    .feature-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+    .feature-item { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.2rem; background: var(--gray-100); border-radius: var(--radius); border: 1px solid var(--gray-200); transition: all 0.2s; }
+    .feature-item:hover { background: var(--accent-light); border-color: #c8e6d4; }
+    .feature-item-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .feature-item h4 { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .feature-item p { font-size: 0.82rem; color: var(--gray-600); margin: 0; line-height: 1.5; }
+    .domotica-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .stat-card { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; }
+    .stat-card .num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 300; color: var(--accent); line-height: 1; margin-bottom: 0.3rem; }
+    .stat-card .lbl { font-size: 0.75rem; color: var(--gray-600); }
+    .shelly-badge { background: var(--accent-light); border: 1px solid #c8e6d4; border-radius: var(--radius); padding: 1rem 1.2rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
+    .shelly-badge .check { color: var(--accent); font-weight: 700; font-size: 0.9rem; }
+    .shelly-badge p { font-size: 0.85rem; color: var(--black); margin: 0; }
 
-/* Furniture SVG containers */
-.scene-svg{position:absolute;inset:0;width:100%;height:100%}
+    /* ── PROCESO ── */
+    .proceso-bg { background: var(--gray-100); }
+    .proceso-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+    @media (max-width: 680px) { .proceso-steps { grid-template-columns: 1fr; } }
+    .step { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 2rem; }
+    .step-num { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 300; color: var(--accent); line-height: 1; margin-bottom: 1rem; }
+    .step h3 { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 400; margin-bottom: 0.5rem; }
+    .step p { font-size: 0.88rem; color: var(--gray-600); line-height: 1.65; margin: 0; }
 
-/* LIGHT HALOS */
-.halo{position:absolute;border-radius:50%;filter:blur(30px);transition:opacity .8s,background .5s;pointer-events:none}
+    /* ── TARIFAS BLOCK ── */
+    .tarifas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    @media (max-width: 800px) { .tarifas-grid { grid-template-columns: 1fr; gap: 3rem; } }
+    .check-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
+    .check-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.92rem; }
+    .check-item .ck { width: 20px; height: 20px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); font-size: 0.7rem; font-weight: 700; }
+    .price-samples { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--gray-200); }
+    .price-sample { background: var(--white); padding: 1.2rem; }
+    .price-sample .cat { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 0.3rem; }
+    .price-sample .name { font-size: 0.85rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .price-sample .price { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 300; color: var(--accent); }
+    .price-sample-cta { background: var(--accent); padding: 1.2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 0.4rem; }
+    .price-sample-cta .n { font-size: 0.82rem; font-weight: 600; color: white; }
+    .price-sample-cta .s { font-size: 0.7rem; color: rgba(255,255,255,0.7); }
+    .price-sample-cta a { font-size: 0.72rem; color: white; text-decoration: underline; margin-top: 0.3rem; }
 
-/* CONTROLS */
-.room-controls{padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.6rem}
-.ctrl-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,0.025);border:1px solid var(--border);padding:.6rem .85rem;transition:border-color .2s}
-.ctrl-row:hover{border-color:rgba(255,255,255,0.1)}
-.ctrl-left{display:flex;align-items:center;gap:.6rem}
-.ctrl-icon{font-size:.95rem;width:20px;text-align:center}
-.ctrl-label{font-size:.78rem;font-weight:600;color:var(--text)}
-.ctrl-sub{font-size:.62rem;color:var(--muted);margin-top:.1rem;font-family:var(--mono)}
-.ctrl-right{display:flex;align-items:center;gap:.75rem}
-.ctrl-val{font-family:var(--mono);font-size:.75rem;color:var(--a);font-weight:500;min-width:36px;text-align:right}
+    /* ── GALERÍA TRABAJOS ── */
+    .galeria-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    @media (max-width: 680px) { .galeria-grid { grid-template-columns: 1fr 1fr; } }
+    .galeria-img { aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; }
+    .galeria-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .galeria-img:hover img { transform: scale(1.04); }
+    .galeria-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
 
-/* TOGGLE */
-.tog{position:relative;width:34px;height:18px;cursor:pointer;flex-shrink:0}
-.tog input{opacity:0;width:0;height:0;position:absolute}
-.tog-track{position:absolute;inset:0;background:rgba(60,45,30,0.08);border:1px solid var(--border2);border-radius:9px;transition:all .3s}
-.tog input:checked+.tog-track{background:var(--a);border-color:var(--a);box-shadow:0 0 10px var(--a-glow)}
-.tog-thumb{position:absolute;width:12px;height:12px;background:rgba(255,255,255,0.9);border-radius:50%;top:2px;left:2px;transition:transform .3s,background .3s;pointer-events:none}
-.tog input:checked~.tog-thumb{transform:translateX(16px);background:#000}
+    /* ── BLOG ── */
+    .blog-bg { background: var(--gray-100); }
+    .blog-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    @media (max-width: 680px) { .blog-grid { grid-template-columns: 1fr; } }
+    .blog-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: var(--black); display: flex; flex-direction: column; transition: all 0.2s; }
+    .blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
+    .blog-card-img { height: 160px; overflow: hidden; background: var(--gray-200); }
+    .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.04); }
+    .blog-card-body { padding: 1.3rem; flex: 1; display: flex; flex-direction: column; }
+    .blog-card .tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .blog-card h3 { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 400; line-height: 1.35; margin-bottom: 0.5rem; }
+    .blog-card p { font-size: 0.82rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
+    .blog-card .read { margin-top: 0.8rem; font-size: 0.75rem; font-weight: 500; color: var(--accent); }
 
-/* DIMMER */
-.dimmer{-webkit-appearance:none;height:3px;background:linear-gradient(to right,var(--a) var(--pct,70%),rgba(60,45,30,0.12) var(--pct,70%));border-radius:2px;outline:none;cursor:pointer;width:80px}
-.dimmer::-webkit-slider-thumb{-webkit-appearance:none;width:12px;height:12px;background:var(--a);border-radius:50%;box-shadow:0 0 8px var(--a-glow)}
+    /* ── OPINIONES ── */
+    .opiniones-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    @media (max-width: 680px) { .opiniones-grid { grid-template-columns: 1fr; } }
+    .opinion-card { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.8rem; }
+    .stars { color: #f59e0b; font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
+    .opinion-card blockquote { font-size: 0.92rem; color: var(--gray-600); line-height: 1.75; font-style: italic; margin-bottom: 1.2rem; font-family: 'Fraunces', serif; font-weight: 300; }
+    .opinion-author { font-size: 0.82rem; font-weight: 500; }
+    .opinion-loc { font-size: 0.75rem; color: var(--gray-400); margin-top: 0.1rem; }
 
-/* BOTTOM STATS */
-.app-bottom{display:grid;grid-template-columns:1fr 1fr 1fr;border-top:1px solid var(--border)}
-.app-stat{padding:.75rem;text-align:center;border-right:1px solid var(--border);background:var(--s1)}
-.app-stat:last-child{border-right:none}
-.app-stat-val{font-family:var(--mono);font-size:.85rem;font-weight:500;color:var(--a)}
-.app-stat-label{font-size:.6rem;color:var(--muted);margin-top:.2rem;letter-spacing:.06em;text-transform:uppercase}
+    /* ── HERRAMIENTAS ── */
+    .herramientas-bg { background: var(--gray-100); }
+    .herramientas-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    @media (max-width: 680px) { .herramientas-grid { grid-template-columns: 1fr; } }
+    .tool-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.8rem; display: flex; flex-direction: column; text-decoration: none; color: var(--black); transition: all 0.2s; }
+    .tool-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
+    .tool-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+    .tool-card h3 { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 400; margin-bottom: 0.4rem; }
+    .tool-card p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
+    .tool-link { margin-top: 1rem; font-size: 0.78rem; font-weight: 500; color: var(--accent); }
 
-/* ── AMBIENT GLOW BG ── */
-.glow-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
-.glow-1{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(45,106,79,0.05) 0%,transparent 70%);top:-100px;right:-100px}
-.glow-2{position:absolute;width:500px;height:500px;background:radial-gradient(circle,rgba(107,83,68,0.04) 0%,transparent 70%);bottom:20%;left:-100px}
+    /* ── CTA FINAL ── */
+    .cta-final { background: var(--accent); color: white; padding: 80px 5vw; text-align: center; }
+    .cta-final h2 { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .cta-final p { font-size: 1rem; color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; }
+    .btn-wa { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--accent); padding: 0.9rem 2rem; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
+    .btn-wa:hover { transform: translateY(-2px); }
 
-/* ── SECTIONS ── */
-section{position:relative;z-index:1}
+    /* ── MODAL ── */
+    .modal-overlay { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(17,17,16,0.6); backdrop-filter: blur(4px); }
+    .modal-box { position: relative; width: 100%; max-width: 500px; background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--gray-200); overflow: hidden; transform: translateY(20px) scale(0.97); transition: transform 0.28s cubic-bezier(0.22,1,0.36,1); box-shadow: 0 24px 80px rgba(17,17,16,0.15); }
+    .modal-overlay.open .modal-box { transform: translateY(0) scale(1); }
+    .modal-head { padding: 1.4rem 1.6rem; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; }
+    .modal-head h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 400; }
+    .modal-head p { font-size: 0.75rem; color: var(--gray-600); margin-top: 0.1rem; }
+    .modal-close { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--gray-200); background: none; cursor: pointer; font-size: 0.9rem; color: var(--gray-600); display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+    .modal-close:hover { background: var(--gray-100); color: var(--black); }
+    .modal-body { padding: 1.4rem 1.6rem; display: flex; flex-direction: column; gap: 1.1rem; max-height: 65vh; overflow-y: auto; }
+    .modal-tip { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 0.8rem 1rem; font-size: 0.82rem; color: var(--black); line-height: 1.6; }
+    .modal-tip strong { color: var(--accent); }
+    .modal-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-600); margin-bottom: 0.4rem; display: block; }
+    .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .chip { padding: 0.35rem 0.9rem; border: 1.5px solid var(--gray-200); border-radius: 50px; font-size: 0.78rem; font-weight: 500; cursor: pointer; transition: all 0.15s; background: var(--white); color: var(--gray-600); user-select: none; }
+    .chip.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .chip:hover:not(.active) { border-color: var(--gray-400); color: var(--black); }
+    .modal-input { background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: var(--radius); padding: 0.7rem 0.9rem; font-size: 0.88rem; color: var(--black); font-family: 'DM Sans', sans-serif; outline: none; width: 100%; transition: border-color 0.15s; }
+    .modal-input:focus { border-color: var(--accent); background: var(--white); }
+    .modal-textarea { background: var(--gray-100); border: 1.5px solid var(--gray-200); border-radius: var(--radius); padding: 0.7rem 0.9rem; font-size: 0.88rem; color: var(--black); font-family: 'DM Sans', sans-serif; outline: none; width: 100%; transition: border-color 0.15s; resize: vertical; min-height: 90px; line-height: 1.6; }
+    .modal-textarea:focus { border-color: var(--accent); background: var(--white); }
+    .modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .modal-foot { padding: 1rem 1.6rem; border-top: 1px solid var(--gray-200); display: flex; gap: 0.75rem; align-items: center; }
+    .modal-note { font-size: 0.72rem; color: var(--gray-600); line-height: 1.5; flex: 1; }
+    .modal-send { background: var(--wa-green); color: white; border: none; border-radius: 50px; padding: 0.7rem 1.3rem; font-size: 0.88rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 0.5rem; transition: all 0.15s; flex-shrink: 0; }
+    .modal-send:hover { background: #1da851; transform: translateY(-1px); }
 
-/* ── WHY ── */
-.why{padding:6rem 2.5rem;max-width:1200px;margin:0 auto}
-.section-tag{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--a);margin-bottom:1rem;display:flex;align-items:center;gap:.6rem}
-.section-tag::before{content:'';width:14px;height:1px;background:var(--a)}
-.section-h2{font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.04em;margin-bottom:1rem;line-height:1.05}
-.section-sub{color:var(--dim);font-size:.95rem;line-height:1.7;max-width:520px;margin-bottom:3.5rem}
-.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
-.why-card{background:var(--bg);padding:2rem 1.75rem;transition:background .3s}
-.why-card:hover{background:var(--s2)}
-.why-num{font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-bottom:1rem;letter-spacing:.1em}
-.why-icon{font-size:1.6rem;margin-bottom:.9rem;display:block}
-.why-title{font-size:1.05rem;font-weight:800;margin-bottom:.6rem;letter-spacing:-.02em}
-.why-desc{font-size:.82rem;color:var(--dim);line-height:1.65}
+    /* ── FOOTER ── */
+    footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 40px 5vw; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
+    @media (max-width: 800px) { .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+    .footer-logo { font-family: 'Fraunces', serif; font-size: 1.2rem; color: white; margin-bottom: 0.6rem; display: block; }
+    .footer-logo span { color: #6BD494; }
+    .footer-desc { font-size: 0.82rem; line-height: 1.7; color: rgba(255,255,255,0.4); margin-bottom: 1.2rem; }
+    .footer-social { display: flex; gap: 1rem; }
+    .footer-social a { font-size: 0.78rem; color: rgba(255,255,255,0.4); transition: color 0.2s; }
+    .footer-social a:hover { color: rgba(255,255,255,0.9); }
+    .footer-col h4 { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-bottom: 0.85rem; }
+    .footer-col a, .footer-col span { display: block; font-size: 0.82rem; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; transition: color 0.2s; }
+    .footer-col a:hover { color: rgba(255,255,255,0.9); }
+    .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-bottom span { font-size: 0.72rem; color: rgba(255,255,255,0.2); }
 
-/* ── SERVICES ── */
-.services{padding:0 2.5rem 6rem;max-width:1200px;margin:0 auto}
-.services-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border)}
-.svc{background:var(--s1);padding:2rem;position:relative;overflow:hidden;transition:background .3s;cursor:default}
-.svc::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(45,106,79,0.06) 0%,transparent 60%);opacity:0;transition:opacity .4s}
-.svc:hover{background:var(--s2)}
-.svc:hover::after{opacity:1}
-.svc-tag{font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:.75rem}
-.svc-title{font-size:1.15rem;font-weight:800;margin-bottom:.5rem;letter-spacing:-.02em}
-.svc-desc{font-size:.8rem;color:var(--dim);line-height:1.6;margin-bottom:1rem}
-.svc-items{display:flex;flex-wrap:wrap;gap:.4rem}
-.svc-item{font-family:var(--mono);font-size:.65rem;background:rgba(255,255,255,.04);border:1px solid var(--border2);padding:.25rem .6rem;color:var(--muted)}
-.svc-price{position:absolute;top:2rem;right:2rem;font-family:var(--mono);font-size:.7rem;color:var(--a);opacity:.6}
-
-/* ── INTERACTIVE DEMO SECTION ── */
-.demo-section{padding:6rem 2.5rem;background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
-.demo-inner{max-width:1200px;margin:0 auto}
-.demo-layout{display:grid;grid-template-columns:1fr 1.4fr;gap:4rem;align-items:start;margin-top:3rem}
-.demo-explain{}
-.demo-explain p{font-size:.85rem;color:var(--dim);line-height:1.7;margin-bottom:1rem}
-.demo-explain strong{color:var(--text)}
-.device-list{margin-top:2rem;display:flex;flex-direction:column;gap:.5rem}
-.device-item{display:flex;align-items:center;gap:.75rem;padding:.65rem .85rem;background:var(--s2);border:1px solid var(--border);transition:border-color .2s}
-.device-item:hover{border-color:rgba(0,229,160,0.2)}
-.device-dot{width:6px;height:6px;border-radius:50%;background:var(--a);box-shadow:0 0 6px var(--a);flex-shrink:0}
-.device-dot.warm{background:var(--warm);box-shadow:0 0 6px var(--warm-glow)}
-.device-dot.purple{background:var(--purple);box-shadow:0 0 6px rgba(124,92,252,0.4)}
-.device-name{font-size:.78rem;font-weight:600}
-.device-model{font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-left:auto}
-
-/* FULL DEMO APP */
-.full-app{background:var(--bg);border:1px solid var(--border2);overflow:hidden}
-.full-app-header{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.2rem;background:var(--s2);border-bottom:1px solid var(--border)}
-.full-app-logo{font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;color:var(--dim);display:flex;align-items:center;gap:.5rem}
-.status-online{display:flex;align-items:center;gap:.35rem;font-family:var(--mono);font-size:.65rem;color:var(--a)}
-.status-online::before{content:'';width:5px;height:5px;background:var(--a);border-radius:50%;animation:breathe 2s infinite}
-/* TABS FULL */
-.full-tabs{display:flex;background:var(--s2);border-bottom:1px solid var(--border)}
-.full-tab{flex:1;padding:.6rem;font-size:.65rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;text-align:center;border-bottom:2px solid transparent;transition:all .2s}
-.full-tab.active{color:var(--a);border-bottom-color:var(--a)}
-/* SCENE AREA */
-.full-scene{height:200px;position:relative;overflow:hidden}
-/* CONTROL PANEL */
-.full-controls{padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;max-height:260px;overflow-y:auto}
-.full-controls::-webkit-scrollbar{width:2px}
-.full-controls::-webkit-scrollbar-thumb{background:var(--border2)}
-/* FOOTER ROW */
-.full-footer{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border)}
-.full-stat{padding:.6rem;text-align:center;border-right:1px solid var(--border)}
-.full-stat:last-child{border-right:none}
-.full-stat-val{font-family:var(--mono);font-size:.78rem;color:var(--a)}
-.full-stat-label{font-size:.55rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem}
-
-/* ── CONTACT ── */
-.contact-section{padding:6rem 2.5rem;max-width:900px;margin:0 auto;text-align:center}
-.contact-section .section-h2{margin:0 auto 1rem}
-.contact-section .section-sub{margin:0 auto 3rem}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);margin-bottom:3rem}
-.contact-card{background:var(--s1);padding:2rem 1.5rem;text-align:center;transition:background .2s}
-.contact-card:hover{background:var(--s3)}
-.contact-card-icon{font-size:1.5rem;margin-bottom:.75rem}
-.contact-card-title{font-size:.88rem;font-weight:700;margin-bottom:.4rem}
-.contact-card-val{font-family:var(--mono);font-size:.75rem;color:var(--a)}
-.contact-card-desc{font-size:.72rem;color:var(--muted);margin-top:.3rem;line-height:1.5}
-.cta-big{display:inline-flex;align-items:center;gap:.75rem;background:var(--a);color:#fff;font-weight:800;font-size:1rem;padding:1.1rem 2.5rem;letter-spacing:.04em;text-transform:uppercase;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
-.cta-big:hover{background:var(--a2);transform:translateY(-3px);box-shadow:0 20px 60px var(--a-glow)}
-.cta-big .arrow{transition:transform .2s}
-.cta-big:hover .arrow{transform:translateX(4px)}
-
-/* ── FOOTER ── */
-footer{padding:2rem 2.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
-.footer-logo{font-weight:900;font-size:.95rem;letter-spacing:-.02em}
-.footer-logo span{color:var(--a)}
-.footer-copy{font-family:var(--mono);font-size:.65rem;color:var(--muted)}
-.footer-links{display:flex;gap:1.5rem}
-.footer-links a{font-size:.72rem;color:var(--muted);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--a)}
-
-/* ── ANIMATIONS ── */
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-.hero-left>*{animation:fadeUp .7s ease both}
-.hero-left .hero-tag{animation-delay:.1s}
-.hero-left .hero-h1{animation-delay:.2s}
-.hero-left .hero-sub{animation-delay:.3s}
-.hero-left .hero-actions{animation-delay:.4s}
-.hero-left .hero-stats{animation-delay:.5s}
-.hero-app{animation:fadeUp .8s .3s ease both}
-
-/* TOAST */
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:#1a1208;border:1px solid rgba(0,229,160,0.3);padding:.6rem 1.2rem;font-family:var(--mono);font-size:.75rem;color:var(--a);transition:transform .4s cubic-bezier(.34,1.56,.64,1);z-index:9999;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* ── RESPONSIVE ── */
-@media(max-width:900px){
-  .hero{grid-template-columns:1fr;padding:5rem 1.5rem 3rem}
-  .why-grid,.services-grid,.contact-grid{grid-template-columns:1fr}
-  .demo-layout{grid-template-columns:1fr}
-  .nav-links{display:none}
-  .hero-stats{gap:1.5rem}
-  section[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important}
-  section[style*="grid-template-columns:repeat(3"]{grid-template-columns:1fr !important}
-  section[style*="grid-template-columns:repeat(2"]{grid-template-columns:1fr !important}
-  [style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important}
-  [style*="grid-template-columns:repeat(3,1fr)"]{grid-template-columns:1fr !important}
-  section[style*="padding:6rem 2.5rem"]{padding:3.5rem 1.4rem !important}
-  .services-grid{grid-template-columns:1fr}
-}
-
-/* ── PRESUPUESTO MODAL ── */
-.modal-overlay{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem;opacity:0;pointer-events:none;transition:opacity .25s}
-.modal-overlay.open{opacity:1;pointer-events:all}
-.modal-backdrop{position:absolute;inset:0;background:rgba(26,18,8,.7);backdrop-filter:blur(6px)}
-.modal-box{position:relative;width:100%;max-width:520px;background:var(--bg);border:1px solid var(--border2);overflow:hidden;transform:translateY(20px) scale(.97);transition:transform .28s cubic-bezier(.22,1,.36,1)}
-.modal-overlay.open .modal-box{transform:translateY(0) scale(1)}
-.modal-head{padding:1.4rem 1.6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.modal-head-title{font-size:.9rem;font-weight:800;letter-spacing:-.02em}
-.modal-head-sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;margin-top:.15rem}
-.modal-close{width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;border:1px solid var(--border);background:none;color:var(--muted);font-size:1rem;transition:all .15s}
-.modal-close:hover{background:var(--s2);color:var(--text)}
-.modal-body{padding:1.4rem 1.6rem;display:flex;flex-direction:column;gap:1rem;max-height:70vh;overflow-y:auto}
-.modal-field{display:flex;flex-direction:column;gap:.35rem}
-.modal-label{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.modal-input{background:var(--s1);border:1px solid var(--border);padding:.65rem .85rem;font-size:.85rem;color:var(--text);font-family:var(--sans);transition:border-color .15s;outline:none;width:100%;box-sizing:border-box}
-.modal-input:focus{border-color:var(--a)}
-.modal-textarea{background:var(--s1);border:1px solid var(--border);padding:.65rem .85rem;font-size:.85rem;color:var(--text);font-family:var(--sans);transition:border-color .15s;outline:none;width:100%;box-sizing:border-box;resize:vertical;min-height:100px;line-height:1.6}
-.modal-textarea:focus{border-color:var(--a)}
-.modal-chips{display:flex;flex-wrap:wrap;gap:.4rem}
-.chip{padding:.35rem .75rem;border:1px solid var(--border2);font-size:.72rem;font-weight:600;cursor:pointer;transition:all .15s;background:var(--s1);color:var(--muted);user-select:none}
-.chip.active{background:var(--a);color:#fff;border-color:var(--a)}
-.chip:hover:not(.active){background:var(--s2);color:var(--text)}
-.modal-foot{padding:1rem 1.6rem;border-top:1px solid var(--border);display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
-.modal-send{flex:1;background:var(--a);color:#fff;border:none;padding:.75rem 1.2rem;font-size:.82rem;font-weight:700;cursor:pointer;font-family:var(--sans);letter-spacing:.03em;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:background .15s}
-.modal-send:hover{background:var(--a2)}
-.modal-note{font-size:.65rem;color:var(--muted);line-height:1.5;flex:1;min-width:160px}
-.modal-tip{background:var(--s1);border-left:2px solid var(--a);padding:.65rem .85rem;font-size:.75rem;color:var(--dim);line-height:1.6}
-.modal-tip strong{color:var(--text)}
-
-</style>
+    /* ── WA FLOAT ── */
+    .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--wa-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,0.4); text-decoration: none; z-index: 200; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 28px; height: 28px; fill: white; }
+  </style>
 </head>
 <body>
 
-<div class="glow-bg"><div class="glow-1"></div><div class="glow-2"></div></div>
-
 <!-- NAV -->
 <nav>
-  <div class="nav-logo"><div class="dot"></div>Sanzivi</div>
+  <a href="#" class="nav-logo">Sanzivi<span>.</span></a>
   <div class="nav-links">
     <a href="#servicios">Servicios</a>
     <a href="#domotica">Domótica</a>
     <a href="#trabajos">Trabajos</a>
+    <a href="#tarifas">Tarifas</a>
     <a href="#blog">Blog</a>
-    <a href="tarifas.html">Tarifas</a>
     <a href="#contacto">Contacto</a>
   </div>
-  <a href="#contacto" class="nav-cta">Pedir presupuesto</a>
+  <button class="nav-cta" onclick="openModal()">Pedir presupuesto</button>
 </nav>
 
 <!-- HERO -->
 <section>
-<div class="hero">
-  <div class="hero-left">
-    <div class="hero-tag">Instalador verificado Shelly · Barcelona y alrededores</div>
-    <h1 class="hero-h1">Tu vivienda,<br><span class="accent">inteligente</span><br>y sin obras.</h1>
-    <p class="hero-sub">Electricidad, domótica y pequeñas reparaciones rápidas en Barcelona. Instalador verificado Shelly. Soluciones que funcionan desde el primer día.</p>
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="scrollToContact()">Pedir presupuesto gratis <span>→</span></button>
-      <button class="btn-ghost" onclick="scrollToDemo()">Ver demo en vivo <span>▶</span></button>
+  <div class="hero">
+    <div>
+      <div class="hero-tag">Instalador verificado Shelly · Barcelona</div>
+      <h1>Tu vivienda,<br><em>inteligente</em><br>y sin obras.</h1>
+      <p class="hero-sub">Electricidad, domótica y pequeñas reparaciones rápidas en Barcelona. Soluciones que funcionan desde el primer día.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openModal()">Pedir presupuesto</button>
+        <a href="#servicios" class="btn-secondary">Ver servicios →</a>
+      </div>
+      <div class="hero-trust">
+        <div class="dot"></div>
+        Disponible en Barcelona y alrededores
+      </div>
     </div>
-    <div class="hero-stats">
-      <div class="hero-stat"><div class="val">+10</div><div class="label">Instalaciones</div></div>
-      <div class="hero-stat"><div class="val">48h</div><div class="label">Instalación</div></div>
-      <div class="hero-stat"><div class="val">0€</div><div class="label">Obras necesarias</div></div>
+    <div class="hero-img">
+      <img src="foto_hero.jpg" alt="Instalación Sanzivi BCN" />
+      <div class="hero-badge">
+        <div class="hero-badge-icon">✓</div>
+        <div class="hero-badge-text">
+          Instalador verificado Shelly
+          <span>Presencia en el listado oficial de la marca</span>
+        </div>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- MINI APP -->
-  <div class="hero-app">
-    <div class="app-topbar">
-      <div class="app-title-row">
-        <div class="app-dot"></div>
-        <span class="app-name">sanzivi.control · casa demo</span>
-      </div>
-      <span class="app-time" id="live-time">--:--</span>
-    </div>
-    <div class="room-tabs">
-      <div class="room-tab active" onclick="selectRoom('salon',this)">Salón</div>
-      <div class="room-tab" onclick="selectRoom('cocina',this)">Cocina</div>
-      <div class="room-tab" onclick="selectRoom('terraza',this)">Terraza</div>
-    </div>
-    <div class="room-scene" id="room-scene">
-      <!-- SALON SVG -->
-      <svg id="scene-svg" class="scene-svg" viewBox="0 0 480 220" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <radialGradient id="wg1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb347" stop-opacity=".55"/><stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
-          <radialGradient id="wg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb347" stop-opacity=".45"/><stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient>
-          <radialGradient id="wg3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00e5a0" stop-opacity=".3"/><stop offset="100%" stop-color="#00e5a0" stop-opacity="0"/></radialGradient>
-          <radialGradient id="tvg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a7c8e" stop-opacity=".4"/><stop offset="100%" stop-color="#4a7c8e" stop-opacity="0"/></radialGradient>
-          <filter id="sg"><feGaussianBlur stdDeviation="5"/></filter>
-          <filter id="lg"><feGaussianBlur stdDeviation="8"/></filter>
-        </defs>
-        <!-- FLOOR -->
-        <rect x="0" y="120" width="480" height="100" fill="#0e0e1a"/>
-        <!-- FLOOR LINES -->
-        <line x1="0" y1="140" x2="480" y2="140" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="0" y1="160" x2="480" y2="160" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="0" y1="180" x2="480" y2="180" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="120" y1="120" x2="120" y2="220" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="240" y1="120" x2="240" y2="220" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <line x1="360" y1="120" x2="360" y2="220" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
-        <!-- BACK WALL -->
-        <rect x="0" y="0" width="480" height="125" fill="#0a0a14"/>
-        <!-- BASEBOARD -->
-        <rect x="0" y="118" width="480" height="4" fill="#111120"/>
-        <!-- WALL TEXTURE LINES -->
-        <line x1="0" y1="40" x2="480" y2="40" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
-        <line x1="0" y1="80" x2="480" y2="80" stroke="rgba(255,255,255,0.02)" stroke-width="1"/>
-
-        <!-- WINDOW LEFT -->
-        <rect x="30" y="15" width="90" height="75" fill="#0a1420" stroke="#1a2030" stroke-width="1.5"/>
-        <rect x="35" y="20" width="80" height="65" fill="rgba(10,40,80,0.8)" stroke="rgba(56,189,248,0.3)" stroke-width="1"/>
-        <line x1="75" y1="20" x2="75" y2="85" stroke="rgba(200,220,255,0.15)" stroke-width="1.5"/>
-        <line x1="35" y1="52" x2="115" y2="52" stroke="rgba(200,220,255,0.15)" stroke-width="1.5"/>
-        <!-- WINDOW LIGHT -->
-        <ellipse id="win-light" cx="75" cy="125" rx="55" ry="25" fill="url(#tvg)" opacity="0.6" filter="url(#lg)"/>
-
-        <!-- CEILING LIGHT RAIL -->
-        <rect x="160" y="0" width="160" height="4" fill="#1a1a28"/>
-        <circle id="spot-l" cx="185" cy="4" r="5" fill="#ffb347" filter="url(#sg)"/>
-        <circle id="spot-m" cx="240" cy="4" r="6" fill="#ffb347" filter="url(#sg)"/>
-        <circle id="spot-r" cx="295" cy="4" r="5" fill="#ffb347" filter="url(#sg)"/>
-        <!-- LIGHT HALOS -->
-        <ellipse id="halo-l" cx="185" cy="130" rx="70" ry="50" fill="url(#wg1)" opacity="1" filter="url(#lg)"/>
-        <ellipse id="halo-m" cx="240" cy="130" rx="80" ry="55" fill="url(#wg2)" opacity="1" filter="url(#lg)"/>
-        <ellipse id="halo-r" cx="295" cy="130" rx="70" ry="50" fill="url(#wg1)" opacity="1" filter="url(#lg)"/>
-
-        <!-- SOFA -->
-        <rect x="130" y="145" width="220" height="50" rx="3" fill="#141428" stroke="#1e1e38" stroke-width="1.5"/>
-        <rect x="130" y="145" width="220" height="12" rx="2" fill="#1a1a35" stroke="#222244" stroke-width="1"/>
-        <rect x="130" y="143" width="12" height="52" rx="2" fill="#1c1c38" stroke="#222244" stroke-width="1"/>
-        <rect x="338" y="143" width="12" height="52" rx="2" fill="#1c1c38" stroke="#222244" stroke-width="1"/>
-        <rect x="148" y="157" width="50" height="24" rx="2" fill="#181830" stroke="#222240" stroke-width="1"/>
-        <rect x="215" y="157" width="50" height="24" rx="2" fill="#181830" stroke="#222240" stroke-width="1"/>
-        <rect x="282" y="157" width="50" height="24" rx="2" fill="#181830" stroke="#222240" stroke-width="1"/>
-
-        <!-- COFFEE TABLE -->
-        <rect x="175" y="200" width="130" height="18" rx="1" fill="#111120" stroke="#1a1a2e" stroke-width="1"/>
-        <line x1="185" y1="218" x2="185" y2="220" stroke="#1a1a2e" stroke-width="2"/>
-        <line x1="295" y1="218" x2="295" y2="220" stroke="#1a1a2e" stroke-width="2"/>
-
-        <!-- TV on wall -->
-        <rect x="345" y="15" width="120" height="75" rx="2" fill="#060610" stroke="#1a1a2e" stroke-width="1.5"/>
-        <rect id="tv-screen" x="350" y="20" width="110" height="65" rx="1" fill="#050510"/>
-        <ellipse id="tv-glow" cx="405" cy="120" rx="60" ry="25" fill="url(#tvg)" opacity="0" filter="url(#lg)"/>
-
-        <!-- THERMOSTAT on wall -->
-        <rect x="0" y="55" width="22" height="35" fill="#111120" stroke="#7c5cfc" stroke-width="1"/>
-        <rect x="3" y="58" width="16" height="16" fill="rgba(124,92,252,0.15)"/>
-        <circle id="therm-led-mini" cx="11" cy="82" r="3" fill="#7c5cfc"/>
-
-        <!-- AMBIENT LIGHT STRIP (behind sofa) -->
-        <rect id="amb-strip" x="130" y="142" width="220" height="3" fill="rgba(0,229,160,0)" rx="1"/>
-      </svg>
-
-      <!-- SCENE TEMPERATURE OVERLAY -->
-      <div style="position:absolute;top:8px;right:10px;background:rgba(8,8,16,0.85);border:1px solid rgba(255,255,255,0.06);padding:.35rem .6rem;font-family:var(--mono);font-size:.65rem;backdrop-filter:blur(8px)">
-        <span style="color:var(--muted)">interior </span><span id="mini-temp" style="color:#ff8a65;font-weight:500">20°C</span>
-      </div>
-    </div>
-
-    <div class="room-controls" id="room-controls">
-      <!-- Controls injected by JS -->
-    </div>
-
-    <div class="app-bottom">
-      <div class="app-stat"><div class="app-stat-val" id="stat-kw">1.8</div><div class="app-stat-label">kW ahora</div></div>
-      <div class="app-stat"><div class="app-stat-val" id="stat-temp">20°C</div><div class="app-stat-label">Temperatura</div></div>
-      <div class="app-stat"><div class="app-stat-val" id="stat-saving" style="color:var(--a)">-32%</div><div class="app-stat-label">Ahorro Shelly</div></div>
-    </div>
+<!-- TIP BANNER -->
+<div class="tip-banner">
+  <div class="tip-banner-inner">
+    <p>💡 <strong>Consejo:</strong> Antes de contactar, apunta todos los trabajos pendientes en casa. Una visita bien aprovechada puede resolver 4 o 5 cosas a la vez.</p>
+    <button class="btn-primary" onclick="openModal()">Enviar mi lista →</button>
   </div>
 </div>
-</section>
 
-<!-- WHY -->
-<section class="why" id="servicios">
-  <div class="section-tag">Por qué elegirnos</div>
-  <h2 class="section-h2">Domótica que<br>realmente funciona.</h2>
-  <p class="section-sub">Sin obras, sin complicaciones, sin atarte a ningún ecosistema. Instalamos y tú controlas desde el primer día.</p>
-  <div class="why-grid">
-    <div class="why-card">
-      <div class="why-num">01</div>
-      <span class="why-icon">⚡</span>
-      <div class="why-title">Instalación en 48h</div>
-      <div class="why-desc">Sin cortar paredes, sin esconder cables. Los relés Shelly van dentro de las cajas de registro existentes. Tu casa queda igual por fuera.</div>
+<!-- SERVICIOS -->
+<section class="section servicios-bg" id="servicios">
+  <div class="section-inner">
+    <span class="section-tag">Servicios</span>
+    <h2>Servicios rápidos<br>para tu hogar.</h2>
+    <p class="section-sub">Trabajos limpios, presupuesto claro antes de empezar y ejecución el mismo día o al siguiente.</p>
+    <div class="servicios-grid">
+      <div class="svc-card">
+        <div class="svc-icon">⚡</div>
+        <h3>Electricidad</h3>
+        <p>Instalaciones y reparaciones eléctricas en vivienda, con cumplimiento de normativa.</p>
+        <div class="svc-items">
+          <div class="svc-item">Cambiar enchufes e interruptores</div>
+          <div class="svc-item">Instalar lámparas y apliques</div>
+          <div class="svc-item">Tiras LED</div>
+          <div class="svc-item">Cuadros eléctricos</div>
+        </div>
+        <div class="svc-price">desde 80€</div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏠</div>
+        <h3>Domótica</h3>
+        <p>Automatiza tu vivienda sin obras. Relés Shelly y Sonoff, luces y persianas desde el móvil.</p>
+        <div class="svc-items">
+          <div class="svc-item">Relés Shelly y Sonoff</div>
+          <div class="svc-item">Control de persianas y estores</div>
+          <div class="svc-item">Google Home / Alexa</div>
+          <div class="svc-item">Home Assistant</div>
+        </div>
+        <div class="svc-price">desde 80€</div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🔧</div>
+        <h3>Fontanería básica</h3>
+        <p>Reparaciones rápidas sin obra ni cortes largos de agua.</p>
+        <div class="svc-items">
+          <div class="svc-item">Cambiar grifos y cisternas</div>
+          <div class="svc-item">Reparar sifones</div>
+          <div class="svc-item">Revisión de instalación</div>
+          <div class="svc-item">Desatascos</div>
+        </div>
+        <div class="svc-price">desde 80€</div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🪛</div>
+        <h3>Manitas</h3>
+        <p>Esos trabajos que llevan semanas en la lista. Los resolvemos en una visita.</p>
+        <div class="svc-items">
+          <div class="svc-item">Colgar televisores y cuadros</div>
+          <div class="svc-item">Instalar estanterías</div>
+          <div class="svc-item">Montar muebles</div>
+          <div class="svc-item">Pequeñas reparaciones</div>
+        </div>
+        <div class="svc-price">desde 80€</div>
+      </div>
     </div>
-    <div class="why-card">
-      <div class="why-num">02</div>
-      <span class="why-icon">📱</span>
-      <div class="why-title">Control desde el móvil</div>
-      <div class="why-desc">Compatible con Google Home, Amazon Alexa y Home Assistant. Enciende luces, sube persianas o ajusta temperatura desde cualquier lugar del mundo.</div>
-    </div>
-    <div class="why-card">
-      <div class="why-num">03</div>
-      <span class="why-icon">💶</span>
-      <div class="why-title">Ahorra en la factura</div>
-      <div class="why-desc">Programaciones automáticas, sensores de presencia y gestión del consumo en tiempo real. Nuestros clientes ahorran de media un 25-40% en electricidad.</div>
+    <div class="pricing-note">
+      <div class="price-pill">
+        <span class="price-num">80€</span>
+        <span class="price-label">primera hora · incluye desplazamiento</span>
+      </div>
+      <div class="divider"></div>
+      <div class="price-pill">
+        <span class="price-num">50€</span>
+        <span class="price-label">hora adicional</span>
+      </div>
+      <div class="divider"></div>
+      <p class="note">Material aparte · Presupuesto antes de empezar · Sin sorpresas</p>
+      <a href="tarifas.html">Ver tarifas completas →</a>
     </div>
   </div>
 </section>
-
-<!-- SERVICES -->
-<section class="services">
-  <div class="section-tag">Servicios</div>
-  <h2 class="section-h2" style="margin-bottom:1rem">Qué instalamos.</h2>
-  <p class="section-sub">Tanto para pisos particulares en Barcelona como para negocios y locales comerciales.</p>
-  <div class="services-grid">
-
-    <div class="svc">
-      <div class="svc-tag">Electricidad</div>
-      <div class="svc-title">⚡ Instalaciones eléctricas</div>
-      <div class="svc-desc">Enchufes, interruptores, lámparas, cuadros eléctricos e iluminación técnica. Cumplimiento de normativa.</div>
-      <div class="svc-items">
-        <span class="svc-item">Cambiar enchufe · 80€</span>
-        <span class="svc-item">Instalar lámpara · 80€</span>
-        <span class="svc-item">Tira LED completa · desde 120€</span>
-        <span class="svc-item">Cuadro eléctrico · desde 200€</span>
-        <span class="svc-item">Punto de luz nuevo · desde 100€</span>
-      </div>
-      <div class="svc-price">desde 80€</div>
-    </div>
-
-    <div class="svc">
-      <div class="svc-tag">Domótica</div>
-      <div class="svc-title">🏠 Automatización inteligente</div>
-      <div class="svc-desc">Relés Shelly y Sonoff sin obras. Luces, persianas, temperatura desde el móvil. Integración Google Home y Alexa.</div>
-      <div class="svc-items">
-        <span class="svc-item">Relé Shelly instalado · desde 80€</span>
-        <span class="svc-item">Persiana automática · desde 120€</span>
-        <span class="svc-item">Pack 3 habitaciones · desde 280€</span>
-        <span class="svc-item">Home Assistant · consultar</span>
-        <span class="svc-item">Sensor presencia · desde 90€</span>
-      </div>
-      <div class="svc-price">desde 80€</div>
-    </div>
-
-    <div class="svc">
-      <div class="svc-tag">Fontanería básica</div>
-      <div class="svc-title">🔧 Reparaciones rápidas</div>
-      <div class="svc-desc">Sin obra ni cortes largos de agua. Grifos, cisternas, sifones y revisiones de instalación.</div>
-      <div class="svc-items">
-        <span class="svc-item">Cambiar grifo · desde 80€</span>
-        <span class="svc-item">Reparar cisterna · desde 60€</span>
-        <span class="svc-item">Cambiar sifón · 80€</span>
-        <span class="svc-item">Revisión instalación · 80€</span>
-      </div>
-      <div class="svc-price">desde 80€</div>
-    </div>
-
-    <div class="svc">
-      <div class="svc-tag">Manitas</div>
-      <div class="svc-title">🪛 Esos trabajos pendientes</div>
-      <div class="svc-desc">Los que llevan semanas en la lista. Colgar la tele, montar muebles, instalar estantes. Lo resolvemos en una visita.</div>
-      <div class="svc-items">
-        <span class="svc-item">Colgar TV · desde 60€</span>
-        <span class="svc-item">Montar mueble · 80€</span>
-        <span class="svc-item">Instalar estantes · 80€</span>
-        <span class="svc-item">Pack visita (2h) · 130€</span>
-      </div>
-      <div class="svc-price">desde 50€</div>
-    </div>
-
-  </div>
-</div></div>
-</section>
-
-
 
 <!-- DOMÓTICA -->
-<span id="domotica"></span>
-<section style="padding:6rem 2.5rem;background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
-    <div>
-      <div class="section-tag">Especialización</div>
-      <h2 class="section-h2">Domótica simple<br>para cualquier piso.</h2>
-      <p class="section-sub">No hace falta renovar la vivienda. Con relés Shelly, cualquier interruptor existente se vuelve inteligente — sin tocar paredes.</p>
-      <div style="display:flex;flex-direction:column;gap:.75rem;margin-bottom:2.5rem">
-        <div style="display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:var(--bg);border:1px solid var(--border)">
-          <span style="font-size:1.2rem;flex-shrink:0">💡</span>
-          <div><div style="font-size:.88rem;font-weight:700;margin-bottom:.2rem">Luces automáticas</div><div style="font-size:.78rem;color:var(--dim);line-height:1.6">Por horario, voz o presencia. Sin cambiar la instalación. Desde 80€.</div></div>
-        </div>
-        <div style="display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:var(--bg);border:1px solid var(--border)">
-          <span style="font-size:1.2rem;flex-shrink:0">🪟</span>
-          <div><div style="font-size:.88rem;font-weight:700;margin-bottom:.2rem">Persianas desde el móvil</div><div style="font-size:.78rem;color:var(--dim);line-height:1.6">Sube y baja desde cualquier lugar, programa horarios. Desde 120€.</div></div>
-        </div>
-        <div style="display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:var(--bg);border:1px solid var(--border)">
-          <span style="font-size:1.2rem;flex-shrink:0">🔌</span>
-          <div><div style="font-size:.88rem;font-weight:700;margin-bottom:.2rem">Control energético</div><div style="font-size:.78rem;color:var(--dim);line-height:1.6">Monitoriza el consumo de cada circuito. Detecta anomalías en tiempo real.</div></div>
-        </div>
-        <div style="display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:var(--bg);border:1px solid var(--border)">
-          <span style="font-size:1.2rem;flex-shrink:0">🎙️</span>
-          <div><div style="font-size:.88rem;font-weight:700;margin-bottom:.2rem">Integración con voz</div><div style="font-size:.78rem;color:var(--dim);line-height:1.6">Compatible con Google Home, Amazon Alexa y Home Assistant.</div></div>
-        </div>
-      </div>
-      <a href="https://wa.me/34654089180?text=Hola%2C%20me%20interesa%20la%20dom%C3%B3tica%20para%20mi%20piso" target="_blank" class="btn-primary" style="display:inline-flex;align-items:center;gap:.5rem;text-decoration:none">Quiero domótica en mi piso →</a>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:1rem">
-      <div style="background:var(--bg);border:1px solid var(--border);padding:1.5rem">
-        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:.75rem">✓ Instalador verificado Shelly</div>
-        <div style="font-size:.85rem;color:var(--dim);line-height:1.7">Presencia en el listado oficial de instaladores de la marca. Instalación garantizada y soporte post-instalación.</div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
-        <div style="background:var(--bg);padding:1.2rem;text-align:center">
-          <div style="font-size:1.6rem;font-weight:900;color:var(--a);font-family:var(--mono)">48h</div>
-          <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem">Instalación</div>
-        </div>
-        <div style="background:var(--bg);padding:1.2rem;text-align:center">
-          <div style="font-size:1.6rem;font-weight:900;color:var(--a);font-family:var(--mono)">0€</div>
-          <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem">Obras necesarias</div>
-        </div>
-        <div style="background:var(--bg);padding:1.2rem;text-align:center">
-          <div style="font-size:1.6rem;font-weight:900;color:var(--a);font-family:var(--mono)">-32%</div>
-          <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem">Ahorro factura</div>
-        </div>
-        <div style="background:var(--bg);padding:1.2rem;text-align:center">
-          <div style="font-size:1.6rem;font-weight:900;color:var(--a);font-family:var(--mono)">+10</div>
-          <div style="font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.2rem">Instalaciones</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- TRABAJOS DIFÍCILES -->
-<span id="trabajos"></span>
-<span id="dificiles"></span>
-<section style="background:var(--bg);border-top:1px solid var(--border);padding:6rem 2.5rem">
-  <div style="max-width:1200px;margin:0 auto">
-
-    <!-- HEADER -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:4rem">
+<section class="section" id="domotica">
+  <div class="section-inner">
+    <div class="domotica-grid">
       <div>
-        <div style="font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:#c0392b;margin-bottom:1rem;display:flex;align-items:center;gap:.6rem">
-          <span style="display:inline-block;width:14px;height:1px;background:#c0392b"></span>
-          Trabajos que otros rechazan
+        <span class="section-tag">Especialización</span>
+        <h2>Domótica simple<br>para <em>cualquier</em> piso.</h2>
+        <p class="section-sub">No hace falta renovar la vivienda. Con relés Shelly cualquier interruptor existente se vuelve inteligente — sin tocar paredes.</p>
+        <div class="shelly-badge">
+          <span class="check">✓</span>
+          <p><strong>Instalador verificado Shelly</strong> — Presencia en el listado oficial de instaladores de la marca.</p>
         </div>
-        <h2 style="font-size:clamp(2rem,4vw,3rem);font-weight:900;letter-spacing:-.04em;line-height:1.05;margin-bottom:1rem">
-          Si te han dicho<br>que no se puede,<br><span style="color:#c0392b">llámanos.</span>
-        </h2>
-        <p style="color:var(--dim);font-size:.92rem;line-height:1.7;max-width:420px">
-          Instalaciones sin planos, fontanería en rincones imposibles, trabajos que requieren ingenio antes que presupuesto. Son los trabajos que más disfrutamos — y donde cobramos lo que vale resolverlos.
-        </p>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:1px;background:rgba(248,113,113,0.1)">
-        <div style="background:var(--s1);padding:1.5rem;border-left:3px solid #c0392b">
-          <div style="font-family:var(--mono);font-size:.65rem;color:#c0392b;margin-bottom:.4rem;letter-spacing:.08em">REALIDAD</div>
-          <div style="font-size:.85rem;color:var(--dim);line-height:1.6">El 80% de presupuestadores rechazan trabajos sin planos o en espacios difíciles. Nosotros los buscamos — son los que permiten cobrar lo que realmente vale el conocimiento.</div>
-        </div>
-        <div style="background:var(--s1);padding:1.5rem;border-left:3px solid rgba(248,113,113,0.3)">
-          <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-bottom:.4rem;letter-spacing:.08em">NUESTRA POSTURA</div>
-          <div style="font-size:.85rem;color:var(--dim);line-height:1.6">No damos precio sin ver. Visitamos, evaluamos y presupuestamos con honestidad. Si no podemos, te lo decimos — pero antes lo intentamos.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- SERVICES GRID -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(248,113,113,0.08);margin-bottom:3rem">
-
-      <!-- ELECTRICIDAD DIFÍCIL -->
-      <div style="background:var(--s1);padding:2.2rem;position:relative;overflow:hidden;transition:background .3s" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background='var(--s1)'">
-        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,#c0392b,transparent)"></div>
-        <div style="font-size:1.8rem;margin-bottom:1rem">⚡</div>
-        <div style="font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#c0392b;margin-bottom:.6rem">Electricidad · Casos difíciles</div>
-        <div style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.75rem">Instalaciones sin planos ni esquemas</div>
-        <div style="font-size:.82rem;color:var(--dim);line-height:1.65;margin-bottom:1.2rem">
-          Pisos viejos donde nadie sabe qué hace qué. Cuadros eléctricos sin etiquetar. Circuitos añadidos por distintos electricistas a lo largo de los años. Localizamos, trazamos y solucionamos sin adivinar.
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.2rem">
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);padding:.22rem .55rem;color:#c0392b">Trazado de circuitos</span>
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);padding:.22rem .55rem;color:#c0392b">Cuadros sin plano</span>
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);padding:.22rem .55rem;color:#c0392b">Averías crónicas</span>
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(248,113,113,0.08);border:1px solid rgba(248,113,113,0.2);padding:.22rem .55rem;color:#c0392b">Instalaciones antiguas</span>
-        </div>
-        <div style="font-family:var(--mono);font-size:.72rem;color:rgba(248,113,113,0.7);border-top:1px solid rgba(248,113,113,0.12);padding-top:1rem">
-          Precio según complejidad · Visita previa incluida
-        </div>
-      </div>
-
-      <!-- FONTANERÍA DIFÍCIL -->
-      <div style="background:var(--s1);padding:2.2rem;position:relative;overflow:hidden;transition:background .3s" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background='var(--s1)'">
-        <div style="position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(to bottom,#4a7c8e,transparent)"></div>
-        <div style="font-size:1.8rem;margin-bottom:1rem">🔧</div>
-        <div style="font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#4a7c8e;margin-bottom:.6rem">Fontanería · Acceso difícil</div>
-        <div style="font-size:1.1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.75rem">Donde otros no llegan</div>
-        <div style="font-size:.82rem;color:var(--dim);line-height:1.65;margin-bottom:1.2rem">
-          Tuberías empotradas, bajantes en patios imposibles, fugas dentro de paredes, cisternas encajadas en muebles sin salida. Resolvemos lo que requiere paciencia, herramienta y criterio — no solo un presupuesto estándar.
-        </div>
-        <div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.2rem">
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);padding:.22rem .55rem;color:#4a7c8e">Tuberías empotradas</span>
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);padding:.22rem .55rem;color:#4a7c8e">Fugas ocultas</span>
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);padding:.22rem .55rem;color:#4a7c8e">Patios sin acceso</span>
-          <span style="font-family:var(--mono);font-size:.6rem;background:rgba(56,189,248,0.08);border:1px solid rgba(56,189,248,0.2);padding:.22rem .55rem;color:#4a7c8e">Reparaciones crónicas</span>
-        </div>
-        <div style="font-family:var(--mono);font-size:.72rem;color:rgba(56,189,248,0.7);border-top:1px solid rgba(56,189,248,0.12);padding-top:1rem">
-          Precio según complejidad · Visita previa incluida
-        </div>
-      </div>
-    </div>
-
-    <!-- BOTTOM CTA ROW -->
-    <div style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;padding:2rem;background:var(--s1);border:1px solid rgba(248,113,113,0.15)">
-      <div>
-        <div style="font-size:1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.3rem">¿Te han dicho que no tiene solución?</div>
-        <div style="font-size:.82rem;color:var(--dim)">Cuéntanos el problema. Si hay solución, la encontramos. Si no la hay, te lo decimos sin cobrarte nada.</div>
-      </div>
-      <a href="https://wa.me/34654089180?text=Hola%20Sanzivi%2C%20tengo%20un%20trabajo%20complicado%20que%20otros%20han%20rechazado..." target="_blank"
-         style="background:transparent;color:#c0392b;font-weight:700;font-size:.82rem;padding:.8rem 1.8rem;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(248,113,113,0.4);cursor:pointer;transition:all .25s;text-decoration:none;white-space:nowrap;display:inline-block"
-         onmouseover="this.style.background='rgba(248,113,113,0.1)';this.style.borderColor='#c0392b'"
-         onmouseout="this.style.background='transparent';this.style.borderColor='rgba(248,113,113,0.4)'">
-        Explicar mi caso →
-      </a>
-    </div>
-
-  </div>
-</section>
-
-
-<!-- INTERACCIONES DOMÓTICA -->
-<section style="padding:6rem 2.5rem;background:var(--s1);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
-  <div style="max-width:1200px;margin:0 auto">
-    <div class="section-tag">Pruébalo tú mismo</div>
-    <h2 class="section-h2">Así funciona<br>en tu casa.</h2>
-    <p class="section-sub">Toca los controles — son los mismos que usarías con Shelly desde tu móvil.</p>
-
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)">
-
-      <!-- CARD 1: LUCES -->
-      <div style="background:var(--bg);padding:2rem;display:flex;flex-direction:column;gap:1.5rem">
-        <div>
-          <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:.5rem">01 · Iluminación</div>
-          <div style="font-size:1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem">Luces del salón</div>
-          <div style="font-size:.78rem;color:var(--dim);line-height:1.6">Shelly Dimmer 2PM — dentro del interruptor existente.</div>
-        </div>
-
-        <!-- Mini room SVG -->
-        <div style="position:relative;height:120px;background:#080810;overflow:hidden">
-          <!-- Floor -->
-          <div style="position:absolute;bottom:0;left:0;right:0;height:40px;background:#0c0c18;border-top:1px solid #1a1a28"></div>
-          <!-- Sofa -->
-          <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:90px;height:28px">
-            <div style="position:absolute;top:0;left:0;right:0;height:10px;background:#1a1a2e;border-radius:2px 2px 0 0"></div>
-            <div style="position:absolute;bottom:0;left:0;right:0;height:20px;background:#18182a;border-radius:0 0 2px 2px"></div>
-          </div>
-          <!-- Table -->
-          <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:50px;height:6px;background:#111120;margin-bottom:0;top:auto"></div>
-          <!-- Ceiling spots -->
-          <div id="ispot1" style="position:absolute;top:8px;left:35%;width:8px;height:8px;border-radius:50%;background:#222;transition:all .6s"></div>
-          <div id="ispot2" style="position:absolute;top:8px;left:50%;width:8px;height:8px;border-radius:50%;background:#222;transition:all .6s"></div>
-          <div id="ispot3" style="position:absolute;top:8px;left:65%;width:8px;height:8px;border-radius:50%;background:#222;transition:all .6s"></div>
-          <!-- Light glow -->
-          <div id="ilight-glow" style="position:absolute;top:0;left:0;right:0;height:80%;background:radial-gradient(ellipse at 50% 0%,rgba(255,179,71,0.35) 0%,transparent 70%);opacity:0;transition:opacity .7s;pointer-events:none"></div>
-          <div id="ifloor-glow" style="position:absolute;bottom:0;left:0;right:0;height:50%;background:radial-gradient(ellipse at 50% 100%,rgba(255,179,71,0.15) 0%,transparent 60%);opacity:0;transition:opacity .7s;pointer-events:none"></div>
-        </div>
-
-        <!-- Controls -->
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <!-- Switch -->
-          <div style="display:flex;align-items:center;justify-content:space-between">
-            <div style="font-size:.8rem;font-weight:600">Encendido</div>
-            <label style="position:relative;width:44px;height:24px;cursor:pointer;display:block">
-              <input type="checkbox" id="ilight-tog" checked onchange="iLightToggle(this)" style="opacity:0;position:absolute;width:0;height:0">
-              <div id="ilight-track" style="position:absolute;inset:0;background:var(--a);border-radius:12px;transition:background .3s;box-shadow:0 0 10px var(--a-glow)"></div>
-              <div id="ilight-thumb" style="position:absolute;width:18px;height:18px;background:#000;border-radius:50%;top:3px;left:23px;transition:left .3s;pointer-events:none"></div>
-            </label>
-          </div>
-          <!-- Dimmer -->
-          <div id="idimmer-wrap">
-            <div style="display:flex;justify-content:space-between;margin-bottom:.4rem">
-              <span style="font-size:.75rem;color:var(--muted)">Intensidad</span>
-              <span id="idimmer-label" style="font-family:var(--mono);font-size:.72rem;color:var(--warm)">75%</span>
-            </div>
-            <input type="range" class="dimmer" id="idimmer" min="10" max="100" value="75" style="--pct:75%;width:100%" oninput="iDimmerChange(this)">
-          </div>
-          <!-- Ambient toggle -->
-          <div style="display:flex;align-items:center;justify-content:space-between">
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-item-icon">💡</span>
             <div>
-              <div style="font-size:.78rem;font-weight:600">Tira LED ambiente</div>
-              <div style="font-family:var(--mono);font-size:.6rem;color:var(--muted)">detrás del sofá</div>
+              <h4>Luces automáticas</h4>
+              <p>Por horario, voz o presencia. Sin cambiar la instalación. Desde 80€.</p>
             </div>
-            <label style="position:relative;width:44px;height:24px;cursor:pointer;display:block">
-              <input type="checkbox" id="iambient-tog" onchange="iAmbientToggle(this)" style="opacity:0;position:absolute;width:0;height:0">
-              <div id="iambient-track" style="position:absolute;inset:0;background:rgba(255,255,255,0.08);border:1px solid var(--border2);border-radius:12px;transition:background .3s"></div>
-              <div id="iambient-thumb" style="position:absolute;width:18px;height:18px;background:rgba(255,255,255,.4);border-radius:50%;top:3px;left:3px;transition:left .3s,background .3s;pointer-events:none"></div>
-            </label>
           </div>
-          <!-- Ambient strip in scene -->
-          <div id="iambient-strip" style="height:2px;background:transparent;border-radius:1px;transition:all .4s;margin-top:-.5rem"></div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🪟</span>
+            <div>
+              <h4>Persianas desde el móvil</h4>
+              <p>Sube y baja desde cualquier lugar, programa horarios. Desde 120€.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🔌</span>
+            <div>
+              <h4>Control energético</h4>
+              <p>Monitoriza el consumo de cada circuito en tiempo real.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🎙️</span>
+            <div>
+              <h4>Integración con voz</h4>
+              <p>Compatible con Google Home, Amazon Alexa y Home Assistant.</p>
+            </div>
+          </div>
         </div>
+        <button class="btn-primary" onclick="openModal()">Quiero domótica en mi piso →</button>
       </div>
-
-      <!-- CARD 2: PERSIANAS -->
-      <div style="background:var(--bg);padding:2rem;display:flex;flex-direction:column;gap:1.5rem">
-        <div>
-          <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:.5rem">02 · Persianas</div>
-          <div style="font-size:1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem">Persiana automática</div>
-          <div style="font-size:.78rem;color:var(--dim);line-height:1.6">Shelly Plus 2PM — conectado al motor existente sin cambiar nada.</div>
+      <div>
+        <div class="domotica-stats">
+          <div class="stat-card"><div class="num">48h</div><div class="lbl">Instalación</div></div>
+          <div class="stat-card"><div class="num">0€</div><div class="lbl">Obras necesarias</div></div>
+          <div class="stat-card"><div class="num">-32%</div><div class="lbl">Ahorro factura</div></div>
+          <div class="stat-card"><div class="num">+10</div><div class="lbl">Instalaciones</div></div>
         </div>
-
-        <!-- Window visual -->
-        <div style="position:relative;height:120px;background:#080810;overflow:hidden;display:flex;align-items:center;justify-content:center">
-          <!-- Window frame -->
-          <div style="position:relative;width:100px;height:96px;border:2px solid #1a2535;background:#0c1018;overflow:hidden">
-            <!-- Sky -->
-            <div style="position:absolute;inset:0;background:linear-gradient(180deg,#1a3a6e,#3a7abf)"></div>
-            <!-- Sun -->
-            <div id="iblind-sun" style="position:absolute;top:15px;right:20px;width:18px;height:18px;border-radius:50%;background:#fde68a;box-shadow:0 0 12px rgba(253,230,138,.6);transition:opacity 1s"></div>
-            <!-- Buildings -->
-            <div style="position:absolute;bottom:0;left:5px;width:20px;height:36px;background:#0e1830"></div>
-            <div style="position:absolute;bottom:0;left:30px;width:28px;height:48px;background:#0c1628"></div>
-            <div style="position:absolute;bottom:0;right:8px;width:22px;height:40px;background:#0e1830"></div>
-            <!-- Blind slats -->
-            <div id="iblind-slats" style="position:absolute;top:0;left:0;right:0;height:0%;background:#c8b89a;transition:height 1.2s cubic-bezier(.4,0,.2,1);overflow:hidden">
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-              <div style="height:9px;border-bottom:1px solid #b0a088"></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Controls -->
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <div style="display:flex;gap:.5rem">
-            <button onclick="iBlind('up')" style="flex:1;padding:.65rem;background:var(--bg);border:1px solid var(--border2);color:var(--text);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--sans)" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text)'">▲ Subir</button>
-            <button onclick="iBlind('stop')" style="flex:1;padding:.65rem;background:var(--bg);border:1px solid var(--border2);color:var(--text);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--sans)" onmouseover="this.style.borderColor='var(--muted)'" onmouseout="this.style.borderColor='var(--border2)'">■ Parar</button>
-            <button onclick="iBlind('down')" style="flex:1;padding:.65rem;background:var(--bg);border:1px solid var(--border2);color:var(--text);font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:var(--sans)" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text)'">▼ Bajar</button>
-          </div>
-          <div>
-            <div style="height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden"><div id="iblind-bar" style="height:100%;background:var(--a);border-radius:2px;transition:width 1.2s;width:0%"></div></div>
-            <div style="display:flex;justify-content:space-between;margin-top:.35rem">
-              <span style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">Cerrada</span>
-              <span id="iblind-pct" style="font-family:var(--mono);font-size:.62rem;color:var(--a)">0%</span>
-              <span style="font-family:var(--mono);font-size:.62rem;color:var(--muted)">Abierta</span>
-            </div>
-          </div>
-          <!-- Schedule -->
-          <div style="background:var(--s2);border:1px solid var(--border);padding:.65rem .85rem">
-            <div style="font-family:var(--mono);font-size:.6rem;color:var(--muted);margin-bottom:.35rem;letter-spacing:.06em;text-transform:uppercase">Programación activa</div>
-            <div style="display:flex;justify-content:space-between;font-size:.75rem">
-              <span style="color:var(--dim)">🌅 Subir</span>
-              <span style="font-family:var(--mono);color:var(--a);font-size:.7rem">07:30</span>
-            </div>
-            <div style="display:flex;justify-content:space-between;font-size:.75rem;margin-top:.25rem">
-              <span style="color:var(--dim)">🌆 Bajar</span>
-              <span style="font-family:var(--mono);color:var(--a);font-size:.7rem">20:45</span>
-            </div>
-          </div>
-        </div>
+        <img src="foto_shelly.jpg" alt="Instalación Shelly por Sanzivi BCN" style="width:100%;border-radius:var(--radius-lg);margin-top:1rem;aspect-ratio:4/3;object-fit:cover;" />
       </div>
-
-      <!-- CARD 3: SENSOR -->
-      <div style="background:var(--bg);padding:2rem;display:flex;flex-direction:column;gap:1.5rem">
-        <div>
-          <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--a);margin-bottom:.5rem">03 · Sensor</div>
-          <div style="font-size:1rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem">Presencia automática</div>
-          <div style="font-size:.78rem;color:var(--dim);line-height:1.6">Shelly Motion 2 — detecta movimiento, enciende, apaga solo.</div>
-        </div>
-
-        <!-- Hallway mini scene -->
-        <div style="position:relative;height:120px;background:#08080f;overflow:hidden">
-          <!-- Hallway walls -->
-          <div style="position:absolute;top:0;left:0;right:0;height:45%;background:#0a0a16"></div>
-          <div style="position:absolute;bottom:0;left:0;right:0;height:45%;background:#0c0c1a"></div>
-          <!-- Ceiling lamp -->
-          <div id="ihall-lamp" style="position:absolute;top:43%;left:50%;transform:translateX(-50%);width:32px;height:6px;background:#111120;border-radius:2px;transition:all .5s"></div>
-          <!-- Glow -->
-          <div id="ihall-glow" style="position:absolute;top:40%;left:50%;transform:translateX(-50%);width:180px;height:100px;background:radial-gradient(ellipse,rgba(255,179,71,0.35) 0%,transparent 65%);opacity:0;transition:opacity .5s;pointer-events:none"></div>
-          <!-- Sensor dot on wall -->
-          <div style="position:absolute;top:47%;right:15%;width:10px;height:10px;border-radius:50%;background:#111;border:1px solid #222"></div>
-          <div id="isensor-ring" style="position:absolute;top:45%;right:13.5%;width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,229,160,0);transition:all .4s"></div>
-          <!-- Person -->
-          <div id="iperson" style="position:absolute;bottom:45%;left:-6%;transition:left 2.5s ease">
-            <div style="width:10px;height:10px;border-radius:50%;background:#1e1e32;margin:0 auto"></div>
-            <div style="width:12px;height:16px;background:#1a1a2e;margin:0 auto;border-radius:1px"></div>
-            <div style="display:flex;gap:1px;margin-top:1px">
-              <div id="ileg-l" style="width:5px;height:12px;background:#161626;border-radius:0 0 2px 2px"></div>
-              <div id="ileg-r" style="width:5px;height:12px;background:#161626;border-radius:0 0 2px 2px"></div>
-            </div>
-          </div>
-          <!-- Status text -->
-          <div id="isensor-status" style="position:absolute;bottom:6px;left:0;right:0;text-align:center;font-family:var(--mono);font-size:.58rem;color:rgba(255,255,255,.25);letter-spacing:.06em;text-transform:uppercase">sin movimiento</div>
-        </div>
-
-        <!-- Controls -->
-        <div style="display:flex;flex-direction:column;gap:.75rem">
-          <!-- Status indicator -->
-          <div style="display:flex;align-items:center;gap:.75rem;padding:.7rem .9rem;background:var(--s2);border:1px solid var(--border)">
-            <div id="imotion-led" style="width:8px;height:8px;border-radius:50%;background:#333;flex-shrink:0;transition:all .4s"></div>
-            <div style="flex:1">
-              <div id="imotion-name" style="font-size:.8rem;font-weight:600">Sin movimiento</div>
-              <div style="font-family:var(--mono);font-size:.6rem;color:var(--muted);margin-top:.1rem">shelly-motion · pasillo</div>
-            </div>
-          </div>
-          <!-- Trigger button -->
-          <button id="imotion-btn" onclick="iMotion()" style="width:100%;padding:.75rem;background:var(--s2);border:1px solid var(--border2);color:var(--text);font-size:.82rem;font-weight:700;cursor:pointer;transition:all .25s;font-family:var(--sans);letter-spacing:.02em" onmouseover="this.style.borderColor='var(--a)';this.style.color='var(--a)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text)'">
-            Simular entrada →
-          </button>
-          <!-- Stats -->
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
-            <div style="background:var(--s2);padding:.6rem;text-align:center">
-              <div id="imotion-count" style="font-family:var(--mono);font-size:.9rem;color:var(--a);font-weight:500">0</div>
-              <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem">Detecciones</div>
-            </div>
-            <div style="background:var(--s2);padding:.6rem;text-align:center">
-              <div id="imotion-saved" style="font-family:var(--mono);font-size:.9rem;color:var(--a);font-weight:500">0.0W</div>
-              <div style="font-size:.58rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:.15rem">Ahorrado hoy</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- /grid -->
+    </div>
   </div>
 </section>
 
-
-
-
-<!-- TARIFAS BLOCK -->
-<section style="padding:6rem 2.5rem;background:var(--bg);border-top:1px solid var(--border)">
-  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
-    <div>
-      <div class="section-tag">Tarifas oficiales 2026</div>
-      <h2 class="section-h2">Precios claros,<br>sin letra pequeña.</h2>
-      <p class="section-sub">Publicamos nuestras tarifas para que sepas exactamente lo que cuesta cada trabajo antes de llamar. Sin sorpresas al final.</p>
-      <div style="display:flex;flex-direction:column;gap:.6rem;margin-bottom:2rem">
-        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem">
-          <span style="color:var(--a);font-weight:700">✓</span>
-          <span>Primera hora <strong>80€</strong> — incluye desplazamiento</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem">
-          <span style="color:var(--a);font-weight:700">✓</span>
-          <span>Hora adicional <strong>50€</strong></span>
-        </div>
-        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem">
-          <span style="color:var(--a);font-weight:700">✓</span>
-          <span>Material aparte — presupuestado antes de empezar</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem">
-          <span style="color:var(--a);font-weight:700">✓</span>
-          <span>Garantía de mano de obra: 1 año</span>
-        </div>
-        <div style="display:flex;align-items:center;gap:.75rem;font-size:.85rem">
-          <span style="color:var(--a);font-weight:700">✓</span>
-          <span>Presupuesto previo gratuito y sin compromiso</span>
-        </div>
+<!-- PROCESO -->
+<section class="section proceso-bg">
+  <div class="section-inner">
+    <span class="section-tag">El proceso</span>
+    <h2>Tres pasos<br>y <em>listo.</em></h2>
+    <p class="section-sub">Sin complicaciones. Desde que nos escribes hasta que terminamos el trabajo.</p>
+    <div class="proceso-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Escríbenos por WhatsApp</h3>
+        <p>Cuéntanos qué necesitas — mejor con una lista de todos los trabajos pendientes. Te respondemos rápido y acordamos la visita.</p>
       </div>
-      <a href="tarifas.html" style="display:inline-flex;align-items:center;gap:.5rem;background:var(--a);color:#fff;padding:.75rem 1.4rem;font-size:.82rem;font-weight:700;text-decoration:none;letter-spacing:.03em;transition:background .15s" onmouseover="this.style.background='var(--a2)'" onmouseout="this.style.background='var(--a)'">
-        Ver tarifas completas →
-      </a>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Presupuesto claro</h3>
+        <p>Sin sorpresas. Te enviamos el precio antes de empezar el trabajo. Si no te convence, no hay ningún compromiso.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Trabajo hecho</h3>
+        <p>Ejecutamos rápido, dejamos todo limpio y te explicamos lo que se ha hecho. Garantía de mano de obra: 1 año.</p>
+      </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)">
-      <div style="background:var(--s1);padding:1.5rem">
-        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">Electricidad</div>
-        <div style="font-size:.82rem;font-weight:700;margin-bottom:.2rem">Cambiar enchufe</div>
-        <div style="font-size:1.1rem;font-weight:900;color:var(--a)">80€</div>
+  </div>
+</section>
+
+<!-- TRABAJOS -->
+<section class="section" id="trabajos">
+  <div class="section-inner">
+    <div class="galeria-header">
+      <div>
+        <span class="section-tag">Trabajos realizados</span>
+        <h2>Resultados <em>reales.</em></h2>
       </div>
-      <div style="background:var(--s1);padding:1.5rem">
-        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">Domótica</div>
-        <div style="font-size:.82rem;font-weight:700;margin-bottom:.2rem">Relé Shelly instalado</div>
-        <div style="font-size:1.1rem;font-weight:900;color:var(--a)">desde 80€</div>
+      <a href="https://www.instagram.com/rsbinstalaciones/" target="_blank" rel="noopener" class="btn-secondary">Ver Instagram →</a>
+    </div>
+    <div class="galeria-grid">
+      <div class="galeria-img"><img src="foto_galeria1.jpg" alt="Reforma baño Barcelona" /></div>
+      <div class="galeria-img"><img src="foto_galeria2.jpg" alt="Mueble de baño instalado" /></div>
+      <div class="galeria-img"><img src="foto_galeria3.jpg" alt="Baño con espejo LED" /></div>
+      <div class="galeria-img"><img src="foto_galeria4.jpg" alt="Reforma baño mármol" /></div>
+      <div class="galeria-img"><img src="foto_galeria5.jpg" alt="Resultado final baño" /></div>
+      <div class="galeria-img"><img src="foto_shelly.jpg" alt="Instalación domótica Shelly" /></div>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFAS -->
+<section class="section servicios-bg" id="tarifas">
+  <div class="section-inner">
+    <div class="tarifas-grid">
+      <div>
+        <span class="section-tag">Tarifas oficiales 2026</span>
+        <h2>Precios claros,<br>sin <em>letra pequeña.</em></h2>
+        <p class="section-sub">Publicamos nuestras tarifas para que sepas exactamente lo que cuesta cada trabajo antes de llamar.</p>
+        <div class="check-list">
+          <div class="check-item"><div class="ck">✓</div><span>Primera hora <strong>80€</strong> — incluye desplazamiento</span></div>
+          <div class="check-item"><div class="ck">✓</div><span>Hora adicional <strong>50€</strong></span></div>
+          <div class="check-item"><div class="ck">✓</div><span>Material aparte — presupuestado antes de empezar</span></div>
+          <div class="check-item"><div class="ck">✓</div><span>Garantía de mano de obra: 1 año</span></div>
+          <div class="check-item"><div class="ck">✓</div><span>Presupuesto previo gratuito y sin compromiso</span></div>
+        </div>
+        <a href="tarifas.html" class="btn-primary">Ver tarifas completas →</a>
       </div>
-      <div style="background:var(--s1);padding:1.5rem">
-        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">Fontanería</div>
-        <div style="font-size:.82rem;font-weight:700;margin-bottom:.2rem">Cambiar grifo</div>
-        <div style="font-size:1.1rem;font-weight:900;color:var(--a)">desde 80€</div>
+      <div class="price-samples">
+        <div class="price-sample"><div class="cat">Electricidad</div><div class="name">Cambiar enchufe</div><div class="price">80€</div></div>
+        <div class="price-sample"><div class="cat">Domótica</div><div class="name">Relé Shelly</div><div class="price">desde 80€</div></div>
+        <div class="price-sample"><div class="cat">Fontanería</div><div class="name">Cambiar grifo</div><div class="price">desde 80€</div></div>
+        <div class="price-sample"><div class="cat">Manitas</div><div class="name">Colgar TV</div><div class="price">desde 60€</div></div>
+        <div class="price-sample"><div class="cat">Baño</div><div class="name">Instalar inodoro</div><div class="price">110€</div></div>
+        <div class="price-sample-cta"><div class="n">+40 servicios</div><div class="s">con precio fijo publicado</div><a href="tarifas.html">Ver todos →</a></div>
       </div>
-      <div style="background:var(--s1);padding:1.5rem">
-        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">Manitas</div>
-        <div style="font-size:.82rem;font-weight:700;margin-bottom:.2rem">Colgar TV</div>
-        <div style="font-size:1.1rem;font-weight:900;color:var(--a)">desde 60€</div>
+    </div>
+  </div>
+</section>
+
+<!-- OPINIONES -->
+<section class="section" id="opiniones">
+  <div class="section-inner">
+    <span class="section-tag">Opiniones</span>
+    <h2>Lo que dicen<br>nuestros <em>clientes.</em></h2>
+    <div class="opiniones-grid" style="margin-top:2rem">
+      <div class="opinion-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Instalaron relés Shelly en toda la casa sin tocar los interruptores originales. Todo funciona perfecto con el móvil. Muy profesionales y rápidos."</blockquote>
+        <div class="opinion-author">Marc T.</div>
+        <div class="opinion-loc">Eixample, Barcelona</div>
       </div>
-      <div style="background:var(--s1);padding:1.5rem">
-        <div style="font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">Baño</div>
-        <div style="font-size:.82rem;font-weight:700;margin-bottom:.2rem">Instalar inodoro</div>
-        <div style="font-size:1.1rem;font-weight:900;color:var(--a)">110€</div>
+      <div class="opinion-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Vinieron a colgar la tele y de paso revisaron unos enchufes que no funcionaban bien. Precio muy justo y dejaron todo impecable."</blockquote>
+        <div class="opinion-author">Lucía M.</div>
+        <div class="opinion-loc">Gràcia, Barcelona</div>
       </div>
-      <div style="background:var(--a);padding:1.5rem;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
-        <div style="font-size:.75rem;font-weight:700;color:#fff;margin-bottom:.3rem">+40 servicios</div>
-        <div style="font-size:.68rem;color:rgba(255,255,255,.8)">con precio fijo publicado</div>
-        <a href="tarifas.html" style="margin-top:.75rem;font-size:.68rem;font-weight:700;color:#fff;text-decoration:underline">Ver todos →</a>
+      <div class="opinion-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Tenía dudas sobre la domótica pero lo explicaron todo muy bien. Ahora controlo las persianas desde el trabajo. Recomendado 100%."</blockquote>
+        <div class="opinion-author">Jordi P.</div>
+        <div class="opinion-loc">Sant Cugat</div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- BLOG -->
-<span id="blog"></span>
-<section style="padding:6rem 2.5rem;background:var(--s1);border-top:1px solid var(--border)">
-  <div style="max-width:1200px;margin:0 auto">
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:3rem;flex-wrap:wrap;gap:1rem">
+<section class="section blog-bg" id="blog">
+  <div class="section-inner">
+    <div class="blog-header">
       <div>
-        <div class="section-tag">Blog</div>
-        <h2 class="section-h2" style="margin-bottom:0">Domótica fácil<br>y consejos prácticos.</h2>
+        <span class="section-tag">Blog</span>
+        <h2>Domótica fácil<br>y consejos <em>prácticos.</em></h2>
       </div>
-      <a href="#blog" style="font-family:var(--mono);font-size:.72rem;color:var(--a);text-decoration:none;letter-spacing:.06em;border-bottom:1px solid var(--a);padding-bottom:1px">Ver todos →</a>
+      <a href="#blog" class="btn-secondary">Ver todos →</a>
     </div>
-
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)">
-
-      <!-- Post 1 -->
-      <a href="blog-automatizar-luces.html" style="background:var(--bg);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background='var(--bg)'">
-        <div style="height:160px;overflow:hidden;background:var(--s2)">
-          <img src="domotica_facil_blog.png" alt="Automatizar luces" style="width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .3s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.85'">
-        </div>
-        <div style="padding:1.5rem;flex:1;display:flex;flex-direction:column">
-          <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:.5rem">Domótica fácil · 5 min</div>
-          <div style="font-size:.95rem;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:.6rem">Cómo automatizar las luces de tu piso sin hacer obra</div>
-          <div style="font-size:.78rem;color:var(--dim);line-height:1.6;flex:1">Con un relé Shelly controlas cualquier punto de luz desde el móvil en menos de una hora.</div>
-          <div style="margin-top:1rem;font-family:var(--mono);font-size:.65rem;color:var(--a)">Leer →</div>
+    <div class="blog-grid">
+      <a href="blog-automatizar-luces.html" class="blog-card">
+        <div class="blog-card-img"><img src="domotica_facil_blog.png" alt="Automatizar luces sin obra" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Domótica fácil · 5 min</div>
+          <h3>Cómo automatizar las luces de tu piso sin hacer obra</h3>
+          <p>Con un relé Shelly controlas cualquier punto de luz desde el móvil en menos de una hora.</p>
+          <div class="read">Leer →</div>
         </div>
       </a>
-
-      <!-- Post 2 -->
-      <a href="blog-shelly-vs-sonoff.html" style="background:var(--bg);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background='var(--bg)'">
-        <div style="height:160px;overflow:hidden;background:var(--s2)">
-          <img src="domotica_control_luces.png" alt="Shelly vs Sonoff" style="width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .3s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.85'">
-        </div>
-        <div style="padding:1.5rem;flex:1;display:flex;flex-direction:column">
-          <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:.5rem">Comparativa · 7 min</div>
-          <div style="font-size:.95rem;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:.6rem">Shelly vs Sonoff: cuál elegir para tu vivienda</div>
-          <div style="font-size:.78rem;color:var(--dim);line-height:1.6;flex:1">Los dos sistemas más populares para pisos en España. Te ayudamos a elegir.</div>
-          <div style="margin-top:1rem;font-family:var(--mono);font-size:.65rem;color:var(--a)">Leer →</div>
+      <a href="blog-shelly-vs-sonoff.html" class="blog-card">
+        <div class="blog-card-img"><img src="domotica_control_luces.png" alt="Shelly vs Sonoff" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Comparativa · 7 min</div>
+          <h3>Shelly vs Sonoff: cuál elegir para tu vivienda</h3>
+          <p>Los dos sistemas más populares para pisos en España. Te ayudamos a elegir.</p>
+          <div class="read">Leer →</div>
         </div>
       </a>
-
-      <!-- Post 3 -->
-      <a href="blog-electricista-visita.html" style="background:var(--bg);display:flex;flex-direction:column;text-decoration:none;color:inherit;transition:background .2s" onmouseover="this.style.background='var(--s2)'" onmouseout="this.style.background='var(--bg)'">
-        <div style="height:160px;overflow:hidden;background:var(--s2)">
-          <img src="foto_blog3.jpg" alt="Electricista en una visita" style="width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .3s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.85'">
-        </div>
-        <div style="padding:1.5rem;flex:1;display:flex;flex-direction:column">
-          <div style="font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--a);margin-bottom:.5rem">Consejos · 4 min</div>
-          <div style="font-size:.95rem;font-weight:800;letter-spacing:-.02em;line-height:1.25;margin-bottom:.6rem">5 cosas que un electricista puede hacer en una sola visita</div>
-          <div style="font-size:.78rem;color:var(--dim);line-height:1.6;flex:1">Aprovecha la visita al máximo. Los trabajos más comunes que puedes combinar.</div>
-          <div style="margin-top:1rem;font-family:var(--mono);font-size:.65rem;color:var(--a)">Leer →</div>
+      <a href="blog-electricista-visita.html" class="blog-card">
+        <div class="blog-card-img"><img src="foto_blog3.jpg" alt="Electricista en una visita" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Consejos · 4 min</div>
+          <h3>5 cosas que un electricista puede hacer en una sola visita</h3>
+          <p>Aprovecha la visita al máximo. Los trabajos más comunes que puedes combinar.</p>
+          <div class="read">Leer →</div>
         </div>
       </a>
-
     </div>
   </div>
 </section>
 
-<!-- OPINIONES -->
-<section style="padding:6rem 2.5rem;background:var(--bg);border-top:1px solid var(--border)">
-  <div style="max-width:1200px;margin:0 auto">
-    <div class="section-tag">Opiniones</div>
-    <h2 class="section-h2">Lo que dicen<br>nuestros clientes.</h2>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:3rem">
-      <div style="background:var(--s1);padding:2rem">
-        <div style="color:var(--warm);font-size:.9rem;margin-bottom:1rem;letter-spacing:.1em">★★★★★</div>
-        <p style="font-size:.85rem;color:var(--dim);line-height:1.75;margin-bottom:1.2rem;font-style:italic">"Instalaron relés Shelly en toda la casa sin tocar los interruptores originales. Todo funciona perfecto con el móvil. Muy profesionales y rápidos."</p>
-        <div style="font-size:.75rem;font-weight:700">Marc T.</div>
-        <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:.1rem">Eixample, Barcelona</div>
-      </div>
-      <div style="background:var(--s1);padding:2rem">
-        <div style="color:var(--warm);font-size:.9rem;margin-bottom:1rem;letter-spacing:.1em">★★★★★</div>
-        <p style="font-size:.85rem;color:var(--dim);line-height:1.75;margin-bottom:1.2rem;font-style:italic">"Vinieron a colgar la tele y de paso revisaron unos enchufes que no funcionaban bien. Precio muy justo y dejaron todo impecable."</p>
-        <div style="font-size:.75rem;font-weight:700">Lucía M.</div>
-        <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:.1rem">Gràcia, Barcelona</div>
-      </div>
-      <div style="background:var(--s1);padding:2rem">
-        <div style="color:var(--warm);font-size:.9rem;margin-bottom:1rem;letter-spacing:.1em">★★★★★</div>
-        <p style="font-size:.85rem;color:var(--dim);line-height:1.75;margin-bottom:1.2rem;font-style:italic">"Tenía dudas sobre la domótica pero lo explicaron todo muy bien. Ahora controlo las persianas desde el trabajo. Recomendado 100%."</p>
-        <div style="font-size:.75rem;font-weight:700">Jordi P.</div>
-        <div style="font-family:var(--mono);font-size:.62rem;color:var(--muted);margin-top:.1rem">Sant Cugat</div>
-      </div>
+<!-- HERRAMIENTAS -->
+<section class="section herramientas-bg">
+  <div class="section-inner">
+    <span class="section-tag">Herramientas Sanzivi</span>
+    <h2>Más que un servicio.<br><em>Un ecosistema.</em></h2>
+    <p class="section-sub">Accede a nuestras herramientas digitales — para clientes, diseñadores y partners.</p>
+    <div class="herramientas-grid">
+      <a href="/demo" class="tool-card">
+        <div class="tool-icon">🏠</div>
+        <h3>Demo interactiva</h3>
+        <p>Prueba la domótica en tu piso virtual. Controla luces y persianas en tiempo real. Sin instalación.</p>
+        <div class="tool-link">Probar demo →</div>
+      </a>
+      <a href="/profesionales" class="tool-card">
+        <div class="tool-icon">🤝</div>
+        <h3>Para profesionales</h3>
+        <p>¿Eres diseñador o interiorista? Ofrece domótica a tus clientes sin gestionar la instalación.</p>
+        <div class="tool-link">Ver programa →</div>
+      </a>
+      <a href="/partner" class="tool-card">
+        <div class="tool-icon">⚙️</div>
+        <h3>Acceso partners</h3>
+        <p>Crea demos personalizadas para tus clientes en segundos. Genera links únicos con tu branding.</p>
+        <div class="tool-link">Acceder →</div>
+      </a>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
-<section class="contact-section" id="contacto">
-  <div class="section-tag" style="justify-content:center">Contacto</div>
-  <h2 class="section-h2">¿Listo para empezar?</h2>
-  <p class="section-sub">Presupuesto gratuito en 24h. Sin compromiso, sin letra pequeña. Cuéntanos qué quieres automatizar y te decimos exactamente qué necesitas y cuánto cuesta.</p>
-  <div class="contact-grid">
-    <div class="contact-card">
-      <div class="contact-card-icon">💬</div>
-      <div class="contact-card-title">WhatsApp</div>
-      <div class="contact-card-val">654 089 180</div>
-      <div class="contact-card-desc">Respuesta en menos de 1 hora en horario laboral</div>
-    </div>
-    <div class="contact-card">
-      <div class="contact-card-icon">📧</div>
-      <div class="contact-card-title">Email</div>
-      <div class="contact-card-val"><a href="/cdn-cgi/l/email-protection#8be2e5ede4cbf8eae5f1e2fde2a5eef8" style="color:var(--a);text-decoration:none"><span class="__cf_email__" data-cfemail="82ebece4edc2f1e3ecf8ebf4ebace7f1">[email&#160;protected]</span></a></div>
-      <div class="contact-card-desc">Para presupuestos detallados y proyectos grandes</div>
-    </div>
-    <div class="contact-card">
-      <div class="contact-card-icon">📍</div>
-      <div class="contact-card-title">Zona de trabajo</div>
-      <div class="contact-card-val">Barcelona y área</div>
-      <div class="contact-card-desc">Desplazamiento gratuito en Barcelona ciudad</div>
-    </div>
-  </div>
-  <a href="https://wa.me/34654089180?text=Hola,%20quiero%20información%20sobre%20vuestros%20servicios" target="_blank" class="cta-big">
-    Pedir presupuesto por WhatsApp <span class="arrow">→</span>
-  </a>
+<!-- CTA FINAL -->
+<section class="cta-final" id="contacto">
+  <h2>¿Tienes algo que arreglar<br>o quieres domótica?</h2>
+  <p>Cuéntanos por WhatsApp. Respondemos rápido y te damos precio sin compromiso.</p>
+  <button class="btn-wa" onclick="openModal()">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Escribir por WhatsApp
+  </button>
 </section>
 
 <!-- FOOTER -->
-<footer style="padding:3rem 2.5rem;border-top:1px solid var(--border);background:#1a1208">
-  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;color:rgba(255,255,255,.7)">
+<footer>
+  <div class="footer-inner">
     <div>
-      <div style="font-weight:900;font-size:1.1rem;color:#fff;margin-bottom:.75rem">Sanzivi<span style="color:var(--a)">.</span></div>
-      <div style="font-size:.8rem;line-height:1.7;color:rgba(255,255,255,.5);margin-bottom:1.2rem">Electricidad, domótica y servicios rápidos para vivienda en Barcelona y alrededores.</div>
-      <div style="display:flex;gap:1rem">
-        <a href="https://www.instagram.com/rsbinstalaciones/" target="_blank" rel="noopener" style="font-size:.75rem;color:rgba(255,255,255,.4);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">Instagram</a>
-        <a href="https://www.facebook.com/rsbinstalaciones" target="_blank" rel="noopener" style="font-size:.75rem;color:rgba(255,255,255,.4);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">Facebook</a>
-        <a href="https://www.tiktok.com/@sanzivi" target="_blank" rel="noopener" style="font-size:.75rem;color:rgba(255,255,255,.4);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.4)'">TikTok</a>
+      <a href="#" class="footer-logo">Sanzivi<span>.</span></a>
+      <p class="footer-desc">Electricidad, domótica y servicios rápidos para vivienda en Barcelona y alrededores.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/rsbinstalaciones/" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.facebook.com/rsbinstalaciones" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://www.tiktok.com/@sanzivi" target="_blank" rel="noopener">TikTok</a>
       </div>
     </div>
-    <div>
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.85rem">Servicios</div>
-      <div style="display:flex;flex-direction:column;gap:.5rem">
-        <a href="#servicios" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Electricidad</a>
-        <a href="#domotica" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Domótica</a>
-        <a href="#servicios" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Fontanería</a>
-        <a href="#servicios" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Manitas</a>
-      </div>
+    <div class="footer-col">
+      <h4>Servicios</h4>
+      <a href="#servicios">Electricidad</a>
+      <a href="#domotica">Domótica</a>
+      <a href="#servicios">Fontanería</a>
+      <a href="#servicios">Manitas</a>
     </div>
-    <div>
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.85rem">Empresa</div>
-      <div style="display:flex;flex-direction:column;gap:.5rem">
-        <a href="#trabajos" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Trabajos</a>
-        <a href="#opiniones" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Opiniones</a>
-        <a href="#blog" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Blog</a>
-        <a href="/demo" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Demo interactiva</a>
-        <a href="tarifas.html" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">Tarifas</a>
-      </div>
+    <div class="footer-col">
+      <h4>Empresa</h4>
+      <a href="#trabajos">Trabajos</a>
+      <a href="#opiniones">Opiniones</a>
+      <a href="#blog">Blog</a>
+      <a href="tarifas.html">Tarifas</a>
+      <a href="/demo">Demo interactiva</a>
     </div>
-    <div>
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:.85rem">Contacto</div>
-      <div style="display:flex;flex-direction:column;gap:.5rem">
-        <a href="tel:+34654089180" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'">654 089 180</a>
-        <a href="/cdn-cgi/l/email-protection#88e1e6eee7c8fbe9e6f2e1fee1a6edfb" style="font-size:.78rem;color:rgba(255,255,255,.5);text-decoration:none" onmouseover="this.style.color='var(--a)'" onmouseout="this.style.color='rgba(255,255,255,.5)'"><span class="__cf_email__" data-cfemail="0a63646c654a796b6470637c63246f79">[email&#160;protected]</span></a>
-        <span style="font-size:.78rem;color:rgba(255,255,255,.5)">Barcelona y alrededores</span>
-      </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <a href="tel:+34654089180">654 089 180</a>
+      <a href="mailto:info@sanzivi.es">info@sanzivi.es</a>
+      <span>Barcelona y alrededores</span>
     </div>
   </div>
-  <div style="max-width:1200px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
-    <span style="font-size:.68rem;color:rgba(255,255,255,.25)">© 2026 Sanzivi BCN S.L. · Todos los derechos reservados</span>
-    <span style="font-size:.68rem;color:rgba(255,255,255,.25)">Precios orientativos · Material aparte · Sujetos a visita previa</span>
+  <div class="footer-bottom">
+    <span>© 2026 Sanzivi BCN S.L. · Todos los derechos reservados</span>
+    <span>Precios orientativos · Material aparte · Sujetos a visita previa</span>
   </div>
 </footer>
 
+<!-- MODAL PRESUPUESTO -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal-backdrop"></div>
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <h3>Pedir presupuesto</h3>
+        <p>Te respondemos en menos de 24h · Sin compromiso</p>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-tip">
+        <strong>💡 Consejo:</strong> Apunta todos los trabajos pendientes antes de enviar — así aprovechamos al máximo la visita y te ahorras desplazamientos futuros.
+      </div>
+      <div>
+        <label class="modal-label">¿Qué tipo de trabajo necesitas?</label>
+        <div class="chips">
+          <div class="chip" onclick="toggleChip(this)">⚡ Electricidad</div>
+          <div class="chip" onclick="toggleChip(this)">🏠 Domótica</div>
+          <div class="chip" onclick="toggleChip(this)">🔧 Fontanería</div>
+          <div class="chip" onclick="toggleChip(this)">🪛 Manitas</div>
+          <div class="chip" onclick="toggleChip(this)">📺 Colgar TV</div>
+          <div class="chip" onclick="toggleChip(this)">💡 Iluminación</div>
+          <div class="chip" onclick="toggleChip(this)">🪟 Persianas</div>
+          <div class="chip" onclick="toggleChip(this)">🚿 Baño</div>
+          <div class="chip" onclick="toggleChip(this)">Otro</div>
+        </div>
+      </div>
+      <div>
+        <label class="modal-label">Describe los trabajos (lista todos los pendientes)</label>
+        <textarea class="modal-textarea" id="modalDesc" placeholder="Ej: cambiar enchufe salón, instalar relé Shelly en dormitorio, colgar espejo baño..."></textarea>
+      </div>
+      <div class="modal-row">
+        <div>
+          <label class="modal-label">Tu nombre</label>
+          <input class="modal-input" id="modalName" type="text" placeholder="Marc">
+        </div>
+        <div>
+          <label class="modal-label">Barrio / Zona</label>
+          <input class="modal-input" id="modalZone" type="text" placeholder="Eixample, Gràcia...">
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <p class="modal-note">Se abrirá WhatsApp con tu mensaje listo. Solo dale a enviar.</p>
+      <button class="modal-send" onclick="sendToWhatsApp()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Enviar por WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
 
-<!-- FLOATING WHATSAPP -->
-<a href="https://wa.me/34654089180?text=Hola,%20quiero%20información%20sobre%20vuestros%20servicios"
-   target="_blank" rel="noopener"
-   style="position:fixed;bottom:1.5rem;right:1.5rem;z-index:990;width:54px;height:54px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.4);transition:transform .2s,box-shadow .2s;text-decoration:none"
-   onmouseover="this.style.transform='scale(1.08)';this.style.boxShadow='0 6px 28px rgba(37,211,102,.5)'"
-   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 20px rgba(37,211,102,.4)'"
-   title="WhatsApp">
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+<!-- WA FLOAT -->
+<a href="https://wa.me/34654089180?text=Hola,%20quiero%20información%20sobre%20vuestros%20servicios" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<div class="toast" id="toast"><span id="toast-msg">—</span></div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-
-// ── INTERACTIVE CARDS ──
-// Card 1: Luces
-let iLightOn = true;
-function iLightToggle(cb) {
-  iLightOn = cb.checked;
-  const on = iLightOn;
-  document.getElementById('ilight-track').style.background = on ? 'var(--a)' : 'rgba(255,255,255,0.08)';
-  document.getElementById('ilight-track').style.boxShadow = on ? '0 0 10px var(--a-glow)' : 'none';
-  document.getElementById('ilight-thumb').style.left = on ? '23px' : '3px';
-  document.getElementById('ilight-thumb').style.background = on ? '#000' : 'rgba(255,255,255,.4)';
-  ['ispot1','ispot2','ispot3'].forEach(id => {
-    const s = document.getElementById(id);
-    s.style.background = on ? '#ffb347' : '#222';
-    s.style.boxShadow = on ? '0 0 8px #ffb347, 0 0 16px rgba(255,179,71,.5)' : 'none';
-  });
-  document.getElementById('ilight-glow').style.opacity = on ? '1' : '0';
-  document.getElementById('ifloor-glow').style.opacity = on ? '1' : '0';
-  document.getElementById('idimmer-wrap').style.opacity = on ? '1' : '.35';
-  document.getElementById('idimmer-wrap').style.pointerEvents = on ? 'auto' : 'none';
-  toast(on ? '💡 Luces encendidas' : '💡 Luces apagadas');
-}
-function iDimmerChange(el) {
-  const v = el.value;
-  el.style.setProperty('--pct', v + '%');
-  document.getElementById('idimmer-label').textContent = v + '%';
-  const op = v / 100;
-  if (iLightOn) {
-    document.getElementById('ilight-glow').style.opacity = op;
-    document.getElementById('ifloor-glow').style.opacity = op * 0.6;
+<script>
+  function openModal(){document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden'}
+  function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow=''}
+  function toggleChip(el){el.classList.toggle('active')}
+  function sendToWhatsApp(){
+    const chips=[...document.querySelectorAll('.chip.active')].map(c=>c.textContent.trim()).join(', ');
+    const desc=document.getElementById('modalDesc').value.trim();
+    const name=document.getElementById('modalName').value.trim();
+    const zone=document.getElementById('modalZone').value.trim();
+    let msg='Hola, quiero pedir presupuesto.';
+    if(name) msg+='\nNombre: '+name;
+    if(zone) msg+='\nZona: '+zone;
+    if(chips) msg+='\nServicios: '+chips;
+    if(desc) msg+='\nTrabajos pendientes:\n'+desc;
+    msg+='\n\n(Enviado desde sanzivi.es)';
+    window.open('https://wa.me/34654089180?text='+encodeURIComponent(msg),'_blank');
   }
-}
-function iAmbientToggle(cb) {
-  const on = cb.checked;
-  document.getElementById('iambient-track').style.background = on ? 'var(--a)' : 'rgba(255,255,255,0.08)';
-  document.getElementById('iambient-thumb').style.left = on ? '23px' : '3px';
-  document.getElementById('iambient-thumb').style.background = on ? '#000' : 'rgba(255,255,255,.4)';
-  document.getElementById('iambient-strip').style.background = on ? 'rgba(0,229,160,.8)' : 'transparent';
-  document.getElementById('iambient-strip').style.boxShadow = on ? '0 0 10px rgba(0,229,160,.4)' : 'none';
-  toast(on ? '🟢 Tira LED encendida' : '⭕ Tira LED apagada');
-}
-// Init lights on
-window.addEventListener('load', () => {
-  ['ispot1','ispot2','ispot3'].forEach(id => {
-    const s = document.getElementById(id);
-    s.style.background = '#ffb347';
-    s.style.boxShadow = '0 0 8px #ffb347, 0 0 16px rgba(255,179,71,.5)';
-  });
-  document.getElementById('ilight-glow').style.opacity = '1';
-  document.getElementById('ifloor-glow').style.opacity = '1';
-});
-
-// Card 2: Persianas
-let iBlindPos = 0;
-let iBlindTimer = null;
-function iBlind(dir) {
-  clearInterval(iBlindTimer);
-  if (dir === 'stop') return;
-  const target = dir === 'up' ? 100 : 0;
-  const step = dir === 'up' ? 3 : -3;
-  iBlindTimer = setInterval(() => {
-    iBlindPos = Math.max(0, Math.min(100, iBlindPos + step));
-    const closed = 100 - iBlindPos;
-    document.getElementById('iblind-slats').style.height = closed + '%';
-    document.getElementById('iblind-bar').style.width = iBlindPos + '%';
-    document.getElementById('iblind-pct').textContent = iBlindPos + '%';
-    document.getElementById('iblind-sun').style.opacity = (iBlindPos / 100).toString();
-    if (iBlindPos === target) clearInterval(iBlindTimer);
-  }, 40);
-  toast(dir === 'up' ? '☀️ Subiendo persiana...' : '🌙 Bajando persiana...');
-}
-
-// Card 3: Sensor
-let iMotionActive = false;
-let iMotionCount = 0;
-let iMotionOff = null;
-let iWalkTimer = null;
-function iMotion() {
-  if (iMotionActive) return;
-  iMotionActive = true;
-  iMotionCount++;
-  document.getElementById('imotion-count').textContent = iMotionCount;
-  document.getElementById('imotion-saved').textContent = (iMotionCount * 4.2).toFixed(1) + 'W';
-  document.getElementById('imotion-btn').textContent = 'Detectando...';
-  document.getElementById('imotion-btn').style.opacity = '.5';
-  document.getElementById('imotion-btn').style.pointerEvents = 'none';
-
-  // Walk person in
-  const person = document.getElementById('iperson');
-  person.style.transition = 'left 2.5s ease';
-  person.style.left = '-6%';
-  setTimeout(() => { person.style.left = '30%'; }, 50);
-
-  // Leg animation
-  let legToggle = false;
-  iWalkTimer = setInterval(() => {
-    legToggle = !legToggle;
-    document.getElementById('ileg-l').style.transform = legToggle ? 'rotate(-10deg)' : 'rotate(10deg)';
-    document.getElementById('ileg-r').style.transform = legToggle ? 'rotate(10deg)' : 'rotate(-10deg)';
-  }, 200);
-
-  // Detect at 1.2s
-  setTimeout(() => {
-    clearInterval(iWalkTimer);
-    document.getElementById('ileg-l').style.transform = '';
-    document.getElementById('ileg-r').style.transform = '';
-    // Light on
-    document.getElementById('ihall-lamp').style.background = '#2a2820';
-    document.getElementById('ihall-lamp').style.boxShadow = '0 2px 0 #ffb347';
-    document.getElementById('ihall-glow').style.opacity = '1';
-    // Sensor ring
-    const ring = document.getElementById('isensor-ring');
-    ring.style.borderColor = 'rgba(0,229,160,.6)';
-    ring.style.boxShadow = '0 0 8px rgba(0,229,160,.4)';
-    // LED
-    document.getElementById('imotion-led').style.background = '#00e676';
-    document.getElementById('imotion-led').style.boxShadow = '0 0 8px rgba(0,230,118,.5)';
-    document.getElementById('imotion-name').textContent = '¡Movimiento!';
-    document.getElementById('imotion-name').style.color = 'var(--a)';
-    document.getElementById('isensor-status').textContent = '¡detectado!';
-    document.getElementById('isensor-status').style.color = 'rgba(0,229,160,.7)';
-    toast('🚶 Movimiento detectado — luz encendida automáticamente');
-  }, 1200);
-
-  // Auto off after 4s
-  clearTimeout(iMotionOff);
-  iMotionOff = setTimeout(() => {
-    iMotionActive = false;
-    document.getElementById('ihall-lamp').style.background = '#111120';
-    document.getElementById('ihall-lamp').style.boxShadow = 'none';
-    document.getElementById('ihall-glow').style.opacity = '0';
-    document.getElementById('isensor-ring').style.borderColor = 'rgba(0,229,160,0)';
-    document.getElementById('isensor-ring').style.boxShadow = 'none';
-    document.getElementById('imotion-led').style.background = '#333';
-    document.getElementById('imotion-led').style.boxShadow = 'none';
-    document.getElementById('imotion-name').textContent = 'Sin movimiento';
-    document.getElementById('imotion-name').style.color = '';
-    document.getElementById('isensor-status').textContent = 'sin movimiento';
-    document.getElementById('isensor-status').style.color = 'rgba(255,255,255,.25)';
-    document.getElementById('imotion-btn').textContent = 'Simular entrada →';
-    document.getElementById('imotion-btn').style.opacity = '1';
-    document.getElementById('imotion-btn').style.pointerEvents = 'auto';
-    // Walk person out
-    const person = document.getElementById('iperson');
-    person.style.transition = 'left 1s ease';
-    person.style.left = '110%';
-    setTimeout(() => {
-      person.style.transition = 'none';
-      person.style.left = '-6%';
-    }, 1100);
-  }, 4000);
-}
-
-// ── CLOCK ──
-function updateClock(){
-  const n=new Date();
-  document.getElementById('live-time').textContent=n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0');
-}
-updateClock();setInterval(updateClock,10000);
-
-// ── TOAST ──
-let toastT;
-function toast(msg){
-  const t=document.getElementById('toast');
-  document.getElementById('toast-msg').textContent=msg;
-  t.classList.add('show');clearTimeout(toastT);
-  toastT=setTimeout(()=>t.classList.remove('show'),2400);
-}
-
-// ── SCROLL HELPERS ──
-function scrollToContact(){document.getElementById('contacto').scrollIntoView({behavior:'smooth'})}
-function scrollToDemo(){document.getElementById('demo').scrollIntoView({behavior:'smooth'})}
-
-// ── ROOM STATE ──
-const state={
-  salon:{light:true,brightness:80,tv:false,thermostat:true,temp:20,ambient:false},
-  cocina:{light:true,brightness:75,extractor:false,sensor:true},
-  terraza:{light:false,pergola:false,sensor:true,temp:14}
-};
-let currentRoom='salon';
-let currentFullRoom='salon';
-
-// ── MINI APP (HERO) ──
-const miniControls={
-  salon:`
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">💡</span><div><div class="ctrl-label">Iluminación salón</div><div class="ctrl-sub">3× Shelly Dimmer</div></div></div>
-      <div class="ctrl-right">
-        <input type="range" class="dimmer" min="10" max="100" value="80" style="--pct:80%" oninput="miniDimmer(this)">
-        <span class="ctrl-val" id="mini-bval">80%</span>
-        <label class="tog"><input type="checkbox" checked onchange="miniToggle('light',this,'salon')"><div class="tog-track"></div><div class="tog-thumb"></div></label>
-      </div>
-    </div>
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">📺</span><div><div class="ctrl-label">TV + Ambiente</div><div class="ctrl-sub">Shelly Plus 1PM</div></div></div>
-      <div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="miniToggle('tv',this,'salon')"><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
-    </div>
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">🌡</span><div><div class="ctrl-label">Termostato</div><div class="ctrl-sub" id="mini-temp-sub">Calentando → 20°C</div></div></div>
-      <div class="ctrl-right"><span class="ctrl-val" style="color:#ff8a65">20°C</span><label class="tog"><input type="checkbox" checked onchange="miniToggle('thermostat',this,'salon')"><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
-    </div>`,
-  cocina:`
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">💡</span><div><div class="ctrl-label">Luz cocina</div><div class="ctrl-sub">Shelly Plus 1PM</div></div></div>
-      <div class="ctrl-right">
-        <input type="range" class="dimmer" min="10" max="100" value="75" style="--pct:75%" oninput="miniDimmer(this)">
-        <span class="ctrl-val" id="mini-bval">75%</span>
-        <label class="tog"><input type="checkbox" checked onchange="miniToggle('light',this,'cocina')"><div class="tog-track"></div><div class="tog-thumb"></div></label>
-      </div>
-    </div>
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">💨</span><div><div class="ctrl-label">Extractor automático</div><div class="ctrl-sub">Shelly Plus 1PM</div></div></div>
-      <div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="miniToggle('extractor',this,'cocina')"><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
-    </div>
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">🔮</span><div><div class="ctrl-label">Sensor presencia</div><div class="ctrl-sub">Shelly Motion 2</div></div></div>
-      <div class="ctrl-right"><span class="ctrl-val" style="color:var(--a)">activo</span><label class="tog"><input type="checkbox" checked onchange="miniToggle('sensor',this,'cocina')"><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
-    </div>`,
-  terraza:`
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">💡</span><div><div class="ctrl-label">Luces terraza</div><div class="ctrl-sub">Shelly Plus 1PM</div></div></div>
-      <div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="miniToggle('light',this,'terraza')"><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
-    </div>
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">☂</span><div><div class="ctrl-label">Toldo / Pérgola</div><div class="ctrl-sub">Shelly Plus 2PM</div></div></div>
-      <div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="miniToggle('pergola',this,'terraza')"><div class="tog-track"></div><div class="tog-thumb"></div></label></div>
-    </div>
-    <div class="ctrl-row">
-      <div class="ctrl-left"><span class="ctrl-icon">🌡</span><div><div class="ctrl-label">Temperatura exterior</div><div class="ctrl-sub">Shelly Plus H&T</div></div></div>
-      <div class="ctrl-right"><span class="ctrl-val" style="color:var(--cool)" id="ext-temp-val">14°C</span></div>
-    </div>`
-};
-
-function selectRoom(room,el){
-  currentRoom=room;
-  document.querySelectorAll('.room-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('room-controls').innerHTML=miniControls[room]||'';
-  updateMiniScene(room);
-  updateStats();
-}
-
-function miniToggle(key,cb,room){
-  state[room][key]=cb.checked;
-  updateMiniScene(room);
-  updateStats();
-  const labels={light:'Luz',tv:'TV',thermostat:'Termostato',extractor:'Extractor',sensor:'Sensor',pergola:'Toldo',ambient:'Ambiente'};
-  toast((labels[key]||key)+': '+(cb.checked?'encendido':'apagado'));
-}
-function miniDimmer(el){
-  const val=el.value;
-  el.style.setProperty('--pct',val+'%');
-  const bval=el.closest('.room-controls')||el.closest('.full-controls');
-  const bvalEl=bval?bval.querySelector('#mini-bval'):null;
-  if(bvalEl)bvalEl.textContent=val+'%';
-  const room=currentRoom;
-  state[room].brightness=parseInt(val);
-  updateMiniScene(room);updateStats();
-}
-
-function updateMiniScene(room){
-  const s=state[room];
-  const halos=['halo-l','halo-m','halo-r'];
-  const spots=['spot-l','spot-m','spot-r'];
-  if(room==='salon'){
-    const op=s.light?s.brightness/100:0;
-    halos.forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('opacity',op);});
-    spots.forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('fill',s.light?'#ffb347':'#222');});
-    const tv=document.getElementById('tv-screen');const tvg=document.getElementById('tv-glow');
-    if(tv)tv.setAttribute('fill',s.tv?'#0a2040':'#050510');
-    if(tvg)tvg.setAttribute('opacity',s.tv?'0.8':'0');
-    const amb=document.getElementById('amb-strip');
-    if(amb)amb.setAttribute('fill',s.ambient?'rgba(0,229,160,0.6)':'rgba(0,229,160,0)');
-    const led=document.getElementById('therm-led-mini');
-    if(led)led.setAttribute('fill',s.thermostat?'#7c5cfc':'#333');
-  }
-}
-
-function updateStats(){
-  const s=state[currentRoom];
-  let kw=0,devices=0;
-  if(s.light){kw+=(s.brightness/100)*0.4;devices++;}
-  if(s.tv){kw+=0.12;devices++;}
-  if(s.thermostat||s.temp){kw+=1.2;devices++;}
-  if(s.extractor){kw+=0.15;devices++;}
-  if(s.pergola){kw+=0.05;devices++;}
-  kw=Math.max(0.05,kw).toFixed(2);
-  const saving=Math.round(30+Math.random()*10);
-  const temp=s.temp||state.salon.temp||20;
-  document.getElementById('stat-kw').textContent=kw;
-  document.getElementById('stat-temp').textContent=temp+'°C';
-  document.getElementById('stat-saving').textContent='-'+saving+'%';
-  document.getElementById('mini-temp').textContent=temp+'°C';
-}
-
-// INIT MINI APP
-document.getElementById('room-controls').innerHTML=miniControls.salon;
-updateMiniScene('salon');updateStats();
-
-// ── FULL DEMO APP ──
-const fullScenes={
-  salon:`<rect x="0" y="0" width="480" height="200" fill="#090914"/><rect x="0" y="120" width="480" height="80" fill="#0c0c18"/><rect x="20" y="10" width="75" height="60" fill="#0a1420" stroke="rgba(56,189,248,0.3)" stroke-width="1"/><line x1="57" y1="10" x2="57" y2="70" stroke="rgba(200,220,255,0.1)" stroke-width="1"/><line x1="20" y1="40" x2="95" y2="40" stroke="rgba(200,220,255,0.1)" stroke-width="1"/><rect x="160" y="0" width="160" height="3" fill="#1a1a28"/><circle id="fs1" cx="185" cy="3" r="5" fill="#ffb347" filter="url(#sg)"/><circle id="fs2" cx="240" cy="3" r="6" fill="#ffb347" filter="url(#sg)"/><circle id="fs3" cx="295" cy="3" r="5" fill="#ffb347" filter="url(#sg)"/><ellipse id="fh1" cx="185" cy="110" rx="65" ry="45" fill="url(#wg1)" filter="url(#lg)" opacity="1"/><ellipse id="fh2" cx="240" cy="110" rx="75" ry="50" fill="url(#wg2)" filter="url(#lg)" opacity="1"/><ellipse id="fh3" cx="295" cy="110" rx="65" ry="45" fill="url(#wg1)" filter="url(#lg)" opacity="1"/><rect x="120" y="130" width="240" height="45" rx="3" fill="#121225" stroke="#1a1a35" stroke-width="1"/><rect x="120" y="130" width="240" height="10" rx="2" fill="#181835" stroke="#222245" stroke-width="1"/><rect x="120" y="128" width="10" height="47" rx="2" fill="#1a1a38"/><rect x="350" y="128" width="10" height="47" rx="2" fill="#1a1a38"/><rect x="345" y="10" width="115" height="70" rx="2" fill="#060610" stroke="#1a1a2e" stroke-width="1"/><rect id="ftv" x="350" y="14" width="105" height="62" rx="1" fill="#050510"/><ellipse id="ftvg" cx="400" cy="115" rx="55" ry="20" fill="url(#tvg)" opacity="0" filter="url(#lg)"/><rect id="famb" x="120" y="127" width="240" height="2" fill="rgba(0,229,160,0)" rx="1"/>`,
-  cocina:`<rect x="0" y="0" width="480" height="200" fill="#08100a"/><rect x="0" y="120" width="480" height="80" fill="#0a120c"/><rect x="0" y="0" width="480" height="6" fill="#141e16"/><circle id="fcs1" cx="200" cy="4" r="5" fill="#ffb347" filter="url(#sg)"/><circle id="fcs2" cx="240" cy="4" r="5" fill="#ffb347" filter="url(#sg)"/><circle id="fcs3" cx="280" cy="4" r="5" fill="#ffb347" filter="url(#sg)"/><ellipse id="fch" cx="240" cy="110" rx="120" ry="55" fill="url(#wg2)" filter="url(#lg)" opacity="1"/><rect x="60" y="130" width="360" height="45" rx="2" fill="#0d150f" stroke="#142016" stroke-width="1"/><rect x="60" y="130" width="360" height="8" rx="1" fill="#111a13"/><rect x="100" y="50" width="280" height="55" rx="2" fill="#0d150f" stroke="#142016" stroke-width="1"/><circle cx="160" cy="75" r="20" fill="none" stroke="#1a2a1c" stroke-width="2"/><circle cx="240" cy="75" r="20" fill="none" stroke="#1a2a1c" stroke-width="2"/><circle cx="320" cy="75" r="20" fill="none" stroke="#1a2a1c" stroke-width="2"/><circle id="fburn1" cx="160" cy="75" r="6" fill="#111"/><circle id="fburn2" cx="240" cy="75" r="6" fill="#111"/><circle id="fburn3" cx="320" cy="75" r="6" fill="#111"/><rect x="380" y="10" width="90" height="100" rx="2" fill="#0a120c" stroke="#142016" stroke-width="1"/><circle cx="425" cy="40" r="12" fill="#0d150f" stroke="#1a2a1c" stroke-width="1"/><circle id="fmot" cx="30" cy="30" r="8" fill="#1a1a2e" stroke="rgba(0,229,160,0.4)" stroke-width="1"/><circle cx="30" cy="30" r="3" fill="#00e5a0" opacity="0.8"/>`,
-  terraza:`<rect x="0" y="0" width="480" height="200" fill="#06080f"/><rect x="0" y="0" width="480" height="200" fill="url(#tvg)" opacity="0.08"/><rect x="0" y="150" width="480" height="50" fill="#080a12"/><line x1="0" y1="170" x2="480" y2="170" stroke="rgba(255,255,255,0.03)" stroke-width="1"/><line x1="80" y1="150" x2="80" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/><line x1="160" y1="150" x2="160" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/><line x1="240" y1="150" x2="240" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/><line x1="320" y1="150" x2="320" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/><line x1="400" y1="150" x2="400" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/><rect id="fperg" x="0" y="0" width="480" height="30" fill="#0a0c14" stroke="#141620" stroke-width="1"/><line x1="0" y1="30" x2="480" y2="30" stroke="rgba(255,255,255,0.06)" stroke-width="1"/><rect x="20" y="0" width="2" height="150" fill="#111420"/><rect x="160" y="0" width="2" height="150" fill="#111420"/><rect x="320" y="0" width="2" height="150" fill="#111420"/><rect x="458" y="0" width="2" height="150" fill="#111420"/><circle id="ftl1" cx="90" cy="15" r="6" fill="#333" filter="url(#sg)"/><circle id="ftl2" cx="240" cy="15" r="6" fill="#333" filter="url(#sg)"/><circle id="ftl3" cx="390" cy="15" r="6" fill="#333" filter="url(#sg)"/><ellipse id="fth1" cx="90" cy="80" rx="55" ry="45" fill="url(#wg1)" filter="url(#lg)" opacity="0"/><ellipse id="fth2" cx="240" cy="80" rx="55" ry="45" fill="url(#wg1)" filter="url(#lg)" opacity="0"/><ellipse id="fth3" cx="390" cy="80" rx="55" ry="45" fill="url(#wg1)" filter="url(#lg)" opacity="0"/><circle cx="440" cy="80" r="6" fill="#1a1a2e" stroke="rgba(56,189,248,0.5)" stroke-width="1"/><circle cx="440" cy="80" r="3" fill="#4a7c8e" opacity="0.8"/><text x="440" y="100" text-anchor="middle" fill="rgba(56,189,248,0.5)" font-size="8" font-family="monospace">H&T</text>`,
-  consumo:`<rect x="0" y="0" width="480" height="200" fill="#090914"/><text x="240" y="40" text-anchor="middle" fill="rgba(0,229,160,0.3)" font-size="10" font-family="monospace" letter-spacing="3">CONSUMO EN TIEMPO REAL</text><rect x="40" y="55" width="400" height="1" fill="rgba(0,229,160,0.1)"/><text x="40" y="80" fill="rgba(238,238,245,0.4)" font-size="9" font-family="monospace">Iluminación</text><rect x="130" y="68" width="280" height="10" rx="2" fill="rgba(255,255,255,0.04)"/><rect id="bar-luz" x="130" y="68" width="168" height="10" rx="2" fill="url(#wg1)"/><text x="420" y="80" fill="#ffb347" font-size="9" font-family="monospace" id="bar-luz-val">0.40kW</text><text x="40" y="105" fill="rgba(238,238,245,0.4)" font-size="9" font-family="monospace">Calefacción</text><rect x="130" y="93" width="280" height="10" rx="2" fill="rgba(255,255,255,0.04)"/><rect id="bar-heat" x="130" y="93" width="210" height="10" rx="2" fill="rgba(255,107,107,0.6)"/><text x="420" y="105" fill="#ff8a65" font-size="9" font-family="monospace" id="bar-heat-val">1.20kW</text><text x="40" y="130" fill="rgba(238,238,245,0.4)" font-size="9" font-family="monospace">TV</text><rect x="130" y="118" width="280" height="10" rx="2" fill="rgba(255,255,255,0.04)"/><rect id="bar-tv" x="130" y="118" width="30" height="10" rx="2" fill="rgba(56,189,248,0.5)"/><text x="420" y="130" fill="#4a7c8e" font-size="9" font-family="monospace" id="bar-tv-val">0.12kW</text><rect x="40" y="145" width="400" height="1" fill="rgba(0,229,160,0.1)"/><text x="40" y="168" fill="rgba(238,238,245,0.6)" font-size="10" font-family="monospace" font-weight="bold">Total actual</text><text id="bar-total" x="420" y="168" fill="#00e5a0" font-size="10" font-family="monospace" font-weight="bold" text-anchor="end">1.72kW</text><text x="40" y="190" fill="rgba(0,229,160,0.5)" font-size="8" font-family="monospace">▼ Ahorro estimado con Shelly: -32% vs instalación tradicional</text>`
-};
-
-const fullControls={
-  salon:`<div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">💡</span><div><div class="ctrl-label">Iluminación</div><div class="ctrl-sub">3× Shelly Dimmer 2PM</div></div></div><div class="ctrl-right"><input type="range" class="dimmer" min="10" max="100" value="80" style="--pct:80%" oninput="fullDimmer(this,'salon')"><span class="ctrl-val" id="full-bval-salon">80%</span><label class="tog"><input type="checkbox" checked onchange="fullToggle('light','salon',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div><div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">📺</span><div><div class="ctrl-label">TV + stand-by</div><div class="ctrl-sub">Shelly Plus 1PM · 0.12kW</div></div></div><div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="fullToggle('tv','salon',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div><div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">✨</span><div><div class="ctrl-label">Luz ambiente</div><div class="ctrl-sub">Tira LED trasera sofá</div></div></div><div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="fullToggle('ambient','salon',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div><div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">🌡</span><div><div class="ctrl-label">Termostato</div><div class="ctrl-sub">Shelly TRV · 20°C objetivo</div></div></div><div class="ctrl-right"><span class="ctrl-val" style="color:#ff8a65">20°C</span><label class="tog"><input type="checkbox" checked onchange="fullToggle('thermostat','salon',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div>`,
-  cocina:`<div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">💡</span><div><div class="ctrl-label">Luz cocina</div><div class="ctrl-sub">Shelly Plus 1PM</div></div></div><div class="ctrl-right"><input type="range" class="dimmer" min="10" max="100" value="75" style="--pct:75%" oninput="fullDimmer(this,'cocina')"><span class="ctrl-val" id="full-bval-cocina">75%</span><label class="tog"><input type="checkbox" checked onchange="fullToggle('light','cocina',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div><div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">🔥</span><div><div class="ctrl-label">Vitrocerámica</div><div class="ctrl-sub">Monitorización Shelly Pro 3EM</div></div></div><div class="ctrl-right"><span class="ctrl-val" style="color:#ff8a65">0.8kW</span><label class="tog"><input type="checkbox" onchange="fullToggle('extractor','cocina',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div><div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">🔮</span><div><div class="ctrl-label">Sensor presencia</div><div class="ctrl-sub">Shelly Motion 2 · activo</div></div></div><div class="ctrl-right"><span class="ctrl-val" style="color:var(--a)">activo</span><label class="tog"><input type="checkbox" checked onchange="fullToggle('sensor','cocina',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div>`,
-  terraza:`<div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">💡</span><div><div class="ctrl-label">Luces exterior</div><div class="ctrl-sub">3× Shelly Plus 1PM</div></div></div><div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="fullToggle('light','terraza',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div><div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">☂</span><div><div class="ctrl-label">Toldo motorizado</div><div class="ctrl-sub">Shelly Plus 2PM</div></div></div><div class="ctrl-right"><label class="tog"><input type="checkbox" onchange="fullToggle('pergola','terraza',this)"><div class="tog-track"></div><div class="tog-thumb"></div></label></div></div><div class="ctrl-row"><div class="ctrl-left"><span class="ctrl-icon">🌡</span><div><div class="ctrl-label">Temperatura exterior</div><div class="ctrl-sub">Shelly Plus H&T</div></div></div><div class="ctrl-right"><span class="ctrl-val" style="color:var(--cool)">14°C</span></div></div>`,
-  consumo:``
-};
-
-function fullSelectRoom(room,el){
-  currentFullRoom=room;
-  document.querySelectorAll('.full-tab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-  const svg=document.getElementById('full-svg');
-  svg.innerHTML=`<defs><radialGradient id="wg1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb347" stop-opacity=".5"/><stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient><radialGradient id="wg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#ffb347" stop-opacity=".4"/><stop offset="100%" stop-color="#ffb347" stop-opacity="0"/></radialGradient><radialGradient id="tvg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#4a7c8e" stop-opacity=".4"/><stop offset="100%" stop-color="#4a7c8e" stop-opacity="0"/></radialGradient><filter id="sg"><feGaussianBlur stdDeviation="4"/></filter><filter id="lg"><feGaussianBlur stdDeviation="8"/></filter></defs>`+(fullScenes[room]||'');
-  document.getElementById('full-controls').innerHTML=fullControls[room]||'';
-  updateFullScene(room);
-  updateFullStats(room);
-}
-
-function fullToggle(key,room,cb){
-  state[room][key]=cb.checked;
-  updateFullScene(room);updateFullStats(room);
-  const labels={light:'Luz',tv:'TV',thermostat:'Termostato',extractor:'Vitro',sensor:'Sensor',pergola:'Toldo',ambient:'Ambiente'};
-  toast((labels[key]||key)+': '+(cb.checked?'encendido':'apagado'));
-}
-function fullDimmer(el,room){
-  const val=parseInt(el.value);
-  el.style.setProperty('--pct',val+'%');
-  const bv=document.getElementById('full-bval-'+room);
-  if(bv)bv.textContent=val+'%';
-  state[room].brightness=val;
-  updateFullScene(room);updateFullStats(room);
-}
-function updateFullScene(room){
-  const s=state[room];
-  const op=s.light?s.brightness/100:0;
-  if(room==='salon'){
-    ['fh1','fh2','fh3'].forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('opacity',op);});
-    ['fs1','fs2','fs3'].forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('fill',s.light?'#ffb347':'#222');});
-    const ftv=document.getElementById('ftv');const ftvg=document.getElementById('ftvg');
-    if(ftv)ftv.setAttribute('fill',s.tv?'#0a2040':'#050510');
-    if(ftvg)ftvg.setAttribute('opacity',s.tv?'0.9':'0');
-    const famb=document.getElementById('famb');
-    if(famb)famb.setAttribute('fill',s.ambient?'rgba(0,229,160,0.7)':'rgba(0,229,160,0)');
-  } else if(room==='cocina'){
-    ['fcs1','fcs2','fcs3'].forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('fill',s.light?'#ffb347':'#222');});
-    const fch=document.getElementById('fch');if(fch)fch.setAttribute('opacity',op);
-  } else if(room==='terraza'){
-    const lightColor=s.light?'#ffb347':'#333';
-    const haloOp=s.light?op:0;
-    ['ftl1','ftl2','ftl3'].forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('fill',lightColor);});
-    ['fth1','fth2','fth3'].forEach(id=>{const el=document.getElementById(id);if(el)el.setAttribute('opacity',haloOp);});
-  }
-}
-function updateFullStats(room){
-  const s=state[room];
-  let kw=0,devices=0;
-  if(s.light){kw+=(s.brightness/100)*0.4;devices++;}
-  if(s.tv){kw+=0.12;devices++;}
-  if(s.thermostat){kw+=1.2;devices++;}
-  if(s
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+</script>
+</body>
+</html>
