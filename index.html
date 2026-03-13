@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPPBGX36K"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-NWPPBGX36K');
-</script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sanzivi BCN — Electricidad, Domótica y Manitas en Barcelona</title>
@@ -180,6 +171,30 @@
     .tool-card p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
     .tool-link { margin-top: 1rem; font-size: 0.78rem; font-weight: 500; color: var(--accent); }
 
+    /* ── PRODUCTOS RECOMENDADOS ── */
+    .productos-home { background: var(--white); }
+    .productos-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    @media (max-width: 900px) { .productos-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 500px) { .productos-grid { grid-template-columns: 1fr; } }
+    .prod-card { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: all 0.2s; }
+    .prod-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
+    .prod-card-img { height: 150px; background: var(--white); display: flex; align-items: center; justify-content: center; padding: 12px; border-bottom: 1px solid var(--gray-200); overflow: hidden; }
+    .prod-card-img img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s; }
+    .prod-card:hover .prod-card-img img { transform: scale(1.05); }
+    .prod-card-body { padding: 1rem 1rem 0.8rem; flex: 1; display: flex; flex-direction: column; }
+    .prod-card-cat { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+    .prod-card-name { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 400; line-height: 1.3; color: var(--black); margin-bottom: 0.4rem; flex: 1; }
+    .prod-card-desc { font-size: 0.78rem; color: var(--gray-600); line-height: 1.5; font-weight: 300; }
+    .prod-card-footer { padding: 0.8rem 1rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border-top: 1px solid var(--gray-200); }
+    .prod-price { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 300; color: var(--accent); }
+    .btn-amazon-mini { display: inline-flex; align-items: center; gap: 5px; background: var(--accent); color: white; padding: 6px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 500; text-decoration: none; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
+    .btn-amazon-mini:hover { background: #145230; }
+    .btn-amazon-mini svg { width: 11px; height: 11px; fill: currentColor; flex-shrink: 0; }
+    .productos-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200); }
+    .afiliado-note { font-size: 0.72rem; color: var(--gray-400); font-weight: 300; }
+    .btn-ver-todos { font-size: 0.88rem; font-weight: 500; color: var(--accent); display: inline-flex; align-items: center; gap: 0.3rem; border-bottom: 1px solid currentColor; padding-bottom: 1px; transition: opacity 0.2s; }
+    .btn-ver-todos:hover { opacity: 0.7; }
+
     /* ── CTA FINAL ── */
     .cta-final { background: var(--accent); color: white; padding: 80px 5vw; text-align: center; }
     .cta-final h2 { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; letter-spacing: -0.02em; margin-bottom: 1rem; }
@@ -248,6 +263,7 @@
     <a href="#domotica">Domótica</a>
     <a href="#trabajos">Trabajos</a>
     <a href="#tarifas">Tarifas</a>
+    <a href="#productos">Productos</a>
     <a href="#blog">Blog</a>
     <a href="#contacto">Contacto</a>
   </div>
@@ -525,6 +541,99 @@
   </div>
 </section>
 
+<!-- PRODUCTOS RECOMENDADOS -->
+<section class="section productos-home" id="productos">
+  <div class="section-inner">
+    <span class="section-tag">🔌 Productos recomendados</span>
+    <h2>Lo que usamos nosotros,<br><em>disponible para ti.</em></h2>
+    <p class="section-sub">Dispositivos que instalamos a diario en viviendas de Barcelona. Cómpralo tú o deja que lo instalemos nosotros.</p>
+    <div class="productos-grid">
+
+      <!-- Shelly 1 Mini Gen3 -->
+      <div class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://m.media-amazon.com/images/I/51YMsv9CNXL._AC_SL1000_.jpg" alt="Shelly 1 Mini Gen3" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="prod-card-body">
+          <div class="prod-card-cat">Relé inteligente</div>
+          <div class="prod-card-name">Shelly 1 Mini Gen3</div>
+          <div class="prod-card-desc">Automatiza cualquier luz sin cambiar el interruptor.</div>
+        </div>
+        <div class="prod-card-footer">
+          <span class="prod-price">19,05 €</span>
+          <a href="https://amzn.to/4b8w3sr" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
+            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Ver en Amazon
+          </a>
+        </div>
+      </div>
+
+      <!-- Shelly 2PM Gen3 -->
+      <div class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://m.media-amazon.com/images/I/41j5oJfN-ZL._AC_SL1000_.jpg" alt="Shelly 2PM Gen3" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="prod-card-body">
+          <div class="prod-card-cat">Relé inteligente</div>
+          <div class="prod-card-name">Shelly 2PM Gen3</div>
+          <div class="prod-card-desc">Doble canal con medición de consumo integrada.</div>
+        </div>
+        <div class="prod-card-footer">
+          <span class="prod-price">32,55 €</span>
+          <a href="https://amzn.to/4uIr21A" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
+            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Ver en Amazon
+          </a>
+        </div>
+      </div>
+
+      <!-- Shelly Wall Display -->
+      <div class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://m.media-amazon.com/images/I/61ZJlSxNEJL._AC_SL1500_.jpg" alt="Shelly Wall Display" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="prod-card-body">
+          <div class="prod-card-cat">Interruptor inteligente</div>
+          <div class="prod-card-name">Shelly Wall Display</div>
+          <div class="prod-card-desc">Pantalla táctil con termostato integrado.</div>
+        </div>
+        <div class="prod-card-footer">
+          <span class="prod-price">140,00 €</span>
+          <a href="https://amzn.to/4sdkiXQ" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
+            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Ver en Amazon
+          </a>
+        </div>
+      </div>
+
+      <!-- Shelly Plug S Gen3 -->
+      <div class="prod-card">
+        <div class="prod-card-img">
+          <img src="https://m.media-amazon.com/images/I/41q3Y7AHTRL._AC_SL1000_.jpg" alt="Shelly Plug S Gen3" loading="lazy" onerror="this.style.display='none'">
+        </div>
+        <div class="prod-card-body">
+          <div class="prod-card-cat">Enchufe inteligente</div>
+          <div class="prod-card-name">Shelly Plug S Gen3</div>
+          <div class="prod-card-desc">Mide consumo y controla cualquier aparato desde el móvil.</div>
+        </div>
+        <div class="prod-card-footer">
+          <span class="prod-price">24,00 €</span>
+          <a href="https://amzn.to/4cN6yhG" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
+            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
+            Ver en Amazon
+          </a>
+        </div>
+      </div>
+
+    </div><!-- /productos-grid -->
+
+    <div class="productos-footer">
+      <span class="afiliado-note">🔗 Enlaces de afiliado Amazon · Sin coste extra para ti</span>
+      <a href="productos.html" class="btn-ver-todos">Ver los 8 productos recomendados →</a>
+    </div>
+  </div>
+</section>
+
 <!-- BLOG -->
 <section class="section blog-bg" id="blog">
   <div class="section-inner">
@@ -630,13 +739,14 @@
       <a href="#trabajos">Trabajos</a>
       <a href="#opiniones">Opiniones</a>
       <a href="#blog">Blog</a>
+      <a href="productos.html">Productos afiliados</a>
       <a href="tarifas.html">Tarifas</a>
       <a href="/demo">Demo interactiva</a>
     </div>
     <div class="footer-col">
       <h4>Contacto</h4>
       <a href="tel:+34654089180">654 089 180</a>
-      <a href="mailto:info@sanzivi.es">info@sanzivi.es</a>
+      <a href="/cdn-cgi/l/email-protection#cfa6a1a9a08fbcaea1b5a6b9a6e1aabc"><span class="__cf_email__" data-cfemail="50393e363f1023313e2a3926397e3523">[email&#160;protected]</span></a>
       <span>Barcelona y alrededores</span>
     </div>
   </div>
@@ -705,7 +815,7 @@
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   function openModal(){document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden'}
   function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow=''}
   function toggleChip(el){el.classList.toggle('active')}
@@ -719,10 +829,4 @@
     if(zone) msg+='\nZona: '+zone;
     if(chips) msg+='\nServicios: '+chips;
     if(desc) msg+='\nTrabajos pendientes:\n'+desc;
-    msg+='\n\n(Enviado desde sanzivi.es)';
-    window.open('https://wa.me/34654089180?text='+encodeURIComponent(msg),'_blank');
-  }
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-</script>
-</body>
-</html>
+ 
