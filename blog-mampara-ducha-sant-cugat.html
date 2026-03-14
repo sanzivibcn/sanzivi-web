@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instalar mampara de ducha en piso de alquiler sin obras | Sant Cugat | Sanzivi BCN</title>
+  <meta name="description" content="Una clienta recién mudada a Sant Cugat tenía la ducha sin mampara. Compró en Leroy Merlin y nosotros la montamos en una visita. Sin obras, sin permisos, sin problema." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #111110; --white: #FAFAF8; --gray-100: #F4F4F2;
+      --gray-200: #E8E8E4; --gray-400: #A8A8A0; --gray-600: #6B6B62;
+      --accent: #1A6B3C; --accent-light: #E8F3ED; --wa-green: #25D366;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 5vw; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: var(--black); letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-back { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--gray-600); transition: color 0.2s; }
+    .nav-back:hover { color: var(--black); }
+    .nav-back svg { width: 16px; height: 16px; }
+
+    /* ── HERO ARTÍCULO ── */
+    .article-hero {
+      padding: 100px 5vw 0;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--gray-400); margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .breadcrumb a { color: var(--accent); }
+    .breadcrumb span { color: var(--gray-400); }
+    .article-tag { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1rem; }
+    .article-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(1.9rem, 4vw, 2.8rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 1rem; }
+    .article-hero h1 em { font-style: italic; color: var(--accent); }
+    .article-meta { display: flex; align-items: center; gap: 1.2rem; font-size: 0.82rem; color: var(--gray-400); margin-bottom: 2rem; flex-wrap: wrap; }
+    .article-meta .dot { width: 4px; height: 4px; background: var(--gray-400); border-radius: 50%; }
+
+    /* ── IMAGEN PRINCIPAL ── */
+    .article-cover {
+      max-width: 760px;
+      margin: 0 auto 3rem;
+      padding: 0 5vw;
+    }
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    @media (max-width: 600px) { .cover-grid { grid-template-columns: 1fr; } }
+    .cover-img { aspect-ratio: 4/5; overflow: hidden; background: var(--gray-200); position: relative; }
+    .cover-img img { width: 100%; height: 100%; object-fit: cover; }
+    .cover-label { position: absolute; bottom: 0.75rem; left: 0.75rem; background: rgba(17,17,16,0.7); color: white; font-size: 0.7rem; font-weight: 500; padding: 0.3rem 0.7rem; border-radius: 50px; backdrop-filter: blur(4px); }
+
+    /* ── CONTENIDO ── */
+    .article-body {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 5vw 80px;
+    }
+    .article-body p { font-size: 1rem; color: var(--gray-600); line-height: 1.85; margin-bottom: 1.4rem; font-weight: 300; }
+    .article-body p strong { color: var(--black); font-weight: 500; }
+    .article-body h2 { font-family: 'Fraunces', serif; font-size: 1.45rem; font-weight: 300; letter-spacing: -0.02em; color: var(--black); margin: 2.5rem 0 1rem; line-height: 1.25; }
+    .article-body h2 em { font-style: italic; color: var(--accent); }
+    .article-body h3 { font-family: 'Fraunces', serif; font-size: 1.1rem; font-weight: 400; color: var(--black); margin: 2rem 0 0.6rem; }
+
+    /* Info box */
+    .info-box { background: var(--accent-light); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 1rem 1.2rem; margin: 1.8rem 0; }
+    .info-box p { color: var(--black); font-size: 0.9rem; margin: 0; font-weight: 400; line-height: 1.65; }
+    .info-box strong { color: var(--accent); }
+
+    /* Checklist */
+    .check-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; margin: 1rem 0 1.6rem; }
+    .check-list li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.92rem; color: var(--gray-600); line-height: 1.55; }
+    .check-list li::before { content: '✓'; width: 20px; height: 20px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); font-size: 0.68rem; font-weight: 700; margin-top: 1px; }
+
+    /* Separador */
+    .article-divider { border: none; border-top: 1px solid var(--gray-200); margin: 2.5rem 0; }
+
+    /* Resumen trabajo */
+    .work-summary { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.5rem; margin: 2rem 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; text-align: center; }
+    @media (max-width: 500px) { .work-summary { grid-template-columns: 1fr; } }
+    .work-summary .ws-item .num { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 300; color: var(--accent); line-height: 1; margin-bottom: 0.3rem; }
+    .work-summary .ws-item .lbl { font-size: 0.75rem; color: var(--gray-600); }
+
+    /* CTA inline */
+    .cta-inline { background: var(--black); border-radius: var(--radius-lg); padding: 2rem; margin: 2.5rem 0; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .cta-inline p { color: rgba(255,255,255,0.7); font-size: 0.9rem; margin: 0; font-weight: 300; max-width: 380px; line-height: 1.6; }
+    .cta-inline p strong { color: white; font-weight: 500; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: white; padding: 0.75rem 1.6rem; border-radius: 50px; font-weight: 500; font-size: 0.88rem; transition: all 0.2s; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; white-space: nowrap; }
+    .btn-primary:hover { background: #145230; transform: translateY(-1px); }
+
+    /* Tags artículo */
+    .article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--gray-200); }
+    .article-tag-pill { font-size: 0.75rem; color: var(--gray-600); background: var(--gray-100); border: 1px solid var(--gray-200); padding: 0.3rem 0.9rem; border-radius: 50px; }
+
+    /* Artículos relacionados */
+    .related { background: var(--gray-100); padding: 60px 5vw; }
+    .related-inner { max-width: 760px; margin: 0 auto; }
+    .related h2 { font-family: 'Fraunces', serif; font-size: 1.4rem; font-weight: 300; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+    .related-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+    @media (max-width: 600px) { .related-grid { grid-template-columns: 1fr; } }
+    .blog-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: var(--black); display: flex; flex-direction: column; transition: all 0.2s; }
+    .blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
+    .blog-card-img { height: 140px; overflow: hidden; background: var(--gray-200); }
+    .blog-card-img img { width: 100%; height: 100%; object-fit: cover; }
+    .blog-card-body { padding: 1.1rem; flex: 1; display: flex; flex-direction: column; }
+    .blog-card .tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .blog-card h3 { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 400; line-height: 1.35; margin-bottom: 0.4rem; }
+    .blog-card p { font-size: 0.8rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
+    .blog-card .read { margin-top: 0.7rem; font-size: 0.72rem; font-weight: 500; color: var(--accent); }
+
+    /* ── HERRAMIENTAS ── */
+    .tools-grid { display: flex; flex-direction: column; gap: 0.75rem; margin: 1.5rem 0; }
+    .tool-card-blog { display: flex; gap: 1rem; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 1rem 1.2rem; align-items: flex-start; transition: all 0.2s; }
+    .tool-card-blog:hover { border-color: #c8e6d4; background: var(--accent-light); }
+    .tool-num { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 300; color: var(--accent); line-height: 1; flex-shrink: 0; width: 28px; padding-top: 2px; }
+    .tool-body { flex: 1; }
+    .tool-name { font-size: 0.92rem; font-weight: 500; color: var(--black); margin-bottom: 0.3rem; }
+    .tool-desc { font-size: 0.82rem; color: var(--gray-600); line-height: 1.55; margin-bottom: 0.6rem; font-weight: 300; }
+    .tool-link-amazon { font-size: 0.78rem; font-weight: 500; color: var(--accent); border-bottom: 1px solid currentColor; padding-bottom: 1px; text-decoration: none; transition: opacity 0.2s; }
+    .tool-link-amazon:hover { opacity: 0.7; }
+
+    /* WA Float */
+    .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--wa-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,0.4); text-decoration: none; z-index: 200; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 28px; height: 28px; fill: white; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Sanzivi<span>.</span></a>
+  <a href="/#blog" class="nav-back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Volver al blog
+  </a>
+</nav>
+
+<!-- HERO -->
+<div class="article-hero">
+  <div class="breadcrumb">
+    <a href="/">Inicio</a>
+    <span>›</span>
+    <a href="/#blog">Blog</a>
+    <span>›</span>
+    <span>Mampara walk-in en Sant Cugat</span>
+  </div>
+  <span class="article-tag">Baño · Caso real</span>
+  <h1>Mampara de ducha walk-in<br>en Sant Cugat: <em>instalada en una visita</em></h1>
+  <div class="article-meta">
+    <span>Sanzivi BCN</span>
+    <div class="dot"></div>
+    <span>Sant Cugat del Vallès</span>
+    <div class="dot"></div>
+    <span>4 min de lectura</span>
+  </div>
+</div>
+
+<!-- FOTOS ANTES / DESPUÉS -->
+<div class="article-cover">
+  <div class="cover-grid">
+    <div class="cover-img">
+      <img src="blog_mampara_antes.jpg" alt="Ducha sin mampara antes de la instalación" />
+      <span class="cover-label">Antes</span>
+    </div>
+    <div class="cover-img">
+      <img src="blog_mampara_despues.jpg" alt="Mampara walk-in instalada por Sanzivi BCN" />
+      <span class="cover-label">Después</span>
+    </div>
+  </div>
+</div>
+
+<!-- CUERPO DEL ARTÍCULO -->
+<article class="article-body">
+
+  <p>Cuando te mudas a un piso de alquiler, la ducha suele ser lo primero que decepciona. En este caso, la clienta llevaba apenas unas semanas en su nuevo piso de Sant Cugat y la ducha no tenía mampara — solo el plato de resina y la pared. Ducharse sin salpicar el baño entero era misión imposible.</p>
+
+  <p>La solución fue sencilla: una <strong>mampara walk-in de panel fijo</strong>. La encontró en Leroy Merlin a través de nuestro enlace de afiliado, la encargó online y se la entregaron en casa. Nosotros fuimos a montarla.</p>
+
+  <div class="info-box">
+    <p><strong>¿Qué es una mampara walk-in?</strong> Un panel de vidrio templado fijo, sin puerta ni bisagras. La entrada queda abierta por un lateral. Es la opción más limpia visualmente, la más fácil de limpiar y la que menos problemas da con el paso del tiempo.</p>
+  </div>
+
+  <h2>¿Se puede instalar en un <em>piso de alquiler</em>?</h2>
+
+  <p>Esta es la pregunta que más nos hacen. La respuesta es sí, con matices. Una mampara walk-in requiere anclar un perfil al suelo y, en la mayoría de modelos, una barra estabilizadora al techo o a la pared. Esto implica taladrar el azulejo — algo que técnicamente es una modificación del inmueble.</p>
+
+  <ul class="check-list">
+    <li><strong>Si tienes contrato estándar:</strong> en la práctica, una mampara de ducha se considera una mejora y los propietarios rara vez ponen objeciones. Lo ideal es comentárselo antes.</li>
+    <li><strong>Al terminar el alquiler:</strong> se puede desmontar, tapar los taladros con silicona blanca y dejar el baño como estaba.</li>
+    <li><strong>Sin obra ni escombros:</strong> el montaje no afecta la instalación de agua ni los azulejos más allá de los puntos de anclaje.</li>
+  </ul>
+
+  <div class="work-summary">
+    <div class="ws-item">
+      <div class="num">1</div>
+      <div class="lbl">Visita necesaria</div>
+    </div>
+    <div class="ws-item">
+      <div class="num">~2h</div>
+      <div class="lbl">Tiempo de instalación</div>
+    </div>
+    <div class="ws-item">
+      <div class="num">0</div>
+      <div class="lbl">Obras ni escombros</div>
+    </div>
+  </div>
+
+  <h2>Cómo fue la <em>instalación</em></h2>
+
+  <p>Llegamos con las herramientas necesarias. El proceso fue directo:</p>
+
+  <ul class="check-list">
+    <li>Medición del plato y verificación del espacio disponible para el panel</li>
+    <li>Marcado de puntos de anclaje con nivel láser para garantizar la verticalidad perfecta</li>
+    <li>Taladro en azulejo con broca específica para cerámica — sin fisuras, sin rotura de pieza</li>
+    <li>Instalación del perfil de suelo y anclaje de la barra estabilizadora al techo</li>
+    <li>Colocación del panel de vidrio templado y ajuste fino de la plomada</li>
+    <li>Sellado perimetral con silicona sanitaria transparente</li>
+    <li>Limpieza completa y prueba de estabilidad antes de irnos</li>
+  </ul>
+
+  <p>Resultado: panel perfectamente vertical, anclajes limpios, sin restos de obra. La clienta solo tuvo que esperar <strong>24 horas a que curase la silicona</strong> antes de estrenar la ducha.</p>
+
+  <hr class="article-divider">
+
+  <h2>¿Lo quieres montar tú? <em>Herramientas que necesitas</em></h2>
+
+  <p>Si tienes algo de maña con el taladro, este montaje es perfectamente abordable un sábado por la mañana. Te dejamos las herramientas esenciales con enlace directo a Amazon:</p>
+
+  <!-- HERRAMIENTAS -->
+  <div class="tools-grid">
+
+    <div class="tool-card-blog">
+      <div class="tool-num">01</div>
+      <div class="tool-body">
+        <div class="tool-name">Taladro percutor</div>
+        <div class="tool-desc">Imprescindible para anclar el perfil al suelo y la barra al techo. Necesitas uno con función percusión para el azulejo.</div>
+        <a href="https://www.amazon.es/s?k=taladro+percutor+bricolaje&tag=caiopy-21" target="_blank" rel="nofollow sponsored noopener" class="tool-link-amazon">
+          Ver en Amazon →
+        </a>
+      </div>
+    </div>
+
+    <div class="tool-card-blog">
+      <div class="tool-num">02</div>
+      <div class="tool-body">
+        <div class="tool-name">Brocas para cerámica y azulejo</div>
+        <div class="tool-desc">No uses brocas normales en azulejo — se astilla. Las brocas de punta de carburo o diamante hacen el agujero limpio.</div>
+        <a href="https://www.amazon.es/s?k=brocas+ceramica+azulejo&tag=caiopy-21" target="_blank" rel="nofollow sponsored noopener" class="tool-link-amazon">
+          Ver en Amazon →
+        </a>
+      </div>
+    </div>
+
+    <div class="tool-card-blog">
+      <div class="tool-num">03</div>
+      <div class="tool-body">
+        <div class="tool-name">Nivel láser o nivel de burbuja</div>
+        <div class="tool-desc">El panel tiene que estar perfectamente vertical. Un nivel de burbuja básico vale, un nivel láser lo hace más fácil y preciso.</div>
+        <a href="https://www.amazon.es/s?k=nivel+laser+bricolaje&tag=caiopy-21" target="_blank" rel="nofollow sponsored noopener" class="tool-link-amazon">
+          Ver en Amazon →
+        </a>
+      </div>
+    </div>
+
+    <div class="tool-card-blog">
+      <div class="tool-num">04</div>
+      <div class="tool-body">
+        <div class="tool-name">Silicona sanitaria transparente</div>
+        <div class="tool-desc">Para sellar el perfil contra el plato y la pared. Usa específicamente sanitaria — aguanta la humedad constante sin ennegrecerse.</div>
+        <a href="https://www.amazon.es/s?k=silicona+sanitaria+transparente&tag=caiopy-21" target="_blank" rel="nofollow sponsored noopener" class="tool-link-amazon">
+          Ver en Amazon →
+        </a>
+      </div>
+    </div>
+
+    <div class="tool-card-blog">
+      <div class="tool-num">05</div>
+      <div class="tool-body">
+        <div class="tool-name">Pistola para silicona</div>
+        <div class="tool-desc">Aplicar silicona a mano es una pesadilla. Una pistola básica de 5€ te da control total y un acabado limpio.</div>
+        <a href="https://www.amazon.es/s?k=pistola+silicona&tag=caiopy-21" target="_blank" rel="nofollow sponsored noopener" class="tool-link-amazon">
+          Ver en Amazon →
+        </a>
+      </div>
+    </div>
+
+    <div class="tool-card-blog">
+      <div class="tool-num">06</div>
+      <div class="tool-body">
+        <div class="tool-name">Taco de expansión para azulejo</div>
+        <div class="tool-desc">Los tacos normales no agarran bien en cerámica hueca. Usa tacos específicos para azulejo o tacos de nylon de expansión.</div>
+        <a href="https://www.amazon.es/s?k=tacos+expansion+azulejo&tag=caiopy-21" target="_blank" rel="nofollow sponsored noopener" class="tool-link-amazon">
+          Ver en Amazon →
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="info-box" style="margin-top:1.5rem">
+    <p><strong>💡 Consejo:</strong> Antes de comprar la mampara, mide bien el ancho del plato y comprueba que tienes al menos 15 cm libres en el techo sobre la ducha para la barra estabilizadora. Algunos techos abuhardillados o con vigas no permiten anclar arriba — en ese caso busca modelos con anclaje solo en suelo y pared lateral.</p>
+  </div>
+
+  <hr class="article-divider">
+
+  <h2>¿Qué mirar antes de <em>comprar la mampara</em>?</h2>
+
+  <h3>El ancho del plato</h3>
+  <p>Las mamparas walk-in vienen en anchos estándar: 80, 90, 100, 110 y 120 cm. Mide el plato de ducha y elige el panel más cercano — puede ser igual o ligeramente más estrecho que el plato para dejar acceso por un lateral.</p>
+
+  <h3>El grosor del vidrio</h3>
+  <p>Mínimo 6 mm para un uso doméstico normal. Los modelos de 8 mm son más estables y se nota la diferencia en solidez. Evita los de 4 mm — son baratos pero se notan demasiado ligeros.</p>
+
+  <h3>El tratamiento antical</h3>
+  <p>Busca modelos con tratamiento Easy Clean o similar. El vidrio tratado repele el agua y la cal — limpias mucho menos y el resultado se mantiene durante años.</p>
+
+  <div class="cta-inline">
+    <p><strong>¿Prefieres que lo hagamos nosotros?</strong> Compras la mampara donde quieras y nosotros vamos a montarla. Primera hora 80€, desplazamiento incluido en Barcelona y alrededores.</p>
+    <a href="https://wa.me/34654089180?text=Hola,%20tengo%20una%20mampara%20para%20instalar%20y%20quiero%20presupuesto" target="_blank" rel="noopener" class="btn-primary">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Pedir presupuesto
+    </a>
+  </div>
+
+  <div class="article-tags">
+    <span class="article-tag-pill">Mampara ducha</span>
+    <span class="article-tag-pill">Walk-in</span>
+    <span class="article-tag-pill">Sant Cugat</span>
+    <span class="article-tag-pill">Piso de alquiler</span>
+    <span class="article-tag-pill">Sin obras</span>
+    <span class="article-tag-pill">Leroy Merlin</span>
+    <span class="article-tag-pill">Bricolaje baño</span>
+  </div>
+
+</article>
+
+<!-- ARTÍCULOS RELACIONADOS -->
+<section class="related">
+  <div class="related-inner">
+    <h2>Más casos reales y consejos</h2>
+    <div class="related-grid">
+      <a href="blog-automatizar-luces.html" class="blog-card">
+        <div class="blog-card-img"><img src="domotica_facil_blog.png" alt="Automatizar luces sin obra" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Domótica fácil · 5 min</div>
+          <h3>Cómo automatizar las luces de tu piso sin hacer obra</h3>
+          <p>Con un relé Shelly controlas cualquier punto de luz desde el móvil en menos de una hora.</p>
+          <div class="read">Leer →</div>
+        </div>
+      </a>
+      <a href="blog-electricista-visita.html" class="blog-card">
+        <div class="blog-card-img"><img src="foto_blog3.jpg" alt="Electricista en una visita" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Consejos · 4 min</div>
+          <h3>5 cosas que un electricista puede hacer en una sola visita</h3>
+          <p>Aprovecha la visita al máximo. Los trabajos más comunes que puedes combinar.</p>
+          <div class="read">Leer →</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/34654089180?text=Hola,%20quiero%20información%20sobre%20vuestros%20servicios" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+</body>
+</html>
