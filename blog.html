@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Domótica fácil y consejos prácticos | Sanzivi BCN</title>
+  <meta name="description" content="Guías prácticas, casos reales e instalaciones de domótica en Barcelona. Aprende a automatizar tu piso sin obras con Shelly y Sonoff." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --black: #111110; --white: #FAFAF8; --gray-100: #F4F4F2;
+      --gray-200: #E8E8E4; --gray-400: #A8A8A0; --gray-600: #6B6B62;
+      --accent: #1A6B3C; --accent-light: #E8F3ED; --wa-green: #25D366;
+      --radius: 12px; --radius-lg: 20px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── NAV ── */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 5vw; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
+    .nav-logo { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: var(--black); letter-spacing: -0.02em; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a { font-size: 0.88rem; color: var(--gray-600); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--black); }
+    .nav-cta { background: var(--wa-green); color: white; padding: 0.45rem 1.1rem; border-radius: 50px; font-weight: 500; font-size: 0.85rem; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; text-decoration: none; display: inline-block; }
+    @media (max-width: 680px) { .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .blog-hero { padding: 100px 5vw 60px; max-width: 1100px; margin: 0 auto; }
+    .blog-hero .tag { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1rem; }
+    .blog-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 300; line-height: 1.1; letter-spacing: -0.025em; margin-bottom: 0.8rem; }
+    .blog-hero h1 em { font-style: italic; color: var(--accent); }
+    .blog-hero p { font-size: 1rem; color: var(--gray-600); font-weight: 300; max-width: 500px; line-height: 1.75; }
+
+    /* ── FILTROS ── */
+    .filters-wrap { border-bottom: 1px solid var(--gray-200); padding: 0 5vw; position: sticky; top: 64px; background: rgba(250,250,248,0.95); backdrop-filter: blur(8px); z-index: 90; }
+    .filters { max-width: 1100px; margin: 0 auto; display: flex; gap: 0.5rem; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
+    .filters::-webkit-scrollbar { display: none; }
+    .filter-btn { flex-shrink: 0; padding: 6px 16px; border-radius: 50px; border: 1.5px solid var(--gray-200); background: transparent; color: var(--gray-600); font-family: 'DM Sans', sans-serif; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: all .2s; white-space: nowrap; }
+    .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+
+    /* ── ARTÍCULO DESTACADO ── */
+    .section-inner { max-width: 1100px; margin: 0 auto; padding: 0 5vw; }
+    .featured-section { padding: 48px 0 0; }
+    .section-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 1.2rem; }
+
+    .card-featured { display: grid; grid-template-columns: 1fr 1fr; gap: 0; background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: var(--black); transition: all 0.2s; margin-bottom: 48px; }
+    .card-featured:hover { box-shadow: 0 8px 40px rgba(17,17,16,0.1); transform: translateY(-2px); }
+    @media (max-width: 700px) { .card-featured { grid-template-columns: 1fr; } }
+    .card-featured-img { aspect-ratio: 4/3; overflow: hidden; background: var(--gray-200); position: relative; }
+    .card-featured-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .card-featured:hover .card-featured-img img { transform: scale(1.03); }
+    .card-featured-label { position: absolute; top: 1rem; left: 1rem; background: var(--accent); color: white; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 50px; }
+    .card-featured-body { padding: 2.5rem; display: flex; flex-direction: column; justify-content: center; }
+    .card-featured-body .tag { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.75rem; }
+    .card-featured-body h2 { font-family: 'Fraunces', serif; font-size: clamp(1.3rem, 2.5vw, 1.8rem); font-weight: 300; line-height: 1.2; letter-spacing: -0.02em; margin-bottom: 0.8rem; }
+    .card-featured-body p { font-size: 0.92rem; color: var(--gray-600); line-height: 1.7; font-weight: 300; flex: 1; margin-bottom: 1.5rem; }
+    .card-featured-body .read { font-size: 0.82rem; font-weight: 600; color: var(--accent); display: inline-flex; align-items: center; gap: 0.4rem; }
+    .card-featured-meta { display: flex; align-items: center; gap: 0.8rem; font-size: 0.75rem; color: var(--gray-400); margin-top: 1.2rem; padding-top: 1.2rem; border-top: 1px solid var(--gray-200); }
+    .card-featured-meta .dot { width: 3px; height: 3px; background: var(--gray-400); border-radius: 50%; }
+
+    /* ── GRID ARTÍCULOS ── */
+    .all-section { padding: 0 0 80px; }
+    .all-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 1.2rem; padding-top: 8px; }
+    .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+    @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px) { .blog-grid { grid-template-columns: 1fr; } }
+
+    .blog-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: var(--black); display: flex; flex-direction: column; transition: all 0.2s; }
+    .blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
+    .blog-card.hidden { display: none; }
+    .blog-card-img { height: 180px; overflow: hidden; background: var(--gray-200); }
+    .blog-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
+    .blog-card:hover .blog-card-img img { transform: scale(1.04); }
+    .blog-card-body { padding: 1.3rem; flex: 1; display: flex; flex-direction: column; }
+    .blog-card .tag { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.4rem; }
+    .blog-card h3 { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 400; line-height: 1.35; margin-bottom: 0.5rem; }
+    .blog-card p { font-size: 0.82rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
+    .blog-card .read { margin-top: 0.8rem; font-size: 0.75rem; font-weight: 500; color: var(--accent); }
+    .blog-card-meta { display: flex; gap: 0.6rem; align-items: center; margin-top: 0.8rem; padding-top: 0.8rem; border-top: 1px solid var(--gray-200); font-size: 0.72rem; color: var(--gray-400); }
+    .blog-card-meta .dot { width: 3px; height: 3px; background: var(--gray-400); border-radius: 50%; }
+
+    /* ── VACÍO ── */
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--gray-400); font-size: 0.9rem; display: none; }
+    .empty-state.visible { display: block; }
+
+    /* ── CTA FINAL ── */
+    .cta-banner { background: var(--accent); margin: 0 5vw 64px; border-radius: var(--radius-lg); padding: 40px 36px; max-width: 1100px; margin-left: auto; margin-right: auto; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+    .cta-banner-text h2 { font-family: 'Fraunces', serif; font-size: 1.5rem; font-weight: 300; color: white; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+    .cta-banner-text p { color: rgba(255,255,255,0.65); font-size: 0.9rem; font-weight: 300; }
+    .btn-wa { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--accent); padding: 0.8rem 1.5rem; border-radius: 50px; font-weight: 600; font-size: 0.88rem; white-space: nowrap; flex-shrink: 0; transition: transform 0.2s; }
+    .btn-wa:hover { transform: translateY(-2px); }
+    .btn-wa svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* ── WA FLOAT ── */
+    .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--wa-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,0.4); text-decoration: none; z-index: 200; transition: transform 0.2s; }
+    .wa-float:hover { transform: scale(1.08); }
+    .wa-float svg { width: 28px; height: 28px; fill: white; }
+
+    /* Animación entrada cards */
+    .blog-card, .card-featured { animation: fadeUp .35s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">Sanzivi<span>.</span></a>
+  <div class="nav-links">
+    <a href="/#servicios">Servicios</a>
+    <a href="/#domotica">Domótica</a>
+    <a href="/#tarifas">Tarifas</a>
+    <a href="/#productos">Productos</a>
+    <a href="/blog.html" style="color:var(--black);font-weight:500">Blog</a>
+  </div>
+  <a href="https://wa.me/34654089180?text=Hola,%20quiero%20pedir%20presupuesto" target="_blank" rel="noopener" class="nav-cta">Pedir presupuesto</a>
+</nav>
+
+<!-- HERO -->
+<div class="blog-hero">
+  <span class="tag">Blog Sanzivi BCN</span>
+  <h1>Domótica fácil<br>y casos <em>reales.</em></h1>
+  <p>Guías prácticas, instalaciones reales y consejos para sacarle partido a tu vivienda sin obras ni complicaciones.</p>
+</div>
+
+<!-- FILTROS -->
+<div class="filters-wrap">
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">Todos</button>
+    <button class="filter-btn" data-filter="domotica">Domótica</button>
+    <button class="filter-btn" data-filter="caso-real">Casos reales</button>
+    <button class="filter-btn" data-filter="bano">Baño</button>
+    <button class="filter-btn" data-filter="electricidad">Electricidad</button>
+    <button class="filter-btn" data-filter="consejos">Consejos</button>
+  </div>
+</div>
+
+<!-- ARTÍCULO DESTACADO -->
+<div class="featured-section">
+  <div class="section-inner">
+    <p class="section-label">✦ Último artículo</p>
+    <a href="blog-mampara-ducha-sant-cugat.html" class="card-featured" data-cats="caso-real bano">
+      <div class="card-featured-img">
+        <img src="blog_mampara_despues.jpg" alt="Mampara walk-in instalada en Sant Cugat" loading="lazy" />
+        <span class="card-featured-label">Caso real</span>
+      </div>
+      <div class="card-featured-body">
+        <div class="tag">Baño · Caso real · 6 min</div>
+        <h2>Piso de alquiler sin mampara en Sant Cugat: resuelto en una visita</h2>
+        <p>La clienta se acababa de mudar y la ducha no tenía mampara. Compró en Leroy Merlin y nosotros fuimos a montarla. Sin obras, sin permisos complicados, sin sorpresas. También incluimos la guía de herramientas si quieres hacerlo tú mismo.</p>
+        <span class="read">Leer artículo →</span>
+        <div class="card-featured-meta">
+          <span>Sanzivi BCN</span>
+          <div class="dot"></div>
+          <span>Sant Cugat del Vallès</span>
+          <div class="dot"></div>
+          <span>Mampara · Alquiler · Sin obras</span>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- TODOS LOS ARTÍCULOS -->
+<div class="all-section">
+  <div class="section-inner">
+    <p class="all-label" id="count-label">3 artículos más</p>
+    <div class="blog-grid" id="blog-grid">
+
+      <!-- Artículo 1 -->
+      <a href="blog-automatizar-luces.html" class="blog-card" data-cats="domotica">
+        <div class="blog-card-img"><img src="domotica_facil_blog.png" alt="Automatizar luces sin obra" loading="lazy" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Domótica fácil · 5 min</div>
+          <h3>Cómo automatizar las luces de tu piso sin hacer obra</h3>
+          <p>Con un relé Shelly controlas cualquier punto de luz desde el móvil en menos de una hora.</p>
+          <div class="read">Leer →</div>
+          <div class="blog-card-meta">
+            <span>Domótica</span><div class="dot"></div><span>Shelly</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Artículo 2 -->
+      <a href="blog-shelly-vs-sonoff.html" class="blog-card" data-cats="domotica">
+        <div class="blog-card-img"><img src="domotica_control_luces.png" alt="Shelly vs Sonoff" loading="lazy" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Comparativa · 7 min</div>
+          <h3>Shelly vs Sonoff: cuál elegir para tu vivienda</h3>
+          <p>Los dos sistemas más populares para pisos en España. Te ayudamos a elegir el que mejor se adapta a tu caso.</p>
+          <div class="read">Leer →</div>
+          <div class="blog-card-meta">
+            <span>Domótica</span><div class="dot"></div><span>Comparativa</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Artículo 3 -->
+      <a href="blog-electricista-visita.html" class="blog-card" data-cats="electricidad consejos">
+        <div class="blog-card-img"><img src="foto_blog3.jpg" alt="Electricista en una visita" loading="lazy" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Consejos · 4 min</div>
+          <h3>5 cosas que un electricista puede hacer en una sola visita</h3>
+          <p>Aprovecha la visita al máximo. Los trabajos más comunes que puedes combinar para ahorrar desplazamientos.</p>
+          <div class="read">Leer →</div>
+          <div class="blog-card-meta">
+            <span>Electricidad</span><div class="dot"></div><span>Consejos</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- ════════════════════════════════════════════
+           AÑADIR NUEVOS ARTÍCULOS AQUÍ ABAJO
+           Copia el bloque de blog-card y ajusta:
+           - href → nombre del archivo HTML
+           - data-cats → categorías separadas por espacio
+             (domotica / caso-real / bano / electricidad / consejos)
+           - img src → nombre de la imagen
+           - tag → categoría · tiempo de lectura
+           - h3 → título del artículo
+           - p → descripción corta
+           - meta → etiquetas
+      ════════════════════════════════════════════ -->
+
+    </div>
+    <div class="empty-state" id="empty-state">
+      No hay artículos en esta categoría todavía. ¡Pronto publicaremos más!
+    </div>
+  </div>
+</div>
+
+<!-- CTA BANNER -->
+<div class="cta-banner">
+  <div class="cta-banner-text">
+    <h2>¿Prefieres que lo hagamos nosotros?</h2>
+    <p>Primera hora 80€ · Desplazamiento incluido · Barcelona y alrededores</p>
+  </div>
+  <a href="https://wa.me/34654089180?text=Hola,%20quiero%20pedir%20presupuesto" target="_blank" rel="noopener" class="btn-wa">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Escribir por WhatsApp
+  </a>
+</div>
+
+<!-- WA FLOAT -->
+<a href="https://wa.me/34654089180?text=Hola,%20quiero%20información%20sobre%20vuestros%20servicios" class="wa-float" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+  // ── Filtros ──
+  const btns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('#blog-grid .blog-card');
+  const featured = document.querySelector('.card-featured');
+  const emptyState = document.getElementById('empty-state');
+  const countLabel = document.getElementById('count-label');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const filter = btn.dataset.filter;
+
+      // Tarjeta destacada
+      if (featured) {
+        const featCats = featured.dataset.cats || '';
+        if (filter === 'all' || featCats.includes(filter)) {
+          featured.style.display = '';
+        } else {
+          featured.style.display = 'none';
+        }
+      }
+
+      // Grid de artículos
+      let visible = 0;
+      cards.forEach(card => {
+        const cats = card.dataset.cats || '';
+        if (filter === 'all' || cats.includes(filter)) {
+          card.classList.remove('hidden');
+          visible++;
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+
+      // Actualizar contador
+      countLabel.textContent = visible === 1 ? '1 artículo' : `${visible} artículos`;
+
+      // Estado vacío
+      emptyState.classList.toggle('visible', visible === 0);
+    });
+  });
+</script>
+
+</body>
+</html>

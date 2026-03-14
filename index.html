@@ -138,7 +138,8 @@
     /* ── BLOG ── */
     .blog-bg { background: var(--gray-100); }
     .blog-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-    .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    .blog-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
+    @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2,1fr); } }
     @media (max-width: 680px) { .blog-grid { grid-template-columns: 1fr; } }
     .blog-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: var(--black); display: flex; flex-direction: column; transition: all 0.2s; }
     .blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
@@ -264,7 +265,7 @@
     <a href="#trabajos">Trabajos</a>
     <a href="#tarifas">Tarifas</a>
     <a href="#productos">Productos</a>
-    <a href="#blog">Blog</a>
+    <a href="blog.html">Blog</a>
     <a href="#contacto">Contacto</a>
   </div>
   <button class="nav-cta" onclick="openModal()">Pedir presupuesto</button>
@@ -642,7 +643,7 @@
         <span class="section-tag">Blog</span>
         <h2>Domótica fácil<br>y consejos <em>prácticos.</em></h2>
       </div>
-      <a href="#blog" class="btn-secondary">Ver todos →</a>
+      <a href="blog.html" class="btn-secondary">Ver todos →</a>
     </div>
     <div class="blog-grid">
       <a href="blog-automatizar-luces.html" class="blog-card">
@@ -672,11 +673,18 @@
           <div class="read">Leer →</div>
         </div>
       </a>
+      <a href="blog-mampara-ducha-sant-cugat.html" class="blog-card">
+        <div class="blog-card-img"><img src="blog_mampara_despues.jpg" alt="Mampara walk-in instalada en Sant Cugat" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Caso real · 6 min</div>
+          <h3>Mampara walk-in en piso de alquiler: instalada en una visita</h3>
+          <p>La clienta compró en Leroy Merlin y nosotros fuimos a montarla. Sin obras, sin permisos complicados.</p>
+          <div class="read">Leer →</div>
+        </div>
+      </a>
     </div>
   </div>
 </section>
-
-<!-- HERRAMIENTAS -->
 <section class="section herramientas-bg">
   <div class="section-inner">
     <span class="section-tag">Herramientas Sanzivi</span>
@@ -738,7 +746,7 @@
       <h4>Empresa</h4>
       <a href="#trabajos">Trabajos</a>
       <a href="#opiniones">Opiniones</a>
-      <a href="#blog">Blog</a>
+      <a href="blog.html">Blog</a>
       <a href="productos.html">Productos afiliados</a>
       <a href="tarifas.html">Tarifas</a>
       <a href="/demo">Demo interactiva</a>
