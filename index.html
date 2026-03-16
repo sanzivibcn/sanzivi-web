@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <!-- Google tag (gtag.js) -->
+<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPPBGX36K"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-
   gtag('config', 'G-NWPPBGX36K');
 </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sanzivi BCN — Electricidad, Domótica y Manitas en Barcelona</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPPBGX36K"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NWPPBGX36K', { 'anonymize_ip': true });
+  </script>
+  <style>
+    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; background: var(--black,#111110); color: rgba(255,255,255,0.85); padding: 1rem 5vw; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
+    .cookie-banner.show { transform: translateY(0); }
+    .cookie-text { flex: 1; min-width: 200px; font-size: 0.82rem; line-height: 1.6; font-family: 'DM Sans', sans-serif; }
+    .cookie-text a { color: #6BD494; }
+    .cookie-actions { display: flex; gap: 0.6rem; flex-shrink: 0; flex-wrap: wrap; }
+    .cookie-accept { background: #25D366; color: white; border: none; border-radius: 50px; padding: 0.5rem 1.2rem; font-size: 0.82rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+    .cookie-accept:hover { background: #1da851; }
+    .cookie-reject { background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 0.5rem 1.2rem; font-size: 0.82rem; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .cookie-reject:hover { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); }
+  </style>
   <meta name="description" content="Electricidad, domótica y pequeñas reparaciones en Barcelona. Instalador verificado Shelly. Primera hora 80€ incluye desplazamiento." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -147,8 +165,7 @@
     /* ── BLOG ── */
     .blog-bg { background: var(--gray-100); }
     .blog-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-    .blog-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
-    @media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2,1fr); } }
+    .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
     @media (max-width: 680px) { .blog-grid { grid-template-columns: 1fr; } }
     .blog-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: var(--black); display: flex; flex-direction: column; transition: all 0.2s; }
     .blog-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
@@ -180,30 +197,6 @@
     .tool-card h3 { font-family: 'Fraunces', serif; font-size: 1rem; font-weight: 400; margin-bottom: 0.4rem; }
     .tool-card p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
     .tool-link { margin-top: 1rem; font-size: 0.78rem; font-weight: 500; color: var(--accent); }
-
-    /* ── PRODUCTOS RECOMENDADOS ── */
-    .productos-home { background: var(--white); }
-    .productos-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; }
-    @media (max-width: 900px) { .productos-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 500px) { .productos-grid { grid-template-columns: 1fr; } }
-    .prod-card { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; display: flex; flex-direction: column; transition: all 0.2s; }
-    .prod-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
-    .prod-card-img { height: 150px; background: var(--white); display: flex; align-items: center; justify-content: center; padding: 12px; border-bottom: 1px solid var(--gray-200); overflow: hidden; }
-    .prod-card-img img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.3s; }
-    .prod-card:hover .prod-card-img img { transform: scale(1.05); }
-    .prod-card-body { padding: 1rem 1rem 0.8rem; flex: 1; display: flex; flex-direction: column; }
-    .prod-card-cat { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
-    .prod-card-name { font-family: 'Fraunces', serif; font-size: 0.95rem; font-weight: 400; line-height: 1.3; color: var(--black); margin-bottom: 0.4rem; flex: 1; }
-    .prod-card-desc { font-size: 0.78rem; color: var(--gray-600); line-height: 1.5; font-weight: 300; }
-    .prod-card-footer { padding: 0.8rem 1rem 1rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; border-top: 1px solid var(--gray-200); }
-    .prod-price { font-family: 'Fraunces', serif; font-size: 1.15rem; font-weight: 300; color: var(--accent); }
-    .btn-amazon-mini { display: inline-flex; align-items: center; gap: 5px; background: var(--accent); color: white; padding: 6px 12px; border-radius: 50px; font-size: 0.72rem; font-weight: 500; text-decoration: none; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
-    .btn-amazon-mini:hover { background: #145230; }
-    .btn-amazon-mini svg { width: 11px; height: 11px; fill: currentColor; flex-shrink: 0; }
-    .productos-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--gray-200); }
-    .afiliado-note { font-size: 0.72rem; color: var(--gray-400); font-weight: 300; }
-    .btn-ver-todos { font-size: 0.88rem; font-weight: 500; color: var(--accent); display: inline-flex; align-items: center; gap: 0.3rem; border-bottom: 1px solid currentColor; padding-bottom: 1px; transition: opacity 0.2s; }
-    .btn-ver-todos:hover { opacity: 0.7; }
 
     /* ── CTA FINAL ── */
     .cta-final { background: var(--accent); color: white; padding: 80px 5vw; text-align: center; }
@@ -273,8 +266,7 @@
     <a href="#domotica">Domótica</a>
     <a href="#trabajos">Trabajos</a>
     <a href="#tarifas">Tarifas</a>
-    <a href="#productos">Productos</a>
-    <a href="blog.html">Blog</a>
+    <a href="#blog">Blog</a>
     <a href="#contacto">Contacto</a>
   </div>
   <button class="nav-cta" onclick="openModal()">Pedir presupuesto</button>
@@ -551,99 +543,6 @@
   </div>
 </section>
 
-<!-- PRODUCTOS RECOMENDADOS -->
-<section class="section productos-home" id="productos">
-  <div class="section-inner">
-    <span class="section-tag">🔌 Productos recomendados</span>
-    <h2>Lo que usamos nosotros,<br><em>disponible para ti.</em></h2>
-    <p class="section-sub">Dispositivos que instalamos a diario en viviendas de Barcelona. Cómpralo tú o deja que lo instalemos nosotros.</p>
-    <div class="productos-grid">
-
-      <!-- Shelly 1 Mini Gen3 -->
-      <div class="prod-card">
-        <div class="prod-card-img">
-          <img src="prod_shelly_1mini_gen3.jpg" alt="Shelly 1 Mini Gen3" loading="lazy" onerror="this.style.display='none'">
-        </div>
-        <div class="prod-card-body">
-          <div class="prod-card-cat">Relé inteligente</div>
-          <div class="prod-card-name">Shelly 1 Mini Gen3</div>
-          <div class="prod-card-desc">Automatiza cualquier luz sin cambiar el interruptor.</div>
-        </div>
-        <div class="prod-card-footer">
-          <span class="prod-price">19,05 €</span>
-          <a href="https://amzn.to/4b8w3sr" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
-            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-            Ver en Amazon
-          </a>
-        </div>
-      </div>
-
-      <!-- Shelly 2PM Gen3 -->
-      <div class="prod-card">
-        <div class="prod-card-img">
-          <img src="prod_shelly_2pm_gen3.jpg" alt="Shelly 2PM Gen3" loading="lazy" onerror="this.style.display='none'">
-        </div>
-        <div class="prod-card-body">
-          <div class="prod-card-cat">Relé inteligente</div>
-          <div class="prod-card-name">Shelly 2PM Gen3</div>
-          <div class="prod-card-desc">Doble canal con medición de consumo integrada.</div>
-        </div>
-        <div class="prod-card-footer">
-          <span class="prod-price">32,55 €</span>
-          <a href="https://amzn.to/4uIr21A" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
-            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-            Ver en Amazon
-          </a>
-        </div>
-      </div>
-
-      <!-- Shelly Wall Display -->
-      <div class="prod-card">
-        <div class="prod-card-img">
-          <img src="prod_shelly_wall_display.jpg" alt="Shelly Wall Display" loading="lazy" onerror="this.style.display='none'">
-        </div>
-        <div class="prod-card-body">
-          <div class="prod-card-cat">Interruptor inteligente</div>
-          <div class="prod-card-name">Shelly Wall Display</div>
-          <div class="prod-card-desc">Pantalla táctil con termostato integrado.</div>
-        </div>
-        <div class="prod-card-footer">
-          <span class="prod-price">140,00 €</span>
-          <a href="https://amzn.to/4sdkiXQ" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
-            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-            Ver en Amazon
-          </a>
-        </div>
-      </div>
-
-      <!-- Shelly Plug S Gen3 -->
-      <div class="prod-card">
-        <div class="prod-card-img">
-          <img src="prod_shelly_plug_s_gen3.jpg" alt="Shelly Plug S Gen3" loading="lazy" onerror="this.style.display='none'">
-        </div>
-        <div class="prod-card-body">
-          <div class="prod-card-cat">Enchufe inteligente</div>
-          <div class="prod-card-name">Shelly Plug S Gen3</div>
-          <div class="prod-card-desc">Mide consumo y controla cualquier aparato desde el móvil.</div>
-        </div>
-        <div class="prod-card-footer">
-          <span class="prod-price">24,00 €</span>
-          <a href="https://amzn.to/4cN6yhG" target="_blank" rel="nofollow sponsored noopener" class="btn-amazon-mini">
-            <svg viewBox="0 0 24 24"><path d="M19.59 15.6c-.18.2-.46.2-.69.08-1.97-1.22-4.44-1.5-7.35-.82-.28.06-.56-.1-.62-.38-.06-.28.1-.56.38-.62 3.19-.73 5.93-.42 8.14.95.23.14.3.44.14.79zM20.75 14.2c-.22.28-.68.37-1.04.17-2.26-1.39-5.7-1.8-8.37-.98-.35.1-.71-.09-.81-.44-.1-.35.09-.71.44-.81 3.05-.93 6.84-.48 9.43 1.12.35.22.44.68.35 1.04zm.1-1.64C18.27 10.97 13.54 10.84 11 11.6c-.42.13-.86-.11-.99-.53-.13-.42.11-.86.53-.99 2.92-.88 7.78-.71 10.84 1.22.38.24.49.74.25 1.12-.24.38-.74.49-1.12.25zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>
-            Ver en Amazon
-          </a>
-        </div>
-      </div>
-
-    </div><!-- /productos-grid -->
-
-    <div class="productos-footer">
-      <span class="afiliado-note">🔗 Enlaces de afiliado Amazon · Sin coste extra para ti</span>
-      <a href="productos.html" class="btn-ver-todos">Ver los 8 productos recomendados →</a>
-    </div>
-  </div>
-</section>
-
 <!-- BLOG -->
 <section class="section blog-bg" id="blog">
   <div class="section-inner">
@@ -652,7 +551,7 @@
         <span class="section-tag">Blog</span>
         <h2>Domótica fácil<br>y consejos <em>prácticos.</em></h2>
       </div>
-      <a href="blog.html" class="btn-secondary">Ver todos →</a>
+      <a href="#blog" class="btn-secondary">Ver todos →</a>
     </div>
     <div class="blog-grid">
       <a href="blog-automatizar-luces.html" class="blog-card">
@@ -682,18 +581,11 @@
           <div class="read">Leer →</div>
         </div>
       </a>
-      <a href="blog-mampara-ducha-sant-cugat.html" class="blog-card">
-        <div class="blog-card-img"><img src="blog_mampara_despues.jpg" alt="Mampara walk-in instalada en Sant Cugat" /></div>
-        <div class="blog-card-body">
-          <div class="tag">Caso real · 6 min</div>
-          <h3>Mampara walk-in en piso de alquiler: instalada en una visita</h3>
-          <p>La clienta compró en Leroy Merlin y nosotros fuimos a montarla. Sin obras, sin permisos complicados.</p>
-          <div class="read">Leer →</div>
-        </div>
-      </a>
     </div>
   </div>
 </section>
+
+<!-- HERRAMIENTAS -->
 <section class="section herramientas-bg">
   <div class="section-inner">
     <span class="section-tag">Herramientas Sanzivi</span>
@@ -755,20 +647,19 @@
       <h4>Empresa</h4>
       <a href="#trabajos">Trabajos</a>
       <a href="#opiniones">Opiniones</a>
-      <a href="blog.html">Blog</a>
-      <a href="productos.html">Productos afiliados</a>
+      <a href="#blog">Blog</a>
       <a href="tarifas.html">Tarifas</a>
       <a href="/demo">Demo interactiva</a>
     </div>
     <div class="footer-col">
       <h4>Contacto</h4>
       <a href="tel:+34654089180">654 089 180</a>
-      <a href="/cdn-cgi/l/email-protection#cfa6a1a9a08fbcaea1b5a6b9a6e1aabc"><span class="__cf_email__" data-cfemail="50393e363f1023313e2a3926397e3523">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#eb82858d84ab988a8591829d82c58e98"><span class="__cf_email__" data-cfemail="91f8fff7fed1e2f0ffebf8e7f8bff4e2">[email&#160;protected]</span></a>
       <span>Barcelona y alrededores</span>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Sanzivi BCN S.L. · Todos los derechos reservados</span>
+    <span>© 2026 Sanzivi BCN S.L. · Todos los derechos reservados · <a href="aviso-legal.html" style="color:rgba(255,255,255,.2);text-decoration:none">Aviso Legal</a> · <a href="privacidad.html" style="color:rgba(255,255,255,.2);text-decoration:none">Privacidad</a> · <a href="cookies.html" style="color:rgba(255,255,255,.2);text-decoration:none">Cookies</a></span>
     <span>Precios orientativos · Material aparte · Sujetos a visita previa</span>
   </div>
 </footer>
@@ -846,9 +737,4 @@
     if(zone) msg+='\nZona: '+zone;
     if(chips) msg+='\nServicios: '+chips;
     if(desc) msg+='\nTrabajos pendientes:\n'+desc;
-    const url='https://wa.me/34654089180?text='+encodeURIComponent(msg);
-    window.open(url,'_blank');
-  }
-</script>
-</body>
-</html>
+ 
