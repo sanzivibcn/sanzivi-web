@@ -7,14 +7,6 @@
   <meta name="description" content="Electricidad, domótica y pequeñas reparaciones en Barcelona. Instalador verificado Shelly. Primera hora 80€ incluye desplazamiento." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPPBGX36K"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-NWPPBGX36K', {'anonymize_ip': true});
-  </script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -27,17 +19,17 @@
     body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--black); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
     a { color: inherit; text-decoration: none; }
 
-    /* NAV */
+    /* ── NAV ── */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,250,248,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--gray-200); padding: 0 5vw; height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
     .nav-logo { font-family: 'Fraunces', serif; font-size: 1.3rem; font-weight: 600; color: var(--black); letter-spacing: -0.02em; }
     .nav-logo span { color: var(--accent); }
     .nav-links { display: flex; gap: 1.5rem; align-items: center; }
     .nav-links a { font-size: 0.88rem; color: var(--gray-600); transition: color 0.2s; }
     .nav-links a:hover { color: var(--black); }
-    .nav-cta { background: var(--wa-green); color: white; padding: 0.45rem 1.1rem; border-radius: 50px; font-weight: 500; font-size: 0.85rem; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
+    .nav-cta { background: var(--wa-green) !important; color: white !important; padding: 0.45rem 1.1rem; border-radius: 50px; font-weight: 500; font-size: 0.85rem; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
     @media (max-width: 680px) { .nav-links { display: none; } }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero { padding: 120px 5vw 80px; max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
     @media (max-width: 800px) { .hero { grid-template-columns: 1fr; padding: 100px 5vw 60px; gap: 3rem; } }
     .hero-tag { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1.5rem; }
@@ -47,7 +39,7 @@
     .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; align-items: center; margin-bottom: 2.5rem; }
     .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: white; padding: 0.75rem 1.6rem; border-radius: 50px; font-weight: 500; font-size: 0.92rem; transition: all 0.2s; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
     .btn-primary:hover { background: #145230; transform: translateY(-1px); }
-    .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--black); padding: 0.75rem 1.6rem; border-radius: 50px; font-weight: 500; font-size: 0.92rem; transition: all 0.2s; border: 1.5px solid var(--gray-200); text-decoration: none; }
+    .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: var(--black); padding: 0.75rem 1.6rem; border-radius: 50px; font-weight: 500; font-size: 0.92rem; transition: all 0.2s; border: 1.5px solid var(--gray-200); }
     .btn-secondary:hover { border-color: var(--black); }
     .hero-trust { display: flex; align-items: center; gap: 0.6rem; font-size: 0.82rem; color: var(--gray-600); }
     .hero-trust .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
@@ -58,23 +50,23 @@
     .hero-badge-text { font-size: 0.82rem; font-weight: 500; line-height: 1.3; }
     .hero-badge-text span { display: block; font-size: 0.72rem; color: var(--gray-600); font-weight: 400; margin-top: 0.1rem; }
 
-    /* TIP BANNER */
+    /* ── TIP BANNER ── */
     .tip-banner { background: var(--accent-light); border-top: 1px solid #c8e6d4; border-bottom: 1px solid #c8e6d4; padding: 1rem 5vw; }
     .tip-banner-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
     .tip-banner p { font-size: 0.88rem; color: var(--black); flex: 1; min-width: 200px; }
     .tip-banner strong { color: var(--accent); }
     .tip-banner .btn-primary { font-size: 0.8rem; padding: 0.45rem 1.1rem; white-space: nowrap; }
 
-    /* SECTIONS */
+    /* ── SECTION COMMON ── */
     .section { padding: 80px 5vw; }
     .section-inner { max-width: 1100px; margin: 0 auto; }
     .section-tag { display: inline-block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 0.3rem 0.9rem; border-radius: 50px; margin-bottom: 1rem; }
     .section h2 { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 0.8rem; }
     .section h2 em { font-style: italic; color: var(--accent); }
     .section-sub { font-size: 1rem; color: var(--gray-600); font-weight: 300; line-height: 1.75; max-width: 540px; margin-bottom: 3rem; }
-    .gray-bg { background: var(--gray-100); }
 
-    /* SERVICIOS */
+    /* ── SERVICIOS ── */
+    .servicios-bg { background: var(--gray-100); }
     .servicios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
     .svc-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.8rem; transition: all 0.2s; display: flex; flex-direction: column; }
     .svc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(17,17,16,0.08); }
@@ -86,23 +78,23 @@
     .svc-item::before { content: '·'; color: var(--accent); font-weight: 700; }
     .svc-price { font-size: 0.82rem; font-weight: 600; color: var(--accent); padding-top: 1rem; border-top: 1px solid var(--gray-200); margin-top: auto; }
     .pricing-note { margin-top: 2rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.2rem 1.5rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
-    .price-pill { display: flex; align-items: baseline; gap: 0.4rem; }
-    .price-num { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 300; color: var(--black); }
-    .price-label { font-size: 0.8rem; color: var(--gray-600); }
-    .p-divider { width: 1px; height: 32px; background: var(--gray-200); flex-shrink: 0; }
+    .pricing-note .price-pill { display: flex; align-items: baseline; gap: 0.4rem; }
+    .pricing-note .price-num { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 300; color: var(--black); }
+    .pricing-note .price-label { font-size: 0.8rem; color: var(--gray-600); }
+    .pricing-note .divider { width: 1px; height: 32px; background: var(--gray-200); flex-shrink: 0; }
     .pricing-note .note { font-size: 0.82rem; color: var(--gray-600); flex: 1; }
     .pricing-note a { font-size: 0.8rem; color: var(--accent); font-weight: 500; border-bottom: 1px solid currentColor; padding-bottom: 1px; white-space: nowrap; }
 
-    /* DOMÓTICA */
-    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-    @media (max-width: 800px) { .two-col { grid-template-columns: 1fr; gap: 3rem; } }
+    /* ── DOMÓTICA ── */
+    .domotica-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    @media (max-width: 800px) { .domotica-grid { grid-template-columns: 1fr; gap: 3rem; } }
     .feature-list { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
     .feature-item { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 1.2rem; background: var(--gray-100); border-radius: var(--radius); border: 1px solid var(--gray-200); transition: all 0.2s; }
     .feature-item:hover { background: var(--accent-light); border-color: #c8e6d4; }
     .feature-item-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
     .feature-item h4 { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
     .feature-item p { font-size: 0.82rem; color: var(--gray-600); margin: 0; line-height: 1.5; }
-    .domotica-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .domotica-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .stat-card { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; }
     .stat-card .num { font-family: 'Fraunces', serif; font-size: 2rem; font-weight: 300; color: var(--accent); line-height: 1; margin-bottom: 0.3rem; }
     .stat-card .lbl { font-size: 0.75rem; color: var(--gray-600); }
@@ -110,7 +102,8 @@
     .shelly-badge .check { color: var(--accent); font-weight: 700; font-size: 0.9rem; }
     .shelly-badge p { font-size: 0.85rem; color: var(--black); margin: 0; }
 
-    /* PROCESO */
+    /* ── PROCESO ── */
+    .proceso-bg { background: var(--gray-100); }
     .proceso-steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
     @media (max-width: 680px) { .proceso-steps { grid-template-columns: 1fr; } }
     .step { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 2rem; }
@@ -118,10 +111,12 @@
     .step h3 { font-family: 'Fraunces', serif; font-size: 1.05rem; font-weight: 400; margin-bottom: 0.5rem; }
     .step p { font-size: 0.88rem; color: var(--gray-600); line-height: 1.65; margin: 0; }
 
-    /* TARIFAS */
+    /* ── TARIFAS BLOCK ── */
+    .tarifas-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    @media (max-width: 800px) { .tarifas-grid { grid-template-columns: 1fr; gap: 3rem; } }
     .check-list { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 2rem; }
     .check-item { display: flex; align-items: center; gap: 0.75rem; font-size: 0.92rem; }
-    .ck { width: 20px; height: 20px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); font-size: 0.7rem; font-weight: 700; }
+    .check-item .ck { width: 20px; height: 20px; background: var(--accent-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); font-size: 0.7rem; font-weight: 700; }
     .price-samples { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--gray-200); }
     .price-sample { background: var(--white); padding: 1.2rem; }
     .price-sample .cat { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); margin-bottom: 0.3rem; }
@@ -132,15 +127,17 @@
     .price-sample-cta .s { font-size: 0.7rem; color: rgba(255,255,255,0.7); }
     .price-sample-cta a { font-size: 0.72rem; color: white; text-decoration: underline; margin-top: 0.3rem; }
 
-    /* GALERÍA */
+    /* ── GALERÍA TRABAJOS ── */
     .galeria-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
     @media (max-width: 680px) { .galeria-grid { grid-template-columns: 1fr 1fr; } }
     .galeria-img { aspect-ratio: 1; border-radius: var(--radius-lg); overflow: hidden; }
     .galeria-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s; }
     .galeria-img:hover img { transform: scale(1.04); }
-    .flex-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .galeria-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
 
-    /* BLOG */
+    /* ── BLOG ── */
+    .blog-bg { background: var(--gray-100); }
+    .blog-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
     .blog-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
     @media (max-width: 680px) { .blog-grid { grid-template-columns: 1fr; } }
     .blog-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); overflow: hidden; text-decoration: none; color: var(--black); display: flex; flex-direction: column; transition: all 0.2s; }
@@ -154,16 +151,17 @@
     .blog-card p { font-size: 0.82rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
     .blog-card .read { margin-top: 0.8rem; font-size: 0.75rem; font-weight: 500; color: var(--accent); }
 
-    /* OPINIONES */
-    .opiniones-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; margin-top: 2rem; }
+    /* ── OPINIONES ── */
+    .opiniones-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
     @media (max-width: 680px) { .opiniones-grid { grid-template-columns: 1fr; } }
     .opinion-card { background: var(--gray-100); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.8rem; }
-    .stars { color: #f59e0b; font-size: 0.9rem; margin-bottom: 1rem; }
+    .stars { color: #f59e0b; font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
     .opinion-card blockquote { font-size: 0.92rem; color: var(--gray-600); line-height: 1.75; font-style: italic; margin-bottom: 1.2rem; font-family: 'Fraunces', serif; font-weight: 300; }
     .opinion-author { font-size: 0.82rem; font-weight: 500; }
     .opinion-loc { font-size: 0.75rem; color: var(--gray-400); margin-top: 0.1rem; }
 
-    /* HERRAMIENTAS */
+    /* ── HERRAMIENTAS ── */
+    .herramientas-bg { background: var(--gray-100); }
     .herramientas-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1rem; }
     @media (max-width: 680px) { .herramientas-grid { grid-template-columns: 1fr; } }
     .tool-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); padding: 1.8rem; display: flex; flex-direction: column; text-decoration: none; color: var(--black); transition: all 0.2s; }
@@ -173,14 +171,14 @@
     .tool-card p { font-size: 0.85rem; color: var(--gray-600); line-height: 1.6; flex: 1; }
     .tool-link { margin-top: 1rem; font-size: 0.78rem; font-weight: 500; color: var(--accent); }
 
-    /* CTA FINAL */
+    /* ── CTA FINAL ── */
     .cta-final { background: var(--accent); color: white; padding: 80px 5vw; text-align: center; }
     .cta-final h2 { font-family: 'Fraunces', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; letter-spacing: -0.02em; margin-bottom: 1rem; }
     .cta-final p { font-size: 1rem; color: rgba(255,255,255,0.75); max-width: 480px; margin: 0 auto 2rem; line-height: 1.7; }
-    .btn-wa { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--accent); padding: 0.9rem 2rem; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; text-decoration: none; }
+    .btn-wa { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--accent); padding: 0.9rem 2rem; border-radius: 50px; font-weight: 600; font-size: 0.95rem; transition: transform 0.2s; cursor: pointer; border: none; font-family: 'DM Sans', sans-serif; }
     .btn-wa:hover { transform: translateY(-2px); }
 
-    /* MODAL */
+    /* ── MODAL ── */
     .modal-overlay { position: fixed; inset: 0; z-index: 500; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
     .modal-backdrop { position: absolute; inset: 0; background: rgba(17,17,16,0.6); backdrop-filter: blur(4px); }
@@ -209,7 +207,7 @@
     .modal-send { background: var(--wa-green); color: white; border: none; border-radius: 50px; padding: 0.7rem 1.3rem; font-size: 0.88rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; display: flex; align-items: center; gap: 0.5rem; transition: all 0.15s; flex-shrink: 0; }
     .modal-send:hover { background: #1da851; transform: translateY(-1px); }
 
-    /* FOOTER */
+    /* ── FOOTER ── */
     footer { background: var(--black); color: rgba(255,255,255,0.5); padding: 40px 5vw; }
     .footer-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 2.5rem; }
     @media (max-width: 800px) { .footer-inner { grid-template-columns: 1fr 1fr; gap: 2rem; } }
@@ -224,78 +222,25 @@
     .footer-col a:hover { color: rgba(255,255,255,0.9); }
     .footer-bottom { max-width: 1100px; margin: 0 auto; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
     .footer-bottom span { font-size: 0.72rem; color: rgba(255,255,255,0.2); }
-    .footer-bottom a { font-size: 0.72rem; color: rgba(255,255,255,0.2); text-decoration: none; }
-    .footer-bottom a:hover { color: rgba(255,255,255,0.5); }
 
-    /* WA FLOAT */
+    /* ── WA FLOAT ── */
     .wa-float { position: fixed; bottom: 1.5rem; right: 1.5rem; width: 56px; height: 56px; background: var(--wa-green); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,0.4); text-decoration: none; z-index: 200; transition: transform 0.2s; }
     .wa-float:hover { transform: scale(1.08); }
     .wa-float svg { width: 28px; height: 28px; fill: white; }
-
-    /* COOKIE BANNER */
-    .cookie-banner { position: fixed; bottom: 0; left: 0; right: 0; z-index: 999; background: var(--black); color: rgba(255,255,255,0.85); padding: 1rem 5vw; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.22,1,0.36,1); }
-    .cookie-banner.show { transform: translateY(0); }
-    .cookie-text { flex: 1; min-width: 200px; font-size: 0.82rem; line-height: 1.6; }
-    .cookie-text a { color: #6BD494; }
-    .cookie-actions { display: flex; gap: 0.6rem; flex-shrink: 0; flex-wrap: wrap; }
-    .cookie-accept { background: #25D366; color: white; border: none; border-radius: 50px; padding: 0.5rem 1.2rem; font-size: 0.82rem; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-    .cookie-accept:hover { background: #1da851; }
-    .cookie-reject { background: transparent; color: rgba(255,255,255,0.5); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; padding: 0.5rem 1.2rem; font-size: 0.82rem; cursor: pointer; font-family: 'DM Sans', sans-serif; }
-    .cookie-reject:hover { border-color: rgba(255,255,255,0.5); color: rgba(255,255,255,0.85); }
   </style>
-
-  <!-- Schema Markup Local Business -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "@id": "https://www.sanzivi.es",
-    "name": "Sanzivi BCN",
-    "legalName": "Sanzivi BCN S.L.",
-    "description": "Electricidad, domotica y pequenas reparaciones en Barcelona. Instalador verificado Shelly.",
-    "url": "https://www.sanzivi.es",
-    "telephone": "+34654089180",
-    "email": "info@sanzivi.es",
-    "vatID": "B44936250",
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Calle Aribau 170",
-      "addressLocality": "Barcelona",
-      "postalCode": "08036",
-      "addressRegion": "Cataluna",
-      "addressCountry": "ES"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 41.3874,
-      "longitude": 2.1539
-    },
-    "priceRange": "from 80 EUR",
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-        "opens": "08:00",
-        "closes": "20:00"
-      },
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": "Saturday",
-        "opens": "09:00",
-        "closes": "14:00"
-      }
-    ],
-    "sameAs": [
-      "https://www.instagram.com/rsbinstalaciones/",
-      "https://www.facebook.com/rsbinstalaciones",
-      "https://www.tiktok.com/@sanzivi"
-    ],
-    "image": "https://www.sanzivi.es/foto_hero.jpg"
-  }
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NWPPBGX36K"></script>
+  <script data-cfasync="false">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-NWPPBGX36K', {'anonymize_ip': true});
   </script>
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml">
 </head>
 <body>
 
+<!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">Sanzivi<span>.</span></a>
   <div class="nav-links">
@@ -309,6 +254,7 @@
   <button class="nav-cta" onclick="openModal()">Pedir presupuesto</button>
 </nav>
 
+<!-- HERO -->
 <section>
   <div class="hero">
     <div>
@@ -337,6 +283,7 @@
   </div>
 </section>
 
+<!-- TIP BANNER -->
 <div class="tip-banner">
   <div class="tip-banner-inner">
     <p>💡 <strong>Consejo:</strong> Antes de contactar, apunta todos los trabajos pendientes en casa. Una visita bien aprovechada puede resolver 4 o 5 cosas a la vez.</p>
@@ -344,7 +291,8 @@
   </div>
 </div>
 
-<section class="section gray-bg" id="servicios">
+<!-- SERVICIOS -->
+<section class="section servicios-bg" id="servicios">
   <div class="section-inner">
     <span class="section-tag">Servicios</span>
     <h2>Servicios rápidos<br>para tu hogar.</h2>
@@ -368,7 +316,7 @@
         <p>Automatiza tu vivienda sin obras. Relés Shelly y Sonoff, luces y persianas desde el móvil.</p>
         <div class="svc-items">
           <div class="svc-item">Relés Shelly y Sonoff</div>
-          <div class="svc-item">Control de persianas</div>
+          <div class="svc-item">Control de persianas y estores</div>
           <div class="svc-item">Google Home / Alexa</div>
           <div class="svc-item">Home Assistant</div>
         </div>
@@ -391,7 +339,7 @@
         <h3>Manitas</h3>
         <p>Esos trabajos que llevan semanas en la lista. Los resolvemos en una visita.</p>
         <div class="svc-items">
-          <div class="svc-item">Colgar televisores</div>
+          <div class="svc-item">Colgar televisores y cuadros</div>
           <div class="svc-item">Instalar estanterías</div>
           <div class="svc-item">Montar muebles</div>
           <div class="svc-item">Pequeñas reparaciones</div>
@@ -400,32 +348,63 @@
       </div>
     </div>
     <div class="pricing-note">
-      <div class="price-pill"><span class="price-num">80€</span><span class="price-label">primera hora · incluye desplazamiento</span></div>
-      <div class="p-divider"></div>
-      <div class="price-pill"><span class="price-num">50€</span><span class="price-label">hora adicional</span></div>
-      <div class="p-divider"></div>
+      <div class="price-pill">
+        <span class="price-num">80€</span>
+        <span class="price-label">primera hora · incluye desplazamiento</span>
+      </div>
+      <div class="divider"></div>
+      <div class="price-pill">
+        <span class="price-num">50€</span>
+        <span class="price-label">hora adicional</span>
+      </div>
+      <div class="divider"></div>
       <p class="note">Material aparte · Presupuesto antes de empezar · Sin sorpresas</p>
       <a href="tarifas.html">Ver tarifas completas →</a>
     </div>
   </div>
 </section>
 
+<!-- DOMÓTICA -->
 <section class="section" id="domotica">
   <div class="section-inner">
-    <div class="two-col">
+    <div class="domotica-grid">
       <div>
         <span class="section-tag">Especialización</span>
         <h2>Domótica simple<br>para <em>cualquier</em> piso.</h2>
-        <p class="section-sub">No hace falta renovar la vivienda. Con relés Shelly cualquier interruptor existente se vuelve inteligente.</p>
+        <p class="section-sub">No hace falta renovar la vivienda. Con relés Shelly cualquier interruptor existente se vuelve inteligente — sin tocar paredes.</p>
         <div class="shelly-badge">
           <span class="check">✓</span>
-          <p><strong>Instalador verificado Shelly</strong> — Presencia en el listado oficial de instaladores.</p>
+          <p><strong>Instalador verificado Shelly</strong> — Presencia en el listado oficial de instaladores de la marca.</p>
         </div>
         <div class="feature-list">
-          <div class="feature-item"><span class="feature-item-icon">💡</span><div><h4>Luces automáticas</h4><p>Por horario, voz o presencia. Sin cambiar la instalación. Desde 80€.</p></div></div>
-          <div class="feature-item"><span class="feature-item-icon">🪟</span><div><h4>Persianas desde el móvil</h4><p>Sube y baja desde cualquier lugar, programa horarios. Desde 120€.</p></div></div>
-          <div class="feature-item"><span class="feature-item-icon">🔌</span><div><h4>Control energético</h4><p>Monitoriza el consumo de cada circuito en tiempo real.</p></div></div>
-          <div class="feature-item"><span class="feature-item-icon">🎙️</span><div><h4>Integración con voz</h4><p>Compatible con Google Home, Amazon Alexa y Home Assistant.</p></div></div>
+          <div class="feature-item">
+            <span class="feature-item-icon">💡</span>
+            <div>
+              <h4>Luces automáticas</h4>
+              <p>Por horario, voz o presencia. Sin cambiar la instalación. Desde 80€.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🪟</span>
+            <div>
+              <h4>Persianas desde el móvil</h4>
+              <p>Sube y baja desde cualquier lugar, programa horarios. Desde 120€.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🔌</span>
+            <div>
+              <h4>Control energético</h4>
+              <p>Monitoriza el consumo de cada circuito en tiempo real.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-item-icon">🎙️</span>
+            <div>
+              <h4>Integración con voz</h4>
+              <p>Compatible con Google Home, Amazon Alexa y Home Assistant.</p>
+            </div>
+          </div>
         </div>
         <button class="btn-primary" onclick="openModal()">Quiero domótica en mi piso →</button>
       </div>
@@ -442,28 +421,45 @@
   </div>
 </section>
 
-<section class="section gray-bg">
+<!-- PROCESO -->
+<section class="section proceso-bg">
   <div class="section-inner">
     <span class="section-tag">El proceso</span>
     <h2>Tres pasos<br>y <em>listo.</em></h2>
     <p class="section-sub">Sin complicaciones. Desde que nos escribes hasta que terminamos el trabajo.</p>
     <div class="proceso-steps">
-      <div class="step"><div class="step-num">1</div><h3>Escríbenos por WhatsApp</h3><p>Cuéntanos qué necesitas con una lista de todos los trabajos pendientes. Te respondemos rápido.</p></div>
-      <div class="step"><div class="step-num">2</div><h3>Presupuesto claro</h3><p>Sin sorpresas. Te enviamos el precio antes de empezar. Si no te convence, sin compromiso.</p></div>
-      <div class="step"><div class="step-num">3</div><h3>Trabajo hecho</h3><p>Ejecutamos rápido, dejamos todo limpio. Garantía de mano de obra: 1 año.</p></div>
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Escríbenos por WhatsApp</h3>
+        <p>Cuéntanos qué necesitas — mejor con una lista de todos los trabajos pendientes. Te respondemos rápido y acordamos la visita.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Presupuesto claro</h3>
+        <p>Sin sorpresas. Te enviamos el precio antes de empezar el trabajo. Si no te convence, no hay ningún compromiso.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Trabajo hecho</h3>
+        <p>Ejecutamos rápido, dejamos todo limpio y te explicamos lo que se ha hecho. Garantía de mano de obra: 1 año.</p>
+      </div>
     </div>
   </div>
 </section>
 
+<!-- TRABAJOS -->
 <section class="section" id="trabajos">
   <div class="section-inner">
-    <div class="flex-header">
-      <div><span class="section-tag">Trabajos realizados</span><h2>Resultados <em>reales.</em></h2></div>
+    <div class="galeria-header">
+      <div>
+        <span class="section-tag">Trabajos realizados</span>
+        <h2>Resultados <em>reales.</em></h2>
+      </div>
       <a href="https://www.instagram.com/rsbinstalaciones/" target="_blank" rel="noopener" class="btn-secondary">Ver Instagram →</a>
     </div>
     <div class="galeria-grid">
       <div class="galeria-img"><img src="foto_galeria1.jpg" alt="Reforma baño Barcelona" /></div>
-      <div class="galeria-img"><img src="foto_galeria2.jpg" alt="Mueble de baño" /></div>
+      <div class="galeria-img"><img src="foto_galeria2.jpg" alt="Mueble de baño instalado" /></div>
       <div class="galeria-img"><img src="foto_galeria3.jpg" alt="Baño con espejo LED" /></div>
       <div class="galeria-img"><img src="foto_galeria4.jpg" alt="Reforma baño mármol" /></div>
       <div class="galeria-img"><img src="foto_galeria5.jpg" alt="Resultado final baño" /></div>
@@ -472,13 +468,14 @@
   </div>
 </section>
 
-<section class="section gray-bg" id="tarifas">
+<!-- TARIFAS -->
+<section class="section servicios-bg" id="tarifas">
   <div class="section-inner">
-    <div class="two-col">
+    <div class="tarifas-grid">
       <div>
         <span class="section-tag">Tarifas oficiales 2026</span>
         <h2>Precios claros,<br>sin <em>letra pequeña.</em></h2>
-        <p class="section-sub">Publicamos nuestras tarifas para que sepas exactamente lo que cuesta antes de llamar.</p>
+        <p class="section-sub">Publicamos nuestras tarifas para que sepas exactamente lo que cuesta cada trabajo antes de llamar.</p>
         <div class="check-list">
           <div class="check-item"><div class="ck">✓</div><span>Primera hora <strong>80€</strong> — incluye desplazamiento</span></div>
           <div class="check-item"><div class="ck">✓</div><span>Hora adicional <strong>50€</strong></span></div>
@@ -492,7 +489,7 @@
         <div class="price-sample"><div class="cat">Electricidad</div><div class="name">Cambiar enchufe</div><div class="price">80€</div></div>
         <div class="price-sample"><div class="cat">Domótica</div><div class="name">Relé Shelly</div><div class="price">desde 80€</div></div>
         <div class="price-sample"><div class="cat">Fontanería</div><div class="name">Cambiar grifo</div><div class="price">desde 80€</div></div>
-        <div class="price-sample"><div class="cat">Manitas</div><div class="name">Colgar TV</div><div class="price">desde 80€</div></div>
+        <div class="price-sample"><div class="cat">Manitas</div><div class="name">Colgar TV</div><div class="price">desde 60€</div></div>
         <div class="price-sample"><div class="cat">Baño</div><div class="name">Instalar inodoro</div><div class="price">110€</div></div>
         <div class="price-sample-cta"><div class="n">+40 servicios</div><div class="s">con precio fijo publicado</div><a href="tarifas.html">Ver todos →</a></div>
       </div>
@@ -500,45 +497,106 @@
   </div>
 </section>
 
+<!-- OPINIONES -->
 <section class="section" id="opiniones">
   <div class="section-inner">
     <span class="section-tag">Opiniones</span>
     <h2>Lo que dicen<br>nuestros <em>clientes.</em></h2>
-    <div class="opiniones-grid">
-      <div class="opinion-card"><div class="stars">★★★★★</div><blockquote>"Instalaron relés Shelly en toda la casa sin tocar los interruptores originales. Todo funciona perfecto con el móvil. Muy profesionales y rápidos."</blockquote><div class="opinion-author">Marc T.</div><div class="opinion-loc">Eixample, Barcelona</div></div>
-      <div class="opinion-card"><div class="stars">★★★★★</div><blockquote>"Vinieron a colgar la tele y de paso revisaron unos enchufes que no funcionaban bien. Precio muy justo y dejaron todo impecable."</blockquote><div class="opinion-author">Lucía M.</div><div class="opinion-loc">Gràcia, Barcelona</div></div>
-      <div class="opinion-card"><div class="stars">★★★★★</div><blockquote>"Tenía dudas sobre la domótica pero lo explicaron todo muy bien. Ahora controlo las persianas desde el trabajo. Recomendado 100%."</blockquote><div class="opinion-author">Jordi P.</div><div class="opinion-loc">Sant Cugat</div></div>
+    <div class="opiniones-grid" style="margin-top:2rem">
+      <div class="opinion-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Instalaron relés Shelly en toda la casa sin tocar los interruptores originales. Todo funciona perfecto con el móvil. Muy profesionales y rápidos."</blockquote>
+        <div class="opinion-author">Marc T.</div>
+        <div class="opinion-loc">Eixample, Barcelona</div>
+      </div>
+      <div class="opinion-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Vinieron a colgar la tele y de paso revisaron unos enchufes que no funcionaban bien. Precio muy justo y dejaron todo impecable."</blockquote>
+        <div class="opinion-author">Lucía M.</div>
+        <div class="opinion-loc">Gràcia, Barcelona</div>
+      </div>
+      <div class="opinion-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Tenía dudas sobre la domótica pero lo explicaron todo muy bien. Ahora controlo las persianas desde el trabajo. Recomendado 100%."</blockquote>
+        <div class="opinion-author">Jordi P.</div>
+        <div class="opinion-loc">Sant Cugat</div>
+      </div>
     </div>
   </div>
 </section>
 
-<section class="section gray-bg" id="blog">
+<!-- BLOG -->
+<section class="section blog-bg" id="blog">
   <div class="section-inner">
-    <div class="flex-header">
-      <div><span class="section-tag">Blog</span><h2>Domótica fácil<br>y consejos <em>prácticos.</em></h2></div>
+    <div class="blog-header">
+      <div>
+        <span class="section-tag">Blog</span>
+        <h2>Domótica fácil<br>y consejos <em>prácticos.</em></h2>
+      </div>
       <a href="#blog" class="btn-secondary">Ver todos →</a>
     </div>
     <div class="blog-grid">
-      <a href="blog-automatizar-luces.html" class="blog-card"><div class="blog-card-img"><img src="domotica_facil_blog.png" alt="Automatizar luces" /></div><div class="blog-card-body"><div class="tag">Domótica · 5 min</div><h3>Cómo automatizar las luces de tu piso sin hacer obra</h3><p>Con un relé Shelly controlas cualquier punto de luz desde el móvil en menos de una hora.</p><div class="read">Leer →</div></div></a>
-      <a href="blog-shelly-vs-sonoff.html" class="blog-card"><div class="blog-card-img"><img src="domotica_control_luces.png" alt="Shelly vs Sonoff" /></div><div class="blog-card-body"><div class="tag">Comparativa · 7 min</div><h3>Shelly vs Sonoff: cuál elegir para tu vivienda</h3><p>Los dos sistemas más populares para pisos en España. Te ayudamos a elegir.</p><div class="read">Leer →</div></div></a>
-      <a href="blog-electricista-visita.html" class="blog-card"><div class="blog-card-img"><img src="foto_blog3.jpg" alt="Electricista visita" /></div><div class="blog-card-body"><div class="tag">Consejos · 4 min</div><h3>5 cosas que un electricista puede hacer en una sola visita</h3><p>Aprovecha la visita al máximo. Los trabajos más comunes que puedes combinar.</p><div class="read">Leer →</div></div></a>
+      <a href="blog-automatizar-luces.html" class="blog-card">
+        <div class="blog-card-img"><img src="domotica_facil_blog.png" alt="Automatizar luces sin obra" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Domótica fácil · 5 min</div>
+          <h3>Cómo automatizar las luces de tu piso sin hacer obra</h3>
+          <p>Con un relé Shelly controlas cualquier punto de luz desde el móvil en menos de una hora.</p>
+          <div class="read">Leer →</div>
+        </div>
+      </a>
+      <a href="blog-shelly-vs-sonoff.html" class="blog-card">
+        <div class="blog-card-img"><img src="domotica_control_luces.png" alt="Shelly vs Sonoff" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Comparativa · 7 min</div>
+          <h3>Shelly vs Sonoff: cuál elegir para tu vivienda</h3>
+          <p>Los dos sistemas más populares para pisos en España. Te ayudamos a elegir.</p>
+          <div class="read">Leer →</div>
+        </div>
+      </a>
+      <a href="blog-electricista-visita.html" class="blog-card">
+        <div class="blog-card-img"><img src="foto_blog3.jpg" alt="Electricista en una visita" /></div>
+        <div class="blog-card-body">
+          <div class="tag">Consejos · 4 min</div>
+          <h3>5 cosas que un electricista puede hacer en una sola visita</h3>
+          <p>Aprovecha la visita al máximo. Los trabajos más comunes que puedes combinar.</p>
+          <div class="read">Leer →</div>
+        </div>
+      </a>
     </div>
   </div>
 </section>
 
-<section class="section">
+<!-- HERRAMIENTAS -->
+<section class="section herramientas-bg">
   <div class="section-inner">
     <span class="section-tag">Herramientas Sanzivi</span>
     <h2>Más que un servicio.<br><em>Un ecosistema.</em></h2>
     <p class="section-sub">Accede a nuestras herramientas digitales — para clientes, diseñadores y partners.</p>
     <div class="herramientas-grid">
-      <a href="/demo" class="tool-card"><div class="tool-icon">🏠</div><h3>Demo interactiva</h3><p>Prueba la domótica en tu piso virtual. Controla luces y persianas en tiempo real.</p><div class="tool-link">Probar demo →</div></a>
-      <a href="/profesionales" class="tool-card"><div class="tool-icon">🤝</div><h3>Para profesionales</h3><p>¿Eres diseñador o interiorista? Ofrece domótica a tus clientes sin gestionar la instalación.</p><div class="tool-link">Ver programa →</div></a>
-      <a href="/partner" class="tool-card"><div class="tool-icon">⚙️</div><h3>Acceso partners</h3><p>Crea demos personalizadas para tus clientes en segundos con tu branding.</p><div class="tool-link">Acceder →</div></a>
+      <a href="/demo" class="tool-card">
+        <div class="tool-icon">🏠</div>
+        <h3>Demo interactiva</h3>
+        <p>Prueba la domótica en tu piso virtual. Controla luces y persianas en tiempo real. Sin instalación.</p>
+        <div class="tool-link">Probar demo →</div>
+      </a>
+      <a href="/profesionales" class="tool-card">
+        <div class="tool-icon">🤝</div>
+        <h3>Para profesionales</h3>
+        <p>¿Eres diseñador o interiorista? Ofrece domótica a tus clientes sin gestionar la instalación.</p>
+        <div class="tool-link">Ver programa →</div>
+      </a>
+      <a href="/partner" class="tool-card">
+        <div class="tool-icon">⚙️</div>
+        <h3>Acceso partners</h3>
+        <p>Crea demos personalizadas para tus clientes en segundos. Genera links únicos con tu branding.</p>
+        <div class="tool-link">Acceder →</div>
+      </a>
     </div>
   </div>
 </section>
 
+<!-- CTA FINAL -->
 <section class="cta-final" id="contacto">
   <h2>¿Tienes algo que arreglar<br>o quieres domótica?</h2>
   <p>Cuéntanos por WhatsApp. Respondemos rápido y te damos precio sin compromiso.</p>
@@ -548,6 +606,7 @@
   </button>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div>
@@ -572,22 +631,18 @@
       <a href="#opiniones">Opiniones</a>
       <a href="#blog">Blog</a>
       <a href="tarifas.html">Tarifas</a>
-      <a href="/demo">Demo</a>
+      <a href="/demo">Demo interactiva</a>
     </div>
     <div class="footer-col">
       <h4>Contacto</h4>
       <a href="tel:+34654089180">654 089 180</a>
-      <a href="/cdn-cgi/l/email-protection#fb92959d94bb889a9581928d92d59e88"><span class="__cf_email__" data-cfemail="365f585059764557584c5f405f185345">[email&#160;protected]</span></a>
+      <a href="/cdn-cgi/l/email-protection#cda4a3aba28dbeaca3b7a4bba4e3a8be"><span class="__cf_email__" data-cfemail="ea83848c85aa998b8490839c83c48f99">[email&#160;protected]</span></a>
       <span>Barcelona y alrededores</span>
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© 2026 Sanzivi BCN S.L. · CIF B44936250</span>
-    <span>
-      <a href="aviso-legal.html">Aviso Legal</a> ·
-      <a href="privacidad.html">Privacidad</a> ·
-      <a href="cookies.html">Cookies</a>
-    </span>
+    <span>© 2026 Sanzivi BCN S.L. · Todos los derechos reservados</span>
+    <span>Precios orientativos · Material aparte · Sujetos a visita previa</span>
   </div>
 </footer>
 
@@ -596,11 +651,16 @@
   <div class="modal-backdrop"></div>
   <div class="modal-box">
     <div class="modal-head">
-      <div><h3>Pedir presupuesto</h3><p>Te respondemos en menos de 24h · Sin compromiso</p></div>
+      <div>
+        <h3>Pedir presupuesto</h3>
+        <p>Te respondemos en menos de 24h · Sin compromiso</p>
+      </div>
       <button class="modal-close" onclick="closeModal()">✕</button>
     </div>
     <div class="modal-body">
-      <div class="modal-tip"><strong>💡 Consejo:</strong> Apunta todos los trabajos pendientes antes de enviar — así aprovechamos al máximo la visita.</div>
+      <div class="modal-tip">
+        <strong>💡 Consejo:</strong> Apunta todos los trabajos pendientes antes de enviar — así aprovechamos al máximo la visita y te ahorras desplazamientos futuros.
+      </div>
       <div>
         <label class="modal-label">¿Qué tipo de trabajo necesitas?</label>
         <div class="chips">
@@ -617,11 +677,17 @@
       </div>
       <div>
         <label class="modal-label">Describe los trabajos (lista todos los pendientes)</label>
-        <textarea class="modal-textarea" id="modalDesc" placeholder="Ej: cambiar enchufe salón, instalar relé Shelly dormitorio, colgar espejo baño..."></textarea>
+        <textarea class="modal-textarea" id="modalDesc" placeholder="Ej: cambiar enchufe salón, instalar relé Shelly en dormitorio, colgar espejo baño..."></textarea>
       </div>
       <div class="modal-row">
-        <div><label class="modal-label">Tu nombre</label><input class="modal-input" id="modalName" type="text" placeholder="Marc"></div>
-        <div><label class="modal-label">Barrio / Zona</label><input class="modal-input" id="modalZone" type="text" placeholder="Eixample, Gràcia..."></div>
+        <div>
+          <label class="modal-label">Tu nombre</label>
+          <input class="modal-input" id="modalName" type="text" placeholder="Marc">
+        </div>
+        <div>
+          <label class="modal-label">Barrio / Zona</label>
+          <input class="modal-input" id="modalZone" type="text" placeholder="Eixample, Gràcia...">
+        </div>
       </div>
     </div>
     <div class="modal-foot">
@@ -639,20 +705,10 @@
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<!-- COOKIE BANNER -->
-<div class="cookie-banner" id="cookieBanner">
-  <p class="cookie-text">Usamos cookies analíticas (Google Analytics) para mejorar el sitio. <a href="cookies.html">Política de cookies</a> · <a href="privacidad.html">Privacidad</a></p>
-  <div class="cookie-actions">
-    <button class="cookie-reject" onclick="rejectCookies()">Rechazar</button>
-    <button class="cookie-accept" onclick="acceptCookies()">Aceptar</button>
-  </div>
-</div>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Modal
-  function openModal(){document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden';}
-  function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow='';}
-  function toggleChip(el){el.classList.toggle('active');}
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="sanzivi.js"></script><script>
+  function openModal(){document.getElementById('modalOverlay').classList.add('open');document.body.style.overflow='hidden'}
+  function closeModal(){document.getElementById('modalOverlay').classList.remove('open');document.body.style.overflow=''}
+  function toggleChip(el){el.classList.toggle('active')}
   function sendToWhatsApp(){
     const chips=[...document.querySelectorAll('.chip.active')].map(c=>c.textContent.trim()).join(', ');
     const desc=document.getElementById('modalDesc').value.trim();
@@ -663,15 +719,4 @@
     if(zone) msg+='\nZona: '+zone;
     if(chips) msg+='\nServicios: '+chips;
     if(desc) msg+='\nTrabajos pendientes:\n'+desc;
-    msg+='\n\n(Enviado desde sanzivi.es)';
-    window.open('https://wa.me/34654089180?text='+encodeURIComponent(msg),'_blank');
-  }
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
-
-  // Cookies
-  (function(){
-    const consent=localStorage.getItem('cookie_consent');
-    if(!consent) setTimeout(()=>document.getElementById('cookieBanner').classList.add('show'),800);
-    if(consent==='rejected') window['ga-disable-G-NWPPBGX36K']=true;
-  })();
-  function acceptCookies(){localStorage.setItem('cookie_consent','accepted');document.getElementById('cookieBanner').c
+ 
