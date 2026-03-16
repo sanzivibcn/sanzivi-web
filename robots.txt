@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /aviso-legal.html
+Disallow: /privacidad.html
+Disallow: /cookies.html
+
+Sitemap: https://www.sanzivi.es/sitemap.xml
